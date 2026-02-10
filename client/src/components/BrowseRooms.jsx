@@ -3,6 +3,7 @@ import axios from "axios";
 
 const BrowseRooms = () => {
   const [rooms, setRooms] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -11,14 +12,39 @@ const BrowseRooms = () => {
     };
     fetchRooms();
   }, []);
-
+const filteredRooms = rooms.filter(
+  (room) =>
+    room.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    room.area.toLowerCase().includes(searchTerm.toLowerCase()),
+);
+  
+  const deleteRoom = async (id) => {
+    await axios.delete(`http://localhost:5001/api/listings/${id}`);
+    setRooms(rooms.filter((room) => room.id !== id)); 
+  };
   return (
     <div style={{ padding: "20px" }}>
       <h2>Available Rooms in India</h2>
+
+      <input
+        type="text"
+        placeholder="Search City or Area (e.g. Pune)..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{
+          marginBottom: "20px",
+          padding: "12px",
+          width: "100%",
+          borderRadius: "8px",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+        }}
+      />
+
       <div
         style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}
       >
-        {rooms.map((room) => (
+        {filteredRooms.map((room) => (
           <div
             key={room.id}
             style={{
@@ -39,9 +65,29 @@ const BrowseRooms = () => {
                 🌱 Pure Veg
               </span>
             )}
+            <div style={{ marginTop: "15px" }}>
+              <button
+                onClick={() => deleteRoom(room.id)}
+                style={{
+                  color: "#e74c3c",
+                  border: "1px solid #e74c3c",
+                  background: "none",
+                  borderRadius: "4px",
+                  padding: "5px 10px",
+                  cursor: "pointer",
+                }}
+              >
+                Delete Listing
+              </button>
+            </div>
           </div>
         ))}
       </div>
+      {filteredRooms.length === 0 && (
+        <p style={{ textAlign: "center", marginTop: "20px", color: "#666" }}>
+          No rooms found matching "{searchTerm}"
+        </p>
+      )}
     </div>
   );
 };

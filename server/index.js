@@ -68,6 +68,16 @@ app.get("/api/listings", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch listings" });
   }
 });
+app.delete("/api/listings/:id", async (req, res) => {
+  try {
+    await prisma.listing.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+    res.json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 const PORT = 5001;
 app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));
