@@ -4,6 +4,7 @@ import axios from "axios";
 const BrowseRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -12,15 +13,25 @@ const BrowseRooms = () => {
     };
     fetchRooms();
   }, []);
-const filteredRooms = rooms.filter(
-  (room) =>
-    room.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    room.area.toLowerCase().includes(searchTerm.toLowerCase()),
-);
-  
+
+  const filteredRooms = rooms.filter(
+    (room) =>
+      room.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.area.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   const deleteRoom = async (id) => {
-    await axios.delete(`http://localhost:5001/api/listings/${id}`);
-    setRooms(rooms.filter((room) => room.id !== id)); 
+    const token = localStorage.getItem("token");
+    if (!token) return alert("Please login to delete");
+
+    try {
+      await axios.delete(`http://localhost:5001/api/listings/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setRooms(rooms.filter((room) => room.id !== id));
+    } catch (err) {
+      alert("You are not authorized to delete this listing");
+    }
   };
   return (
     <div style={{ padding: "20px" }}>
@@ -62,24 +73,26 @@ const filteredRooms = rooms.filter(
             </p>
             {room.isPureVeg && (
               <span style={{ color: "green", fontWeight: "bold" }}>
-                🌱 Pure Veg
+                Pure Veg
               </span>
             )}
-            <div style={{ marginTop: "15px" }}>
-              <button
-                onClick={() => deleteRoom(room.id)}
-                style={{
-                  color: "#e74c3c",
-                  border: "1px solid #e74c3c",
-                  background: "none",
-                  borderRadius: "4px",
-                  padding: "5px 10px",
-                  cursor: "pointer",
-                }}
-              >
-                Delete Listing
-              </button>
-            </div>
+            {user && user.id === room.ownerId && (
+              <div style={{ marginTop: "15px" }}>
+                <button
+                  onClick={() => deleteRoom(room.id)}
+                  style={{
+                    color: "#e74c3c",
+                    border: "1px solid #e74c3c",
+                    background: "none",
+                    borderRadius: "4px",
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Delete My Listing
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
