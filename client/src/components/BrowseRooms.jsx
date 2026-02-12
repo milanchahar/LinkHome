@@ -4,6 +4,7 @@ import axios from "axios";
 const BrowseRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [vegOnly, setVegOnly] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -14,11 +15,13 @@ const BrowseRooms = () => {
     fetchRooms();
   }, []);
 
-  const filteredRooms = rooms.filter(
-    (room) =>
+  const filteredRooms = rooms.filter((room) => {
+    const matchesSearch =
       room.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      room.area.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+      room.area.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesVeg = vegOnly ? room.isPureVeg : true;
+    return matchesSearch && matchesVeg;
+  });
 
   const deleteRoom = async (id) => {
     const token = localStorage.getItem("token");
@@ -33,6 +36,7 @@ const BrowseRooms = () => {
       alert("You are not authorized to delete this listing");
     }
   };
+
   return (
     <div style={{ padding: "20px" }}>
       <h2>Available Rooms in India</h2>
@@ -51,6 +55,23 @@ const BrowseRooms = () => {
           fontSize: "16px",
         }}
       />
+
+      <label
+        style={{
+          display: "block",
+          marginBottom: "20px",
+          fontWeight: "bold",
+          color: "#2c3e50",
+        }}
+      >
+        <input
+          type="checkbox"
+          checked={vegOnly}
+          onChange={(e) => setVegOnly(e.target.checked)}
+          style={{ marginRight: "10px" }}
+        />
+        Show Only Pure Veg
+      </label>
 
       <div
         style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}
@@ -72,11 +93,59 @@ const BrowseRooms = () => {
               <b>Location:</b> {room.area}, {room.city}
             </p>
             {room.isPureVeg && (
-              <span style={{ color: "green", fontWeight: "bold" }}>
+              <span
+                style={{
+                  color: "green",
+                  fontWeight: "bold",
+                  display: "block",
+                  marginBottom: "5px",
+                }}
+              >
                 Pure Veg
               </span>
             )}
-            {user && user.id === room.ownerId && (
+
+            <div style={{ marginBottom: "10px", marginTop: "10px" }}>
+              <span
+                style={{
+                  backgroundColor:
+                    room.genderPref === "Male"
+                      ? "#3498db"
+                      : room.genderPref === "Female"
+                        ? "#e91e63"
+                        : "#9b59b6",
+                  color: "white",
+                  padding: "3px 8px",
+                  borderRadius: "4px",
+                  fontSize: "11px",
+                  fontWeight: "bold",
+                }}
+              >
+                {room.genderPref || "Any"}
+              </span>
+            </div>
+
+            <button
+              onClick={() =>
+                alert(
+                  `Full Address: ${room.address}\n\nDescription: ${room.description}`,
+                )
+              }
+              style={{
+                marginTop: "10px",
+                padding: "8px",
+                backgroundColor: "#2c3e50",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+                width: "100%",
+                fontWeight: "bold",
+              }}
+            >
+              View Full Details
+            </button>
+            {user && Number(user.id) === Number(room.ownerId) && (
               <div style={{ marginTop: "15px" }}>
                 <button
                   onClick={() => deleteRoom(room.id)}
@@ -87,6 +156,7 @@ const BrowseRooms = () => {
                     borderRadius: "4px",
                     padding: "5px 10px",
                     cursor: "pointer",
+                    width: "100%",
                   }}
                 >
                   Delete My Listing

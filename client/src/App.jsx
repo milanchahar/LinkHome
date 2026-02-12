@@ -1,16 +1,22 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+} from "react-router-dom";
 import ListRoom from "./components/ListRoom";
 import BrowseRooms from "./components/BrowseRooms";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
+import MyListings from "./components/MyListings";
 
 function App() {
-  
   const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
-    localStorage.clear(); 
-    window.location.reload();
+    localStorage.clear();
+    window.location.href = "/";
   };
 
   return (
@@ -34,8 +40,14 @@ function App() {
           >
             List a Room
           </Link>
-
-          
+          {user && (
+            <Link
+              to="/my-listings"
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              My Listings
+            </Link>
+          )}
           {!user ? (
             <>
               <Link
@@ -76,7 +88,14 @@ function App() {
         <div style={{ padding: "20px" }}>
           <Routes>
             <Route path="/" element={<BrowseRooms />} />
-            <Route path="/list-room" element={<ListRoom />} />
+            <Route
+              path="/list-room"
+              element={user ? <ListRoom /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/my-listings"
+              element={user ? <MyListings /> : <Navigate to="/login" />}
+            />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
           </Routes>

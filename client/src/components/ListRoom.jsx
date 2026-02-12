@@ -10,11 +10,9 @@ const ListRoom = () => {
     area: "",
     address: "",
     imageUrl: "",
+    isPureVeg: true,
     genderPref: "Any",
-    lifestyle: "Early Bird",
-    isPureVeg: true, // Defaulting to Yes for Indian context
-    hasWifi: false,
-    hasAC: false,
+    lifestyle: "Professional",
   });
 
   const handleChange = (e) => {
@@ -27,19 +25,21 @@ const ListRoom = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      // Sending data to your Node.js server
-      const response = await axios.post(
-        "http://localhost:5001/api/listings",
-        formData,
-      );
-      alert("Success! Room listed in " + response.data.city);
-    } catch (err) {
-      console.error("Error:", err);
-      alert("Failed to post listing. Check terminal.");
-    }
-  };
+    const token = localStorage.getItem("token");
 
+    try {
+      await axios.post("http://localhost:5001/api/listings", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert("Listing created successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Error: You must be logged in to post a listing.");
+    } 
+  }; 
   return (
     <div
       style={{
@@ -88,24 +88,66 @@ const ListRoom = () => {
           style={{ display: "block", margin: "10px 0" }}
         />
 
-        <div>
-          <label>Gender Preference: </label>
-          <select name="genderPref" onChange={handleChange}>
-            <option value="Any">Any</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-
-        <div style={{ margin: "10px 0" }}>
+        {/* Simplified Selectors to match your state logic */}
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            margin: "15px 0",
+            cursor: "pointer",
+            color: "green",
+            fontWeight: "bold",
+          }}
+        >
           <input
             name="isPureVeg"
             type="checkbox"
             checked={formData.isPureVeg}
             onChange={handleChange}
           />
-          <label> Pure Vegetarian House</label>
-        </div>
+          This is a Pure Veg Kitchen
+        </label>
+
+        <label
+          style={{ display: "block", marginTop: "10px", fontWeight: "bold" }}
+        >
+          Who can stay here?
+        </label>
+        <select
+          name="genderPref"
+          value={formData.genderPref}
+          onChange={handleChange}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          <option value="Any">Any Gender</option>
+          <option value="Male">Male Only</option>
+          <option value="Female">Female Only</option>
+        </select>
+
+        <label style={{ display: "block", fontWeight: "bold" }}>
+          Environment:
+        </label>
+        <select
+          name="lifestyle"
+          value={formData.lifestyle}
+          onChange={handleChange}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "5px",
+          }}
+        >
+          <option value="Professional">Professional</option>
+          <option value="Quiet/Studious">Quiet/Studious</option>
+          <option value="Social/Friendly">Social/Friendly</option>
+        </select>
 
         <button
           type="submit"
@@ -114,6 +156,8 @@ const ListRoom = () => {
             background: "blue",
             color: "white",
             border: "none",
+            width: "100%",
+            cursor: "pointer",
           }}
         >
           Submit Listing
