@@ -41,20 +41,38 @@ const BrowseRooms = () => {
     <div style={{ padding: "20px" }}>
       <h2>Available Rooms in India</h2>
 
-      <input
-        type="text"
-        placeholder="Search City or Area (e.g. Pune)..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-          marginBottom: "20px",
-          padding: "12px",
-          width: "100%",
-          borderRadius: "8px",
-          border: "1px solid #ccc",
-          fontSize: "16px",
-        }}
-      />
+      <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Search City or Area (e.g. Pune)..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            padding: "12px",
+            flex: 1,
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "16px",
+          }}
+        />
+        <button
+          onClick={() => {
+            setSearchTerm("");
+            setVegOnly(false);
+          }}
+          style={{
+            padding: "10px 15px",
+            backgroundColor: "#e67e22",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          Reset
+        </button>
+      </div>
 
       <label
         style={{
@@ -83,8 +101,38 @@ const BrowseRooms = () => {
               border: "1px solid #ccc",
               padding: "15px",
               borderRadius: "8px",
+              backgroundColor: "#fff",
             }}
           >
+            {room.imageUrl ? (
+              <img
+                src={room.imageUrl}
+                alt={room.title}
+                style={{
+                  width: "100%",
+                  height: "180px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                  marginBottom: "12px",
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  height: "180px",
+                  backgroundColor: "#f0f0f0",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "8px",
+                  marginBottom: "12px",
+                }}
+              >
+                <p style={{ color: "#999" }}>No Photo Available</p>
+              </div>
+            )}
+
             <h3>{room.title}</h3>
             <p>
               <b>Price:</b> ₹{room.price}
@@ -92,6 +140,7 @@ const BrowseRooms = () => {
             <p>
               <b>Location:</b> {room.area}, {room.city}
             </p>
+
             {room.isPureVeg && (
               <span
                 style={{

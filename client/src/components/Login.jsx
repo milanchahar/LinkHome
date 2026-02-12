@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -13,14 +14,15 @@ const Login = () => {
         "http://localhost:5001/api/auth/login",
         formData,
       );
-      // Save user data and token to the browser
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-      alert("Login Successful!");
-      navigate("/"); // Redirect to Home
-      window.location.reload(); // Refresh to update Nav Bar
+      toast.success(`Welcome back, ${res.data.user.name}!`);
+      window.location.href = "/";
     } catch (err) {
-      alert("Invalid Email or Password");
+      toast.error(
+        err.response?.data?.message ||
+          "Login failed. Check your email/password.",
+      );
     }
   };
 

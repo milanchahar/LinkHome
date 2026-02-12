@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,6 +23,7 @@ function App() {
   return (
     <Router>
       <div style={{ fontFamily: "Arial, sans-serif" }}>
+        <Toaster position="top-center" reverseOrder={false} />
         <nav
           style={{
             padding: "15px",
