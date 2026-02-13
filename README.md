@@ -5,16 +5,12 @@ It focuses on **real Indian constraints** such as **Pure Veg preference**, **gen
 
 ---
 
-## 🌟 Key Features
-
-- List rooms/flats with detailed preferences
-- Filter listings based on:
-  - Dietary preference (Pure Veg)
-  - Gender preference
-  - Location
-- Clean and responsive UI
-- Persistent data storage with MySQL
-- Scalable backend architecture
+## ✨ Pro Features
+- **Smart Cloud Media**: Direct image uploading via Cloudinary integration.
+- **Real-Time Feedback**: Global toast notifications for seamless UX.
+- **Culture-First Filters**: Toggle "Pure Veg" and "Gender" tags instantly.
+- **Owner Authentication**: Secure JWT-based login/signup to manage your own listings.
+- **Reset & Refine**: Instant search clearing and real-time location filtering.
 
 ---
 
@@ -35,6 +31,14 @@ It focuses on **real Indian constraints** such as **Pure Veg preference**, **gen
 - **ORM**: Prisma (type-safe queries & migrations)
 - **Security**: CORS enabled for safe client-server communication
 - **Port**: `5001`
+
+
+
+## 📂 Recent Updates
+- [x] Integrated **Cloudinary** for image hosting (No more manual URLs!)
+- [x] Added **Protected Routes** for listing management
+- [x] Implemented **Global Toast System** for better user feedback
+- [x] Optimized **MySQL Schema** for lifestyle tags
 
 ---
 
