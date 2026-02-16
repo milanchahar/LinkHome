@@ -12,6 +12,24 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import MyListings from "./components/MyListings";
 
+const navLinkStyle = {
+  color: "white",
+  textDecoration: "none",
+  fontWeight: "500",
+  fontSize: "15px",
+  transition: "color 0.3s",
+};
+
+const logoutButtonStyle = {
+  background: "#e74c3c",
+  color: "white",
+  border: "none",
+  padding: "5px 15px",
+  borderRadius: "6px",
+  cursor: "pointer",
+  fontWeight: "600",
+};
+
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -26,59 +44,58 @@ function App() {
         <Toaster position="top-center" reverseOrder={false} />
         <nav
           style={{
-            padding: "15px",
-            backgroundColor: "#2c3e50",
             display: "flex",
-            justifyContent: "center",
-            gap: "20px",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "15px 40px",
+            backgroundColor: "var(--secondary)",
+            color: "white",
+            position: "sticky",
+            top: 0,
+            zIndex: 1000,
+            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-            Browse Rooms
-          </Link>
-          <Link
-            to="/list-room"
-            style={{ color: "white", textDecoration: "none" }}
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "24px",
+              fontWeight: "700",
+              letterSpacing: "-1px",
+            }}
           >
-            List a Room
-          </Link>
-          {user && (
-            <Link
-              to="/my-listings"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              My Listings
+            Home<span style={{ color: "var(--primary)" }}>Link</span>
+          </h1>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <Link to="/" style={navLinkStyle}>
+              Browse
             </Link>
-          )}
-          {!user ? (
-            <>
-              <Link
-                to="/signup"
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                Sign Up
-              </Link>
-              <Link
-                to="/login"
-                style={{ color: "white", textDecoration: "none" }}
-              >
-                Login
-              </Link>
-            </>
-          ) : (
-            <button
-              onClick={handleLogout}
-              style={{
-                background: "none",
-                border: "none",
-                color: "orange",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-            >
-              Logout ({user.name})
-            </button>
-          )}
+            <Link to="/list-room" style={navLinkStyle}>
+              List a Room
+            </Link>
+            {!user ? (
+              <>
+                <Link to="/login" style={navLinkStyle}>
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  style={{
+                    ...navLinkStyle,
+                    backgroundColor: "var(--primary)",
+                    padding: "8px 15px",
+                    borderRadius: "8px",
+                  }}
+                >
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <button onClick={handleLogout} style={logoutButtonStyle}>
+                Logout
+              </button>
+            )}
+          </div>
         </nav>
 
         <h1

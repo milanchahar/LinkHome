@@ -67,14 +67,20 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
 app.post("/api/auth/signup", async (req, res) => {
   try {
     const { email, password, name, phone } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10); // Scramble it!
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword, name, phone },
+      data: {
+        email,
+        password: hashedPassword,
+        name,
+        phone: phone || "",
+      },
     });
     res.json({ message: "User created!", userId: user.id });
   } catch (error) {
-    res.status(400).json({ error: "Email already exists" });
+    console.error(error); 
+    res.status(400).json({ message: error.message });
   }
 });
 
@@ -83,7 +89,6 @@ app.post("/api/auth/login", async (req, res) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    // Generate a token valid for 24 hours
     const token = jwt.sign({ userId: user.id }, "milan_secret_key", {
       expiresIn: "24h",
     });
@@ -93,19 +98,23 @@ app.post("/api/auth/login", async (req, res) => {
   }
 });
 
-app.get("/api/listings", async (req, res) => {
+app.post("/api/listings", authenticateToken, async (req, res) => {
+  const { phoneNumber } = req.body; 
+
   try {
-    const listings = await prisma.listing.findMany({
-      orderBy: {
-        createdAt: "desc",
+    const newListing = await prisma.listing.create({
+      data: {
+        phoneNumber: phoneNumber, 
+        ownerId: req.user.userId,
       },
     });
-    res.json(listings);
+    res.status(201).json(newListing);
   } catch (error) {
-    console.error("Error fetching listings:", error);
-    res.status(500).json({ error: "Failed to fetch listings" });
+    res.status(500).json({ error: "Failed to create listing" });
   }
 });
+
+
 app.delete("/api/listings/:id", authenticateToken, async (req, res) => {
   try {
     const listingId = parseInt(req.params.id);

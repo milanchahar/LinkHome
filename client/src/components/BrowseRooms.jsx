@@ -23,6 +23,16 @@ const BrowseRooms = () => {
     return matchesSearch && matchesVeg;
   });
 
+  const tagStyle = (color) => ({
+    backgroundColor: color + "15",
+    color: color,
+    padding: "4px 12px",
+    borderRadius: "6px",
+    fontSize: "12px",
+    fontWeight: "700",
+    border: `1px solid ${color}`,
+  });
+
   const deleteRoom = async (id) => {
     const token = localStorage.getItem("token");
     if (!token) return alert("Please login to delete");
@@ -98,120 +108,98 @@ const BrowseRooms = () => {
           <div
             key={room.id}
             style={{
-              border: "1px solid #ccc",
-              padding: "15px",
-              borderRadius: "8px",
-              backgroundColor: "#fff",
+              backgroundColor: "var(--card)",
+              borderRadius: "16px",
+              overflow: "hidden",
+              transition: "transform 0.3s, boxShadow 0.3s",
+              boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+              cursor: "pointer",
+              border: "1px solid #f1f5f9",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-5px)";
+              e.currentTarget.style.boxShadow =
+                "0 20px 25px -5px rgba(0, 0, 0, 0.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow =
+                "0 10px 15px -3px rgba(0, 0, 0, 0.1)";
             }}
           >
-            {room.imageUrl ? (
+         
+            <div style={{ position: "relative" }}>
               <img
-                src={room.imageUrl}
+                src={
+                  room.imageUrl ||
+                  "https://via.placeholder.com/400x300?text=No+Image"
+                }
                 alt={room.title}
-                style={{
-                  width: "100%",
-                  height: "180px",
-                  objectFit: "cover",
-                  borderRadius: "8px",
-                  marginBottom: "12px",
-                }}
+                style={{ width: "100%", height: "200px", objectFit: "cover" }}
               />
-            ) : (
-              <div
-                style={{
-                  width: "100%",
-                  height: "180px",
-                  backgroundColor: "#f0f0f0",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "8px",
-                  marginBottom: "12px",
-                }}
-              >
-                <p style={{ color: "#999" }}>No Photo Available</p>
-              </div>
-            )}
-
-            <h3>{room.title}</h3>
-            <p>
-              <b>Price:</b> ₹{room.price}
-            </p>
-            <p>
-              <b>Location:</b> {room.area}, {room.city}
-            </p>
-
-            {room.isPureVeg && (
               <span
                 style={{
-                  color: "green",
-                  fontWeight: "bold",
-                  display: "block",
-                  marginBottom: "5px",
-                }}
-              >
-                Pure Veg
-              </span>
-            )}
-
-            <div style={{ marginBottom: "10px", marginTop: "10px" }}>
-              <span
-                style={{
-                  backgroundColor:
-                    room.genderPref === "Male"
-                      ? "#3498db"
-                      : room.genderPref === "Female"
-                        ? "#e91e63"
-                        : "#9b59b6",
+                  position: "absolute",
+                  top: "10px",
+                  left: "10px",
+                  backgroundColor: "rgba(15, 23, 42, 0.8)",
                   color: "white",
-                  padding: "3px 8px",
-                  borderRadius: "4px",
-                  fontSize: "11px",
-                  fontWeight: "bold",
+                  padding: "4px 10px",
+                  borderRadius: "20px",
+                  fontSize: "12px",
+                  fontWeight: "600",
                 }}
               >
-                {room.genderPref || "Any"}
+                ₹{room.price}/mo
               </span>
             </div>
 
-            <button
-              onClick={() =>
-                alert(
-                  `Full Address: ${room.address}\n\nDescription: ${room.description}`,
-                )
-              }
-              style={{
-                marginTop: "10px",
-                padding: "8px",
-                backgroundColor: "#2c3e50",
-                color: "white",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                width: "100%",
-                fontWeight: "bold",
-              }}
-            >
-              View Full Details
-            </button>
-            {user && Number(user.id) === Number(room.ownerId) && (
-              <div style={{ marginTop: "15px" }}>
-                <button
-                  onClick={() => deleteRoom(room.id)}
+            <div style={{ padding: "20px" }}>
+              <h3
+                style={{
+                  margin: "0 0 8px 0",
+                  fontSize: "18px",
+                  color: "var(--secondary)",
+                }}
+              >
+                {room.title}
+              </h3>
+              <p style={{ margin: 0, fontSize: "14px", color: "#64748b" }}>
+                📍 {room.area}, {room.city}
+              </p>
+
+              {room.phoneNumber && (
+                <a
+                  href={`https://wa.me/91${room.phoneNumber}?text=Hi, I am interested in your room: ${room.title}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
-                    color: "#e74c3c",
-                    border: "1px solid #e74c3c",
-                    background: "none",
-                    borderRadius: "4px",
-                    padding: "5px 10px",
-                    cursor: "pointer",
-                    width: "100%",
+                    display: "block",
+                    textAlign: "center",
+                    marginTop: "15px",
+                    padding: "10px",
+                    backgroundColor: "#25D366",
+                    color: "white",
+                    textDecoration: "none",
+                    borderRadius: "12px",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                    transition: "background 0.3s"
                   }}
                 >
-                  Delete My Listing
-                </button>
+                  Chat on WhatsApp
+                </a>
+              )}
+
+              <div style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+                {room.isPureVeg && (
+                  <span style={tagStyle("var(--accent)")}>Pure Veg</span>
+                )}
+                <span style={tagStyle("#6366f1")}>
+                  {room.genderPref || "Any Gender"}
+                </span>
               </div>
-            )}
+            </div>
           </div>
         ))}
       </div>

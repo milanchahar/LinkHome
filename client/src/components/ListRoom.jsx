@@ -10,6 +10,7 @@ const ListRoom = () => {
     price: "",
     city: "",
     area: "",
+    phoneNumber: "",
     address: "",
     imageUrl: "",
     isPureVeg: true,
@@ -111,6 +112,13 @@ const ListRoom = () => {
         <input
           name="area"
           placeholder="Area"
+          onChange={handleChange}
+          required
+          style={inputStyle}
+        />
+        <input
+          name="phoneNumber"
+          placeholder="WhatsApp Number (e.g. 98125XXXXX)"
           onChange={handleChange}
           required
           style={inputStyle}

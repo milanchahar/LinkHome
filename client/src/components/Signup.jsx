@@ -1,53 +1,103 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    phone: "",
   });
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5001/api/auth/signup", formData);
-      alert("Signup successful! Now you can login.");
-    } catch (err) {
-      alert("Error during signup");
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post(
+      "http://localhost:5001/api/auth/signup",
+      formData,
+    );
+    toast.success("Account created! 🎉");
+    navigate("/login");
+  } catch (err) {
+    console.log("SERVER ERROR MESSAGE:", err.response?.data);
+    toast.error(err.response?.data?.message || "Check server terminal");
+  }
+};
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ padding: "20px", maxWidth: "400px" }}
+    <div
+      style={{
+        maxWidth: "400px",
+        margin: "100px auto",
+        padding: "30px",
+        backgroundColor: "white",
+        borderRadius: "16px",
+        boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
+      }}
     >
-      <h2>Create LinkHome Account</h2>
-      <input
-        type="text"
-        placeholder="Name"
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        required
-        style={{ display: "block", marginBottom: "10px", width: "100%" }}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        required
-        style={{ display: "block", marginBottom: "10px", width: "100%" }}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-        required
-        style={{ display: "block", marginBottom: "10px", width: "100%" }}
-      />
-      <button type="submit">Sign Up</button>
-    </form>
+      <h2 style={{ textAlign: "center", color: "var(--secondary)" }}>
+        Join HomeLink
+      </h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Full Name"
+          required
+          style={inputStyle}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        />
+        <input
+          type="email"
+          placeholder="Email Address"
+          required
+          style={inputStyle}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          style={inputStyle}
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Phone Number (for WhatsApp)"
+          required
+          style={inputStyle}
+          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+        />
+        <button type="submit" style={buttonStyle}>
+          Create Account
+        </button>
+      </form>
+    </div>
   );
+};
+
+const inputStyle = {
+  width: "100%",
+  padding: "12px",
+  margin: "10px 0",
+  borderRadius: "8px",
+  border: "1px solid #ddd",
+  fontFamily: "Poppins",
+};
+const buttonStyle = {
+  width: "100%",
+  padding: "12px",
+  backgroundColor: "var(--primary)",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  fontWeight: "600",
+  cursor: "pointer",
+  marginTop: "10px",
 };
 
 export default Signup;
