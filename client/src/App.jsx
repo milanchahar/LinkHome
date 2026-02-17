@@ -111,6 +111,10 @@ function App() {
             />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route
+              path="/edit-room/:id"
+              element={user ? <EditRoom /> : <Navigate to="/login" />}
+            />
           </Routes>
         </div>
       </div>

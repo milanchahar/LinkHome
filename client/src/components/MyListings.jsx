@@ -31,6 +31,7 @@ const MyListings = () => {
 
   return (
     <div style={{ padding: "20px" }}>
+      
       <h2>My Posted Rooms</h2>
       {myRooms.length === 0 ? (
         <p>You haven't posted any rooms yet.</p>

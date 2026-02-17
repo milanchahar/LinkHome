@@ -115,5 +115,45 @@ app.delete("/api/listings/:id", authenticateToken, async (req, res) => {
   }
 });
 
+app.put("/api/listings/:id", authenticateToken, async (req, res) => {
+  try {
+    const listingId = parseInt(req.params.id);
+    const {
+      title,
+      description,
+      price,
+      city,
+      area,
+      imageUrl,
+      isPureVeg,
+      genderPref,
+    } = req.body;
+
+    const listing = await prisma.listing.findUnique({
+      where: { id: listingId },
+    });
+    if (!listing) return res.status(404).json({ error: "Not found" });
+    if (listing.ownerId !== req.user.userId)
+      return res.status(403).json({ error: "Unauthorized" });
+
+    const updated = await prisma.listing.update({
+      where: { id: listingId },
+      data: {
+        title,
+        description,
+        city,
+        area,
+        imageUrl,
+        price: Number(price),
+        isPureVeg: isPureVeg === true,
+        genderPref: genderPref || "Any",
+      },
+    });
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 const PORT = 5001;
 app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));
