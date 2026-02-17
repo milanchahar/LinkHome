@@ -17,7 +17,6 @@ const navLinkStyle = {
   textDecoration: "none",
   fontWeight: "500",
   fontSize: "15px",
-  transition: "color 0.3s",
 };
 
 const logoutButtonStyle = {
@@ -40,8 +39,8 @@ function App() {
 
   return (
     <Router>
-      <div style={{ fontFamily: "Arial, sans-serif" }}>
-        <Toaster position="top-center" reverseOrder={false} />
+      <div>
+        <Toaster position="top-center" />
         <nav
           style={{
             display: "flex",
@@ -53,26 +52,27 @@ function App() {
             position: "sticky",
             top: 0,
             zIndex: 1000,
-            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "24px",
-              fontWeight: "700",
-              letterSpacing: "-1px",
-            }}
-          >
+          <h1 style={{ margin: 0, fontSize: "24px", fontWeight: "700" }}>
             Home<span style={{ color: "var(--primary)" }}>Link</span>
           </h1>
-          <div style={{ display: "flex", gap: "20px" }}>
+
+          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
             <Link to="/" style={navLinkStyle}>
               Browse
             </Link>
             <Link to="/list-room" style={navLinkStyle}>
               List a Room
             </Link>
+
+            {user && (
+              <Link to="/my-listings" style={navLinkStyle}>
+                My Postings
+              </Link>
+            )}
+
             {!user ? (
               <>
                 <Link to="/login" style={navLinkStyle}>
@@ -98,13 +98,7 @@ function App() {
           </div>
         </nav>
 
-        <h1
-          style={{ textAlign: "center", color: "#2c3e50", marginTop: "20px" }}
-        >
-          LinkHome
-        </h1>
-
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: "0" }}>
           <Routes>
             <Route path="/" element={<BrowseRooms />} />
             <Route

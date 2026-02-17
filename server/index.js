@@ -7,10 +7,12 @@ const jwt = require("jsonwebtoken");
 const app = express();
 const prisma = new PrismaClient();
 
+app.use(cors());
+app.use(express.json());
+
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-
   if (!token) return res.status(401).json({ error: "Please login first" });
 
   jwt.verify(token, "milan_secret_key", (err, user) => {
@@ -20,11 +22,41 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-app.use(cors());
-app.use(express.json());
+app.post("/api/auth/signup", async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
+      data: { email, password: hashedPassword, name },
+    });
+    res.json({ message: "User created!", userId: user.id });
+  } catch (error) {
+    res.status(400).json({ error: "Email already exists" });
+  }
+});
 
-app.get("/health", (req, res) => {
-  res.json({ message: "LinkHome Server is live!" });
+app.post("/api/auth/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (user && (await bcrypt.compare(password, user.password))) {
+    const token = jwt.sign({ userId: user.id }, "milan_secret_key", {
+      expiresIn: "24h",
+    });
+    res.json({ token, user: { id: user.id, name: user.name } });
+  } else {
+    res.status(401).json({ error: "Invalid email or password" });
+  }
+});
+
+app.get("/api/listings", async (req, res) => {
+  try {
+    const listings = await prisma.listing.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    res.json(listings);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch listings" });
+  }
 });
 
 app.post("/api/listings", authenticateToken, async (req, res) => {
@@ -39,81 +71,32 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
     isPureVeg,
     genderPref,
     lifestyle,
+    phoneNumber,
   } = req.body;
-
   try {
     const newListing = await prisma.listing.create({
       data: {
-        ownerId: req.user.userId, 
+        ownerId: req.user.userId,
         title,
         description,
         price: Number(price),
         city,
         area,
         address,
-        imageUrl,
-        isPureVeg,
-        genderPref,
-        lifestyle,
+        imageUrl: imageUrl || null,
+        isPureVeg: isPureVeg === true,
+        genderPref: genderPref || "Any",
+        lifestyle: lifestyle || "Any",
+        phoneNumber: phoneNumber || null,
         availableFrom: "Immediate",
       },
     });
     res.status(201).json(newListing);
   } catch (error) {
+    console.error("Error creating listing:", error);
     res.status(500).json({ error: "Failed to create listing" });
   }
 });
-
-app.post("/api/auth/signup", async (req, res) => {
-  try {
-    const { email, password, name, phone } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = await prisma.user.create({
-      data: {
-        email,
-        password: hashedPassword,
-        name,
-        phone: phone || "",
-      },
-    });
-    res.json({ message: "User created!", userId: user.id });
-  } catch (error) {
-    console.error(error); 
-    res.status(400).json({ message: error.message });
-  }
-});
-
-app.post("/api/auth/login", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await prisma.user.findUnique({ where: { email } });
-
-  if (user && (await bcrypt.compare(password, user.password))) {
-    const token = jwt.sign({ userId: user.id }, "milan_secret_key", {
-      expiresIn: "24h",
-    });
-    res.json({ token, user: { id: user.id, name: user.name } });
-  } else {
-    res.status(401).json({ error: "Invalid email or password" });
-  }
-});
-
-app.post("/api/listings", authenticateToken, async (req, res) => {
-  const { phoneNumber } = req.body; 
-
-  try {
-    const newListing = await prisma.listing.create({
-      data: {
-        phoneNumber: phoneNumber, 
-        ownerId: req.user.userId,
-      },
-    });
-    res.status(201).json(newListing);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create listing" });
-  }
-});
-
 
 app.delete("/api/listings/:id", authenticateToken, async (req, res) => {
   try {
@@ -121,13 +104,9 @@ app.delete("/api/listings/:id", authenticateToken, async (req, res) => {
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
     });
-
     if (!listing) return res.status(404).json({ error: "Listing not found" });
-    if (listing.ownerId !== req.user.userId) {
-      return res
-        .status(403)
-        .json({ error: "You can only delete your own listings!" });
-    }
+    if (listing.ownerId !== req.user.userId)
+      return res.status(403).json({ error: "Unauthorized" });
 
     await prisma.listing.delete({ where: { id: listingId } });
     res.json({ message: "Deleted successfully" });
