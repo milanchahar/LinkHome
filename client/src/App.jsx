@@ -19,6 +19,8 @@ import MyListings from "./components/MyListings";
 import CustomCursor from "./components/CustomCursor";
 import PropertyView from "./pages/PropertyView";
 import EditRoom from "./components/EditRoom";
+import Experience from "./pages/Experience";
+
 
 
 const PageTransition = ({ children }) => (
@@ -46,7 +48,9 @@ function AppContent() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<PageTransition><Home /></PageTransition>} />
           <Route path="/browse" element={<PageTransition><BrowseRooms /></PageTransition>} />
+          <Route path="/experience" element={<PageTransition><Experience /></PageTransition>} />
           <Route path="/property/:id" element={<PageTransition><PropertyView /></PageTransition>} />
+
           <Route
             path="/list-room"
             element={user ? <PageTransition><ListRoom /></PageTransition> : <Navigate to="/login" />}

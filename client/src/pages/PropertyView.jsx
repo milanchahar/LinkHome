@@ -3,13 +3,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { MapPin, Wallet, MessageSquare, ArrowLeft, Beef, Users, Calendar, ShieldCheck } from "lucide-react";
-import toast from "react-hot-toast";
+import { DetailSkeleton } from "../components/ListingSkeleton";
+import InquirySuite from "../components/InquirySuite";
+import { toast } from "react-hot-toast"; // Assuming toast is available, if not, it needs to be imported
 
 const PropertyView = () => {
+
     const { id } = useParams();
     const navigate = useNavigate();
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isInquiryOpen, setIsInquiryOpen] = useState(false);
+
 
     useEffect(() => {
         const fetchProperty = async () => {
@@ -36,11 +41,8 @@ const PropertyView = () => {
         fetchProperty();
     }, [id, navigate]);
 
-    if (loading) return (
-        <div className="min-h-screen bg-dark-900 flex items-center justify-center">
-            <div className="w-12 h-12 border-4 border-brand-500/20 border-t-brand-500 rounded-full animate-spin" />
-        </div>
-    );
+    if (loading) return <DetailSkeleton />;
+
 
     if (!property) return null;
 
@@ -127,14 +129,13 @@ const PropertyView = () => {
                                     <p className="text-white/40 text-xs">Protected by HomeLink Guarantee</p>
                                 </div>
                             </div>
-                            <a
-                                href={`https://wa.me/91${property.phoneNumber}`}
-                                target="_blank"
+                            <button
+                                onClick={() => setIsInquiryOpen(true)}
                                 className="flex items-center justify-center gap-3 w-full py-5 bg-brand-600 hover:bg-brand-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-brand-600/20 active:scale-[0.98]"
                             >
                                 <MessageSquare size={20} />
-                                Connect on WhatsApp
-                            </a>
+                                Connect with Owner
+                            </button>
                         </div>
 
                         <div className="mt-auto pt-8 border-t border-white/5">
@@ -151,7 +152,14 @@ const PropertyView = () => {
                     </motion.div>
                 </div>
             </div>
+
+            <InquirySuite
+                isOpen={isInquiryOpen}
+                onClose={() => setIsInquiryOpen(false)}
+                property={property}
+            />
         </div>
+
     );
 };
 

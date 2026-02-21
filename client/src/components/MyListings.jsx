@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Trash2, Home, Plus, ExternalLink, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { BrowseSkeleton } from "./ListingSkeleton";
 
 const MyListings = () => {
+
   const [myRooms, setMyRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
@@ -66,11 +68,9 @@ const MyListings = () => {
         </div>
 
         {loading ? (
-          <div className="py-24 text-center">
-            <div className="w-12 h-12 border-4 border-brand-500/20 border-t-brand-500 rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-white/40">Loading your empire...</p>
-          </div>
+          <BrowseSkeleton />
         ) : (
+
           <>
             {myRooms.length === 0 ? (
               <motion.div
