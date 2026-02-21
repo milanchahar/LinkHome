@@ -1,15 +1,16 @@
 import React from "react";
-import HeroScene from "../components/Home/HeroScene";
 import HeroContent from "../components/Home/HeroContent";
 
 const Home = () => {
   return (
-    <main className="relative h-screen w-full bg-slate-950 flex items-center justify-center overflow-hidden">
-      <HeroScene />
-
+    <div className="relative w-full">
       <HeroContent />
-    </main>
+      {/* Additional sections will be added here in following steps */}
+    </div>
   );
 };
+
+export default Home;
+
 
 export default Home;
