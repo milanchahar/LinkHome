@@ -202,5 +202,3 @@ const BrowseRooms = () => {
 
 export default BrowseRooms;
 
-
-export default BrowseRooms;
