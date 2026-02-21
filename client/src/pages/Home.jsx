@@ -1,6 +1,9 @@
+import React from "react";
+import HeroContent from "../components/Home/HeroContent";
 import About from "../components/Home/About";
 import Features from "../components/Home/Features";
 import Testimonials from "../components/Home/Testimonials";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -9,12 +12,11 @@ const Home = () => {
       <About />
       <Features />
       <Testimonials />
-      {/* Additional sections will be added here in following steps */}
+      <Footer />
     </div>
-
-
   );
 };
 
 export default Home;
+
 
