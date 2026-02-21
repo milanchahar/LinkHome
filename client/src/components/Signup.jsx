@@ -8,24 +8,19 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
-    phone: "",
   });
   const navigate = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post(
-      "http://localhost:5001/api/auth/signup",
-      formData,
-    );
-    toast.success("Account created! 🎉");
-    navigate("/login");
-  } catch (err) {
-    console.log("SERVER ERROR MESSAGE:", err.response?.data);
-    toast.error(err.response?.data?.message || "Check server terminal");
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5001/api/auth/signup", formData);
+      toast.success("Account created! Please login. 🎉");
+      navigate("/login");
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Signup failed");
+    }
+  };
 
   return (
     <div
@@ -65,13 +60,6 @@ const handleSubmit = async (e) => {
             setFormData({ ...formData, password: e.target.value })
           }
         />
-        <input
-          type="text"
-          placeholder="Phone Number (for WhatsApp)"
-          required
-          style={inputStyle}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-        />
         <button type="submit" style={buttonStyle}>
           Create Account
         </button>
@@ -86,7 +74,6 @@ const inputStyle = {
   margin: "10px 0",
   borderRadius: "8px",
   border: "1px solid #ddd",
-  fontFamily: "Poppins",
 };
 const buttonStyle = {
   width: "100%",
@@ -97,7 +84,6 @@ const buttonStyle = {
   borderRadius: "8px",
   fontWeight: "600",
   cursor: "pointer",
-  marginTop: "10px",
 };
 
 export default Signup;

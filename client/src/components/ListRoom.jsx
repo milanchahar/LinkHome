@@ -1,70 +1,33 @@
-import toast from "react-hot-toast";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ListRoom = () => {
-  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
-    price: "",
     city: "",
     area: "",
-    phoneNumber: "",
-    address: "",
-    imageUrl: "",
-    isPureVeg: true,
+    price: "",
+    isPureVeg: false,
     genderPref: "Any",
-    lifestyle: "Professional",
+    imageUrl: "",
+    phoneNumber: "",
   });
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "homelink_preset");
-
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/dqs5rvi8b/image/upload",
-        data,
-      );
-      setFormData((prev) => ({ ...prev, imageUrl: res.data.secure_url }));
-      toast.success("Image uploaded! 📸");
-    } catch (err) {
-      toast.error("Upload failed. Check your connection.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.imageUrl) return toast.error("Please upload a photo first!");
-
-    setLoading(true);
     const token = localStorage.getItem("token");
 
     try {
       await axios.post("http://localhost:5001/api/listings", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast.success("Room listed successfully!");
+      toast.success("Room Listed Successfully! 🏠");
+      navigate("/");
     } catch (err) {
-      toast.error("Failed to post listing.");
-    } finally {
-      setLoading(false);
+      toast.error("Failed to list room. check if you are logged in.");
     }
   };
 
@@ -72,119 +35,95 @@ const ListRoom = () => {
     <div
       style={{
         maxWidth: "600px",
-        margin: "20px auto",
-        padding: "20px",
-        border: "1px solid #ddd",
-        borderRadius: "8px",
+        margin: "40px auto",
+        padding: "30px",
+        backgroundColor: "white",
+        borderRadius: "20px",
+        boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
       }}
     >
-      <h2>List My Room (India)</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 style={{ color: "var(--secondary)", textAlign: "center" }}>
+        List Your Property
+      </h2>
+      <form onSubmit={handleSubmit} style={{ display: "grid", gap: "15px" }}>
         <input
-          name="title"
-          placeholder="Title"
-          onChange={handleChange}
+          type="text"
+          placeholder="Title (e.g. Cozy 1BHK)"
           required
           style={inputStyle}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         />
-        <textarea
-          name="description"
-          placeholder="Description"
-          onChange={handleChange}
-          required
-          style={inputStyle}
-        />
+        <div style={{ display: "flex", gap: "10px" }}>
+          <input
+            type="text"
+            placeholder="City"
+            required
+            style={inputStyle}
+            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Area"
+            required
+            style={inputStyle}
+            onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+          />
+        </div>
         <input
-          name="price"
           type="number"
-          placeholder="Price (₹)"
-          onChange={handleChange}
+          placeholder="Monthly Rent (₹)"
           required
           style={inputStyle}
+          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
         />
         <input
-          name="city"
-          placeholder="City"
-          onChange={handleChange}
-          required
+          type="text"
+          placeholder="Image URL (Optional)"
           style={inputStyle}
+          onChange={(e) =>
+            setFormData({ ...formData, imageUrl: e.target.value })
+          }
         />
         <input
-          name="area"
-          placeholder="Area"
-          onChange={handleChange}
-          required
+          type="text"
+          placeholder="WhatsApp Number (Optional)"
           style={inputStyle}
+          onChange={(e) =>
+            setFormData({ ...formData, phoneNumber: e.target.value })
+          }
         />
-        <input
-          name="phoneNumber"
-          placeholder="WhatsApp Number (e.g. 98125XXXXX)"
-          onChange={handleChange}
-          required
-          style={inputStyle}
-        />
-
-        <label
-          style={{ fontWeight: "bold", display: "block", marginTop: "10px" }}
-        >
-          Room Photo:
-        </label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          style={{ margin: "10px 0" }}
-        />
-
-        {formData.imageUrl && (
-          <div style={{ marginBottom: "10px" }}>
-            <img
-              src={formData.imageUrl}
-              alt="Preview"
-              style={{
-                width: "100px",
-                borderRadius: "8px",
-                border: "1px solid #ddd",
-              }}
-            />
-            <p style={{ fontSize: "12px", color: "green" }}>✓ Image Ready</p>
-          </div>
-        )}
 
         <label
           style={{
             display: "flex",
             alignItems: "center",
             gap: "10px",
-            margin: "15px 0",
-            color: "green",
-            fontWeight: "bold",
+            fontWeight: "600",
           }}
         >
           <input
-            name="isPureVeg"
             type="checkbox"
-            checked={formData.isPureVeg}
-            onChange={handleChange}
-          />
-          Pure Veg Kitchen 🌱
+            onChange={(e) =>
+              setFormData({ ...formData, isPureVeg: e.target.checked })
+            }
+          />{" "}
+          Pure Veg Property
         </label>
 
         <button
           type="submit"
-          disabled={loading}
           style={{
-            padding: "12px",
-            background: loading ? "#ccc" : "#2c3e50",
+            padding: "15px",
+            backgroundColor: "var(--primary)",
             color: "white",
-            width: "100%",
-            cursor: loading ? "not-allowed" : "pointer",
             border: "none",
-            borderRadius: "5px",
-            fontWeight: "bold",
+            borderRadius: "10px",
+            fontWeight: "700",
+            cursor: "pointer",
+            fontSize: "16px",
           }}
         >
-          {loading ? "Processing..." : "Submit Listing"}
+          Post Listing Now
         </button>
       </form>
     </div>
@@ -192,13 +131,11 @@ const ListRoom = () => {
 };
 
 const inputStyle = {
-  display: "block",
   width: "100%",
-  margin: "10px 0",
-  padding: "10px",
-  borderRadius: "5px",
-  border: "1px solid #ccc",
-  boxSizing: "border-box",
+  padding: "12px",
+  borderRadius: "10px",
+  border: "1px solid #e2e8f0",
+  fontFamily: "Poppins",
 };
 
 export default ListRoom;

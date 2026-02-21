@@ -4,28 +4,29 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
   Navigate,
 } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import ListRoom from "./components/ListRoom";
+import BrowseRooms from "./components/BrowseRooms";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import MyListings from "./components/MyListings";
 
 function App() {
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <Router>
       <div className="min-h-screen bg-dark-900 border-none">
         <Toaster position="top-center" reverseOrder={false} />
         <Navbar />
 
-
-        {/* PAGE ROUTES */}
         <Routes>
-          {/* THE NEW LANDING PAGE */}
           <Route path="/" element={<Home />} />
-
-          {/* MOVED BROWSE TO ITS OWN PATH */}
           <Route path="/browse" element={<BrowseRooms />} />
-
           <Route
             path="/list-room"
             element={user ? <ListRoom /> : <Navigate to="/login" />}

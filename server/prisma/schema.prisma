@@ -27,7 +27,7 @@ model Listing {
   city         String   
   area         String   
   address      String
-  imageUrl     String
+  imageUrl     String?
   isPureVeg    Boolean  @default(true)
   genderPref   String   
   lifestyle    String   
