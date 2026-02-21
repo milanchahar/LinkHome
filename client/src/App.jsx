@@ -1,3 +1,4 @@
+import React from "react";
 import { Toaster } from "react-hot-toast";
 import {
   BrowserRouter as Router,
@@ -6,12 +7,13 @@ import {
   Link,
   Navigate,
 } from "react-router-dom";
+
+import Home from "./pages/Home"; 
 import ListRoom from "./components/ListRoom";
 import BrowseRooms from "./components/BrowseRooms";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import MyListings from "./components/MyListings";
-
 const navLinkStyle = {
   color: "white",
   textDecoration: "none",
@@ -42,13 +44,15 @@ function App() {
     <Router>
       <div style={{ fontFamily: "Arial, sans-serif" }}>
         <Toaster position="top-center" reverseOrder={false} />
+
+        {/* PREMIUM NAV BAR */}
         <nav
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             padding: "15px 40px",
-            backgroundColor: "var(--secondary)",
+            backgroundColor: "#0f172a", // Matches the dark premium theme
             color: "white",
             position: "sticky",
             top: 0,
@@ -64,10 +68,13 @@ function App() {
               letterSpacing: "-1px",
             }}
           >
-            Home<span style={{ color: "var(--primary)" }}>Link</span>
+            Home<span style={{ color: "#3b82f6" }}>Link</span>
           </h1>
-          <div style={{ display: "flex", gap: "20px" }}>
+          <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
             <Link to="/" style={navLinkStyle}>
+              Home
+            </Link>
+            <Link to="/browse" style={navLinkStyle}>
               Browse
             </Link>
             <Link to="/list-room" style={navLinkStyle}>
@@ -82,7 +89,7 @@ function App() {
                   to="/signup"
                   style={{
                     ...navLinkStyle,
-                    backgroundColor: "var(--primary)",
+                    backgroundColor: "#3b82f6",
                     padding: "8px 15px",
                     borderRadius: "8px",
                   }}
@@ -91,34 +98,37 @@ function App() {
                 </Link>
               </>
             ) : (
-              <button onClick={handleLogout} style={logoutButtonStyle}>
-                Logout
-              </button>
+              <>
+                <Link to="/my-listings" style={navLinkStyle}>
+                  My Postings
+                </Link>
+                <button onClick={handleLogout} style={logoutButtonStyle}>
+                  Logout
+                </button>
+              </>
             )}
           </div>
         </nav>
 
-        <h1
-          style={{ textAlign: "center", color: "#2c3e50", marginTop: "20px" }}
-        >
-          LinkHome
-        </h1>
+        {/* PAGE ROUTES */}
+        <Routes>
+          {/* THE NEW LANDING PAGE */}
+          <Route path="/" element={<Home />} />
 
-        <div style={{ padding: "20px" }}>
-          <Routes>
-            <Route path="/" element={<BrowseRooms />} />
-            <Route
-              path="/list-room"
-              element={user ? <ListRoom /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/my-listings"
-              element={user ? <MyListings /> : <Navigate to="/login" />}
-            />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        </div>
+          {/* MOVED BROWSE TO ITS OWN PATH */}
+          <Route path="/browse" element={<BrowseRooms />} />
+
+          <Route
+            path="/list-room"
+            element={user ? <ListRoom /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/my-listings"
+            element={user ? <MyListings /> : <Navigate to="/login" />}
+          />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
       </div>
     </Router>
   );
