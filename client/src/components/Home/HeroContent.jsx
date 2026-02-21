@@ -8,6 +8,8 @@ const images = [
   "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80",
 ];
 
+import HeroScene from "./HeroScene";
+
 export default function HeroContent() {
   const [index, setIndex] = useState(0);
 
@@ -20,7 +22,10 @@ export default function HeroContent() {
 
   return (
     <div className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+      <HeroScene />
+
       <AnimatePresence mode="wait">
+
         <motion.div
           key={index}
           initial={{ opacity: 0, scale: 1.1 }}

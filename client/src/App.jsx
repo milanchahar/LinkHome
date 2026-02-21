@@ -14,6 +14,7 @@ import BrowseRooms from "./components/BrowseRooms";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import MyListings from "./components/MyListings";
+import CustomCursor from "./components/CustomCursor";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -21,6 +22,7 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-dark-900 border-none">
+        <CustomCursor />
         <Toaster position="top-center" reverseOrder={false} />
         <Navbar />
 
