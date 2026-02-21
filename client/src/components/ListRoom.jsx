@@ -15,6 +15,7 @@ const ListRoom = () => {
     genderPref: "Any",
     imageUrl: "",
     phoneNumber: "",
+    address: "",
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -90,6 +91,17 @@ const ListRoom = () => {
                 onChange={(e) => setFormData({ ...formData, area: e.target.value })}
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-brand-500 ml-1">Full Address</label>
+            <input
+              type="text"
+              placeholder="e.g. Flat 402, Elite Heights, Sector 5..."
+              required
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-brand-500 transition-all text-white"
+              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-6">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Home as HomeIcon, Compass, PlusCircle, User, LogOut, Sparkles } from "lucide-react";
+import { Menu, X, Home as HomeIcon, Compass, PlusCircle, User, LogOut, Sparkles, MessageSquare } from "lucide-react";
 
 
 const Navbar = () => {
@@ -27,8 +27,10 @@ const Navbar = () => {
         { name: "Home", path: "/", icon: <HomeIcon size={18} /> },
         { name: "Browse", path: "/browse", icon: <Compass size={18} /> },
         { name: "Experience", path: "/experience", icon: <Sparkles size={18} /> },
+        { name: "Messages", path: "/messages", icon: <MessageSquare size={18} /> },
         { name: "List Room", path: "/list-room", icon: <PlusCircle size={18} /> },
     ];
+
 
 
     if (user) {

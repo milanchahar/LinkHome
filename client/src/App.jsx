@@ -20,6 +20,7 @@ import CustomCursor from "./components/CustomCursor";
 import PropertyView from "./pages/PropertyView";
 import EditRoom from "./components/EditRoom";
 import Experience from "./pages/Experience";
+import MessagingHub from "./pages/MessagingHub";
 
 
 
@@ -50,6 +51,7 @@ function AppContent() {
           <Route path="/browse" element={<PageTransition><BrowseRooms /></PageTransition>} />
           <Route path="/experience" element={<PageTransition><Experience /></PageTransition>} />
           <Route path="/property/:id" element={<PageTransition><PropertyView /></PageTransition>} />
+          <Route path="/messages" element={user ? <PageTransition><MessagingHub /></PageTransition> : <Navigate to="/login" />} />
 
           <Route
             path="/list-room"

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { MapPin, Wallet, MessageSquare, ArrowLeft, Beef, Users, Calendar, ShieldCheck } from "lucide-react";
+import { MapPin, Wallet, MessageSquare, ArrowLeft, Beef, Users, Calendar, ShieldCheck, Star, Share2, Shield, Coffee, Sparkles } from "lucide-react";
 import { DetailSkeleton } from "../components/ListingSkeleton";
 import InquirySuite from "../components/InquirySuite";
 import { toast } from "react-hot-toast"; // Assuming toast is available, if not, it needs to be imported
+import VirtualTour from "../components/Property/VirtualTour";
 
 const PropertyView = () => {
 
@@ -14,6 +15,7 @@ const PropertyView = () => {
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isInquiryOpen, setIsInquiryOpen] = useState(false);
+    const [isTourOpen, setIsTourOpen] = useState(false);
 
 
     useEffect(() => {
@@ -80,6 +82,13 @@ const PropertyView = () => {
                                     <Users size={14} />
                                     {property.genderPref}
                                 </div>
+                                <button
+                                    onClick={() => setIsTourOpen(true)}
+                                    className="px-4 py-2 bg-brand-600/20 backdrop-blur-md border border-brand-500/30 rounded-full text-xs font-bold text-brand-400 uppercase tracking-widest flex items-center gap-2 hover:bg-brand-500/30 transition-colors"
+                                >
+                                    <Sparkles size={14} />
+                                    Virtual Tour
+                                </button>
                             </div>
                         </div>
                     </motion.div>
@@ -157,6 +166,12 @@ const PropertyView = () => {
                 isOpen={isInquiryOpen}
                 onClose={() => setIsInquiryOpen(false)}
                 property={property}
+            />
+
+            <VirtualTour
+                isOpen={isTourOpen}
+                onClose={() => setIsTourOpen(false)}
+                propertyName={property.title}
             />
         </div>
 
