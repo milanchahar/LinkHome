@@ -37,7 +37,7 @@ const EditRoom = () => {
     useEffect(() => {
         const fetchRoom = async () => {
             try {
-                const res = await axios.get("http://localhost:5001/api/listings");
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
                 const found = res.data.find(r => r.id === parseInt(id));
                 if (found) {
                     setFormData({
@@ -125,7 +125,7 @@ const EditRoom = () => {
         const token = localStorage.getItem("token");
 
         try {
-            await axios.put(`http://localhost:5001/api/listings/${id}`, formData, {
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/listings/${id}`, formData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             toast.success("Listing updated successfully! ✨");

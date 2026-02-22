@@ -15,7 +15,8 @@ const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) return res.status(401).json({ error: "Please login first" });
 
-  jwt.verify(token, "milan_secret_key", (err, user) => {
+  const secret = process.env.JWT_SECRET || "milan_secret_key";
+  jwt.verify(token, secret, (err, user) => {
     if (err) return res.status(403).json({ error: "Invalid token" });
     req.user = user;
     next();
@@ -39,7 +40,8 @@ app.post("/api/auth/login", async (req, res) => {
   const { email, password } = req.body;
   const user = await prisma.user.findUnique({ where: { email } });
   if (user && (await bcrypt.compare(password, user.password))) {
-    const token = jwt.sign({ userId: user.id }, "milan_secret_key", {
+    const secret = process.env.JWT_SECRET || "milan_secret_key";
+    const token = jwt.sign({ userId: user.id }, secret, {
       expiresIn: "24h",
     });
     res.json({ token, user: { id: user.id, name: user.name } });
@@ -190,5 +192,10 @@ app.put("/api/listings/:id", authenticateToken, async (req, res) => {
   }
 });
 
-const PORT = 5001;
-app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));
+
+const PORT = process.env.PORT || 5001;
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));
+}
+
+module.exports = app;

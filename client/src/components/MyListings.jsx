@@ -16,7 +16,7 @@ const MyListings = () => {
   useEffect(() => {
     const fetchMyRooms = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/listings");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
         const filtered = res.data.filter(
           (room) => Number(room.ownerId) === Number(user.id)
         );
@@ -35,7 +35,7 @@ const MyListings = () => {
 
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:5001/api/listings/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/listings/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMyRooms(myRooms.filter((room) => room.id !== id));

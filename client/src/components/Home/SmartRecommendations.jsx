@@ -12,7 +12,7 @@ const SmartRecommendations = () => {
     useEffect(() => {
         const fetchMatches = async () => {
             try {
-                const res = await axios.get("http://localhost:5001/api/listings");
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
                 const sorted = (res.data || [])
                     .filter(item => item && typeof item.price === 'number')
                     .sort((a, b) => b.price - a.price)

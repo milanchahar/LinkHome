@@ -13,7 +13,7 @@ const FeaturedEstates = () => {
     useEffect(() => {
         const fetchTopListings = async () => {
             try {
-                const res = await axios.get("http://localhost:5001/api/listings");
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
                 setListings(res.data.slice(0, 6));
             } catch (err) {
                 console.error("Error fetching featured estates:", err);

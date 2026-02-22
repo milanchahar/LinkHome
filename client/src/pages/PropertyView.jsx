@@ -21,11 +21,11 @@ const PropertyView = () => {
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const res = await axios.get(`http://localhost:5001/api/listings/${id}`);
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings/${id}`);
                 setProperty(res.data);
             } catch (err) {
                 try {
-                    const resAll = await axios.get("http://localhost:5001/api/listings");
+                    const resAll = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
                     const found = resAll.data.find(r => r.id === parseInt(id));
                     if (found) setProperty(found);
                     else throw new Error("Not found");

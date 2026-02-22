@@ -21,7 +21,7 @@ const BrowseRooms = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/listings");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
         setRooms(res.data);
       } catch (err) {
         console.error(err);
