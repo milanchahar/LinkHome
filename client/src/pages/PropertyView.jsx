@@ -80,7 +80,7 @@ const PropertyView = () => {
                                 <img
                                     src={allImages[activeImage]}
                                     alt={property.title}
-                                    className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000"
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000"
                                 />
                                 <div className="absolute top-8 right-8 flex flex-col gap-3">
                                     {property.isPureVeg && (

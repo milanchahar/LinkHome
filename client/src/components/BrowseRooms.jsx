@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { BrowseSkeleton } from "./ListingSkeleton";
 import BrowseMap from "./BrowseMap";
 
+import { getPlaceholderImage } from "../utils/placeholders";
+
 const BrowseRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,12 +54,12 @@ const BrowseRooms = () => {
         <div className="mb-20 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="h-[1px] w-12 bg-black/10" />
-              <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">The Collection</span>
+              <div className="h-[1px] w-12 bg-black/20" />
+              <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/60">The Collection</span>
             </div>
             <h1 className="text-5xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter uppercase text-black">
               Discovery <br />
-              <span className="font-serif-accent italic font-light text-zinc-300 normal-case tracking-normal">Experience</span>
+              <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Experience</span>
             </h1>
           </div>
 
@@ -176,20 +178,20 @@ const BrowseRooms = () => {
                                 )}
                               </div>
                               <img
-                                src={room.imageUrl || (room.images && room.images[0]) || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
-                                className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out"
+                                src={room.imageUrl || (room.images && room.images[0]) || getPlaceholderImage(room.id)}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000 ease-out"
                                 alt={room.title}
                               />
                             </div>
 
                             <div className="px-2 pb-2">
-                              <div className="flex items-center gap-2 text-zinc-400 mb-2">
+                              <div className="flex items-center gap-2 text-zinc-500 mb-2">
                                 <MapPin size={12} />
                                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">{room.area}, {room.city}</span>
                               </div>
                               <h3 className="text-xl font-display font-black text-black mb-6 line-clamp-1 uppercase tracking-tight">{room.title}</h3>
                               <div className="flex items-center justify-between pt-6 border-t border-black/5">
-                                <span className="text-lg font-black text-black">₹{room.price.toLocaleString()}<span className="text-[10px] text-zinc-300 font-black uppercase tracking-widest ml-1">/mo</span></span>
+                                <span className="text-lg font-black text-black">₹{room.price.toLocaleString()}<span className="text-[10px] text-zinc-500 font-black uppercase tracking-widest ml-1">/mo</span></span>
                                 <div className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center transform group-hover:rotate-12 transition-all duration-500 shadow-xl shadow-black/20">
                                   <ArrowRight size={16} strokeWidth={3} />
                                 </div>
@@ -232,7 +234,7 @@ const BrowseRooms = () => {
               <Search size={32} className="text-black/10" />
             </div>
             <h3 className="text-3xl font-display font-black mb-4 uppercase tracking-tighter">No results found</h3>
-            <p className="text-zinc-400 max-w-sm mx-auto text-[11px] font-black uppercase tracking-widest leading-relaxed">
+            <p className="text-zinc-600 max-w-sm mx-auto text-[11px] font-black uppercase tracking-widest leading-relaxed">
               We couldn't find any properties matching your quest. Try adjusting your preferences.
             </p>
             <button

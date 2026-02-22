@@ -59,6 +59,19 @@ app.get("/api/listings", async (req, res) => {
   }
 });
 
+app.get("/api/listings/:id", async (req, res) => {
+  try {
+    const listingId = parseInt(req.params.id);
+    const listing = await prisma.listing.findUnique({
+      where: { id: listingId },
+    });
+    if (!listing) return res.status(404).json({ error: "Listing not found" });
+    res.json(listing);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch listing" });
+  }
+});
+
 app.post("/api/listings", authenticateToken, async (req, res) => {
   console.log("POST /api/listings body:", JSON.stringify(req.body, null, 2));
   const {

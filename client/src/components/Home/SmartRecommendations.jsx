@@ -4,6 +4,8 @@ import { Sparkles, ArrowRight, Heart, MapPin } from "lucide-react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import { getPlaceholderImage } from "../../utils/placeholders";
+
 const SmartRecommendations = () => {
     const [matches, setMatches] = useState([]);
 
@@ -33,7 +35,7 @@ const SmartRecommendations = () => {
                             <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Smart Matching</span>
                         </div>
                         <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter">
-                            The <span className="font-serif-accent italic font-light text-zinc-400 normal-case tracking-normal">Perfect</span> <br />
+                            The <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Perfect</span> <br />
                             Fit.
                         </h2>
                     </div>
@@ -52,9 +54,9 @@ const SmartRecommendations = () => {
                             <Link to={`/property/${match.id}`}>
                                 <div className="aspect-square rounded-[2rem] overflow-hidden relative mb-8">
                                     <img
-                                        src={match?.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
+                                        src={match?.imageUrl || getPlaceholderImage(match?.id)}
                                         alt={match?.title || "Property"}
-                                        className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000"
                                     />
                                     <div className="absolute top-6 right-6">
                                         <div className="px-4 py-2 bg-white/90 backdrop-blur-md rounded-full text-[9px] font-black text-black uppercase tracking-widest border border-black/5">
@@ -64,7 +66,7 @@ const SmartRecommendations = () => {
                                 </div>
 
                                 <div className="px-4 pb-4">
-                                    <div className="flex items-center gap-2 text-zinc-400 mb-2">
+                                    <div className="flex items-center gap-2 text-zinc-500 mb-2">
                                         <MapPin size={12} />
                                         <span className="text-[10px] font-black uppercase tracking-[0.2em]">{match?.area || "Prime Location"}</span>
                                     </div>

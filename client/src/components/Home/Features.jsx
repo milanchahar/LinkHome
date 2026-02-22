@@ -22,11 +22,11 @@ const Features = () => {
                             <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Excellence</span>
                         </div>
                         <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter">
-                            Core <span className="font-serif-accent italic font-light text-zinc-400 normal-case tracking-normal">Signature</span> <br />
+                            Core <span className="font-serif-accent italic font-light text-zinc-600 normal-case tracking-normal">Signature</span> <br />
                             Features.
                         </h2>
                     </div>
-                    <p className="text-zinc-500 max-w-sm font-medium leading-relaxed">
+                    <p className="text-zinc-600 max-w-sm font-medium leading-relaxed">
                         Every aspect of HomeLink is engineered for perfection, ensuring your search for
                         the ideal living space is as premium as the properties themselves.
                     </p>
@@ -46,7 +46,7 @@ const Features = () => {
                                 {React.cloneElement(feature.icon, { size: 24, strokeWidth: 1.5 })}
                             </div>
                             <h3 className="text-[11px] font-black uppercase tracking-[0.2em] mb-4 text-black underline decoration-black/10 underline-offset-4">{feature.title}</h3>
-                            <p className="text-zinc-500 leading-relaxed text-sm font-medium">
+                            <p className="text-zinc-600 leading-relaxed text-sm font-medium">
                                 {feature.desc}
                             </p>
                         </motion.div>

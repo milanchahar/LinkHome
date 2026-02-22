@@ -16,7 +16,6 @@ import BrowseRooms from "./components/BrowseRooms";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import MyListings from "./components/MyListings";
-import CustomCursor from "./components/CustomCursor";
 import PropertyView from "./pages/PropertyView";
 import EditRoom from "./components/EditRoom";
 import Experience from "./pages/Experience";
@@ -40,8 +39,7 @@ function AppContent() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-dark-900 border-none">
-      <CustomCursor />
+    <div className="min-h-screen bg-[#fbfbf9] border-none">
       <Toaster position="top-center" reverseOrder={false} />
       <Navbar />
 

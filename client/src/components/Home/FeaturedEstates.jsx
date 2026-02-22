@@ -4,6 +4,8 @@ import { ArrowRight, MapPin, Star } from "lucide-react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+import { getPlaceholderImage } from "../../utils/placeholders";
+
 const FeaturedEstates = () => {
     const [listings, setListings] = useState([]);
     const carouselRef = useRef(null);
@@ -40,8 +42,8 @@ const FeaturedEstates = () => {
                         viewport={{ once: true }}
                         className="flex items-center gap-3"
                     >
-                        <div className="h-[1px] w-12 bg-black/10" />
-                        <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Curated Selection</span>
+                        <div className="h-[1px] w-12 bg-black/20" />
+                        <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/60">Curated Selection</span>
                     </motion.div>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -51,7 +53,7 @@ const FeaturedEstates = () => {
                         className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter"
                     >
                         Signature <br />
-                        <span className="font-serif-accent italic font-light text-zinc-400 normal-case tracking-normal">Collector</span> Items
+                        <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Collector</span> Items
                     </motion.h2>
                 </div>
                 <Link to="/browse" className="group flex items-center gap-4 text-black/40 hover:text-black transition-all">
@@ -85,9 +87,9 @@ const FeaturedEstates = () => {
                                 <div className="nama-card p-4 h-full flex flex-col gap-8 bg-[#fdfdfd]">
                                     <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden relative">
                                         <img
-                                            src={listing?.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
+                                            src={listing?.imageUrl || getPlaceholderImage(listing?.id)}
                                             alt={listing?.title || "Property"}
-                                            className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
                                         />
                                         <div className="absolute top-6 right-6">
                                             <div className="px-5 py-2.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-black uppercase tracking-widest border border-black/5">
@@ -98,13 +100,13 @@ const FeaturedEstates = () => {
 
                                     <div className="px-4 pb-4 flex justify-between items-end">
                                         <div className="space-y-2">
-                                            <div className="flex items-center gap-2 text-zinc-400">
+                                            <div className="flex items-center gap-2 text-zinc-600">
                                                 <MapPin size={12} />
                                                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">{listing?.city || "Luxury Stay"}</span>
                                             </div>
                                             <h3 className="text-2xl font-display font-black uppercase tracking-tight line-clamp-1">{listing?.title || "Signature Estate"}</h3>
                                         </div>
-                                        <div className="text-zinc-300 group-hover:text-black transition-colors">
+                                        <div className="text-black/30 group-hover:text-black transition-colors">
                                             <ArrowRight size={20} />
                                         </div>
                                     </div>
