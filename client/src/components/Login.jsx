@@ -20,7 +20,8 @@ const Login = () => {
       toast.success(`Welcome back, ${res.data.user.name}!`);
       window.location.href = "/";
     } catch (err) {
-      toast.error(err.response?.data?.message || "Login failed. Check your credentials.");
+      const errorMessage = err.response?.data?.message || err.response?.data?.error || (err.request ? "Cannot connect to server. Please ensure the backend is running." : "Login failed. Please try again.");
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }

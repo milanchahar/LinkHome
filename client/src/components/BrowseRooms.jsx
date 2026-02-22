@@ -115,13 +115,13 @@ const BrowseRooms = () => {
             <div className="flex flex-1 flex-col gap-2 min-w-[150px] bg-white/5 border border-white/10 rounded-2xl px-6 py-4">
               <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.1em] text-white/30">
                 <span>Max Price</span>
-                <span className="text-brand-500">₹{maxPrice}</span>
+                <span className="text-brand-500">₹{maxPrice.toLocaleString()}</span>
               </div>
               <input
                 type="range"
                 min="1000"
-                max="50000"
-                step="500"
+                max="1000000"
+                step="5000"
                 className="w-full accent-brand-500 h-1 bg-white/10 rounded-full appearance-none cursor-pointer"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
@@ -182,7 +182,7 @@ const BrowseRooms = () => {
                                 </div>
                               </div>
                               <img
-                                src={room.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
+                                src={room.imageUrl || (room.images && room.images[0]) || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                                 alt={room.title}
                               />

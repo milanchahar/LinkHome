@@ -106,7 +106,7 @@ const MyListings = () => {
                     >
                       <div className="aspect-video relative overflow-hidden">
                         <img
-                          src={room.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
+                          src={room.imageUrl || (room.images && room.images[0]) || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           alt={room.title}
                         />

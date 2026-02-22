@@ -16,17 +16,14 @@ const PropertyView = () => {
     const [loading, setLoading] = useState(true);
     const [isInquiryOpen, setIsInquiryOpen] = useState(false);
     const [isTourOpen, setIsTourOpen] = useState(false);
-
+    const [activeImage, setActiveImage] = useState(0);
 
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const res = await axios.get(`http://localhost:5001/api/listings/${id}`); // Assuming individual fetch exists or filtered from list
-                // Since original backend might not have individual endpoint, we fetch all and filter for now if needed, 
-                // but it's better to assume /listings/:id works for a premium feel.
+                const res = await axios.get(`http://localhost:5001/api/listings/${id}`);
                 setProperty(res.data);
             } catch (err) {
-                // Fallback: fetch all and filter
                 try {
                     const resAll = await axios.get("http://localhost:5001/api/listings");
                     const found = resAll.data.find(r => r.id === parseInt(id));
@@ -44,9 +41,20 @@ const PropertyView = () => {
     }, [id, navigate]);
 
     if (loading) return <DetailSkeleton />;
-
-
     if (!property) return null;
+
+    const allImages = property.images && property.images.length > 0 ? property.images : [property.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"];
+
+    const amenitiesList = [
+        { id: "hasWifi", label: "WiFi", icon: "🌐" },
+        { id: "hasParking", label: "Parking", icon: "🚗" },
+        { id: "hasGym", label: "Gym", icon: "🏋️" },
+        { id: "hasPool", label: "Pool", icon: "🏊" },
+        { id: "hasAC", label: "AC", icon: "❄️" },
+        { id: "hasLaundry", label: "Laundry", icon: "🧺" },
+        { id: "hasBalcony", label: "Balcony", icon: "🌅" },
+        { id: "isFurnished", label: "Furnished", icon: "🛋️" },
+    ].filter(a => property[a.id]);
 
     return (
         <div className="pt-32 pb-24 px-6 min-h-screen bg-dark-900">
@@ -63,13 +71,13 @@ const PropertyView = () => {
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="space-y-8"
+                        className="space-y-6"
                     >
-                        <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 aspect-[4/5] group">
+                        <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 aspect-[4/5] group shadow-2xl">
                             <img
-                                src={property.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
+                                src={allImages[activeImage]}
                                 alt={property.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                className="w-full h-full object-cover transition-all duration-700"
                             />
                             <div className="absolute top-6 right-6 flex flex-col gap-3">
                                 {property.isPureVeg && (
@@ -91,6 +99,20 @@ const PropertyView = () => {
                                 </button>
                             </div>
                         </div>
+
+                        {allImages.length > 1 && (
+                            <div className="flex gap-4 overflow-x-auto pb-2 scroll-hide">
+                                {allImages.map((img, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setActiveImage(idx)}
+                                        className={`relative w-24 h-24 rounded-2xl overflow-hidden border-2 transition-all flex-shrink-0 ${activeImage === idx ? 'border-brand-500 scale-95' : 'border-white/10 hover:border-white/30'}`}
+                                    >
+                                        <img src={img} className="w-full h-full object-cover" alt="" />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </motion.div>
 
                     <motion.div
@@ -105,13 +127,23 @@ const PropertyView = () => {
 
                         <h1 className="text-5xl font-display font-bold mb-6 leading-tight">{property.title}</h1>
 
-                        <p className="text-white/40 leading-relaxed mb-10 text-lg">
-                            Experience the pinnacle of urban living in this carefully curated space.
-                            Designed for luxury and convenience, this property offers everything you need
-                            for a premium lifestyle at {property.area}.
+                        <p className="text-white/40 leading-relaxed mb-8 text-lg">
+                            {property.description || `Experience the pinnacle of urban living in this carefully curated space at ${property.area}. Designed for luxury and convenience, this property offers everything you need for a premium lifestyle.`}
                         </p>
 
-                        <div className="grid grid-cols-2 gap-8 mb-12">
+                        {/* Amenities Badge List */}
+                        {amenitiesList.length > 0 && (
+                            <div className="flex flex-wrap gap-3 mb-10">
+                                {amenitiesList.map(a => (
+                                    <div key={a.id} className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/60 flex items-center gap-2">
+                                        <span>{a.icon}</span>
+                                        {a.label}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        <div className="grid grid-cols-2 gap-8 mb-10">
                             <div className="glass-card p-6 rounded-3xl border border-white/5">
                                 <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2 block">Monthly Rent</span>
                                 <div className="flex items-center gap-3">
@@ -120,15 +152,15 @@ const PropertyView = () => {
                                 </div>
                             </div>
                             <div className="glass-card p-6 rounded-3xl border border-white/5">
-                                <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2 block">Available From</span>
+                                <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2 block">Availability</span>
                                 <div className="flex items-center gap-3">
                                     <Calendar className="text-brand-500" size={24} />
-                                    <span className="text-xl font-bold">Immediately</span>
+                                    <span className="text-xl font-bold">{property.availableFrom || "Immediately"}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="glass-card p-8 rounded-[2rem] border border-brand-500/20 bg-brand-600/5 mb-12">
+                        <div className="glass-card p-8 rounded-[2rem] border border-brand-500/20 bg-brand-600/5 mb-10">
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="w-12 h-12 bg-brand-600 rounded-2xl flex items-center justify-center">
                                     <ShieldCheck className="text-white" size={24} />
@@ -147,16 +179,20 @@ const PropertyView = () => {
                             </button>
                         </div>
 
-                        <div className="mt-auto pt-8 border-t border-white/5">
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-white/20 mb-4 block">Platform Benefits</span>
-                            <div className="flex gap-6">
-                                {['Digital Keys', 'Zero Deposit', 'Elite Community'].map((benefit, i) => (
-                                    <span key={i} className="text-xs font-bold text-white/40 flex items-center gap-2">
-                                        <ShieldCheck size={14} className="text-brand-500/50" />
+                        <div className="mt-auto pt-8 border-t border-white/5 flex items-center justify-between">
+                            <div className="flex gap-4">
+                                {['Zero Deposit', 'Elite Community'].map((benefit, i) => (
+                                    <span key={i} className="text-[10px] font-bold text-white/30 uppercase tracking-widest flex items-center gap-2">
+                                        <ShieldCheck size={12} className="text-brand-500/50" />
                                         {benefit}
                                     </span>
                                 ))}
                             </div>
+                            {property.phoneNumber && (
+                                <span className="text-xs font-bold text-brand-500">
+                                    {property.phoneNumber}
+                                </span>
+                            )}
                         </div>
                     </motion.div>
                 </div>
@@ -174,7 +210,6 @@ const PropertyView = () => {
                 propertyName={property.title}
             />
         </div>
-
     );
 };
 

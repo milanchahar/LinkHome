@@ -31,7 +31,7 @@ app.post("/api/auth/signup", async (req, res) => {
     });
     res.json({ message: "User created!", userId: user.id });
   } catch (error) {
-    res.status(400).json({ error: "Email already exists" });
+    res.status(400).json({ error: "Email already exists", message: "Email already exists" });
   }
 });
 
@@ -44,7 +44,7 @@ app.post("/api/auth/login", async (req, res) => {
     });
     res.json({ token, user: { id: user.id, name: user.name } });
   } else {
-    res.status(401).json({ error: "Invalid email or password" });
+    res.status(401).json({ error: "Invalid email or password", message: "Invalid email or password" });
   }
 });
 
@@ -60,6 +60,7 @@ app.get("/api/listings", async (req, res) => {
 });
 
 app.post("/api/listings", authenticateToken, async (req, res) => {
+  console.log("POST /api/listings body:", JSON.stringify(req.body, null, 2));
   const {
     title,
     description,
@@ -78,23 +79,32 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
       data: {
         ownerId: req.user.userId,
         title,
-        description,
+        description: description || "",
         price: Number(price),
         city,
         area,
         address,
         imageUrl: imageUrl || null,
+        images: req.body.images || [],
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",
         lifestyle: lifestyle || "Any",
         phoneNumber: phoneNumber || null,
         availableFrom: "Immediate",
+        hasWifi: req.body.hasWifi === true,
+        hasParking: req.body.hasParking === true,
+        hasGym: req.body.hasGym === true,
+        hasPool: req.body.hasPool === true,
+        hasAC: req.body.hasAC === true,
+        hasLaundry: req.body.hasLaundry === true,
+        hasBalcony: req.body.hasBalcony === true,
+        isFurnished: req.body.isFurnished === true,
       },
     });
     res.status(201).json(newListing);
   } catch (error) {
     console.error("Error creating listing:", error);
-    res.status(500).json({ error: "Failed to create listing" });
+    res.status(500).json({ error: "Failed to create listing", detail: error.message });
   }
 });
 
@@ -116,6 +126,7 @@ app.delete("/api/listings/:id", authenticateToken, async (req, res) => {
 });
 
 app.put("/api/listings/:id", authenticateToken, async (req, res) => {
+  console.log("PUT /api/listings/:id body:", JSON.stringify(req.body, null, 2));
   try {
     const listingId = parseInt(req.params.id);
     const {
@@ -140,18 +151,29 @@ app.put("/api/listings/:id", authenticateToken, async (req, res) => {
       where: { id: listingId },
       data: {
         title,
-        description,
+        description: req.body.description || "",
         city,
         area,
+        address: req.body.address || "",
         imageUrl,
+        images: req.body.images || [],
         price: Number(price),
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",
+        hasWifi: req.body.hasWifi === true,
+        hasParking: req.body.hasParking === true,
+        hasGym: req.body.hasGym === true,
+        hasPool: req.body.hasPool === true,
+        hasAC: req.body.hasAC === true,
+        hasLaundry: req.body.hasLaundry === true,
+        hasBalcony: req.body.hasBalcony === true,
+        isFurnished: req.body.isFurnished === true,
+        phoneNumber: req.body.phoneNumber || null,
       },
     });
     res.json(updated);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Failed to update listing", detail: error.message });
   }
 });
 

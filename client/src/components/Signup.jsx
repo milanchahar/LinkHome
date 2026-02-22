@@ -18,7 +18,8 @@ const Signup = () => {
       toast.success("Account created successfully! 🎉");
       navigate("/login");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Signup failed. Please try again.");
+      const errorMessage = err.response?.data?.error || err.response?.data?.message || (err.request ? "Cannot connect to server. Please ensure the backend is running." : "Signup failed. Please try again.");
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
