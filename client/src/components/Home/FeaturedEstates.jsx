@@ -12,7 +12,6 @@ const FeaturedEstates = () => {
         const fetchTopListings = async () => {
             try {
                 const res = await axios.get("http://localhost:5001/api/listings");
-                // Taking top 6 for the "Featured" section
                 setListings(res.data.slice(0, 6));
             } catch (err) {
                 console.error("Error fetching featured estates:", err);
@@ -32,30 +31,32 @@ const FeaturedEstates = () => {
     });
 
     return (
-        <section className="py-32 bg-dark-900 border-t border-white/5 relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
-                <div>
+        <section className="section-spacing bg-white border-t border-black/5 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6 mb-20 flex flex-col md:flex-row md:items-end justify-between gap-12">
+                <div className="space-y-6">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="flex items-center gap-2 text-brand-500 font-bold uppercase tracking-[0.3em] text-[10px] mb-4"
+                        className="flex items-center gap-3"
                     >
-                        <Star size={14} fill="currentColor" /> The Signature Selection
+                        <div className="h-[1px] w-12 bg-black/10" />
+                        <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Curated Selection</span>
                     </motion.div>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-display font-bold"
+                        className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter"
                     >
-                        Featured <span className="text-gradient">Estates</span>
+                        Signature <br />
+                        <span className="font-serif-accent italic font-light text-zinc-400 normal-case tracking-normal">Collector</span> Items
                     </motion.h2>
                 </div>
-                <Link to="/browse" className="group flex items-center gap-3 text-white/40 hover:text-white transition-colors">
-                    <span className="text-sm font-bold uppercase tracking-widest">Explore All</span>
-                    <div className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center group-hover:bg-brand-600 group-hover:border-brand-600 transition-all">
+                <Link to="/browse" className="group flex items-center gap-4 text-black/40 hover:text-black transition-all">
+                    <span className="text-[10px] font-black uppercase tracking-widest">Explore Collection</span>
+                    <div className="w-12 h-12 border border-black/10 rounded-full flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-white transition-all transform group-hover:rotate-45">
                         <ArrowRight size={18} />
                     </div>
                 </Link>
@@ -64,44 +65,48 @@ const FeaturedEstates = () => {
             {/* Magnetic Carousel */}
             <div
                 ref={carouselRef}
-                className="flex overflow-x-auto gap-8 px-6 md:px-[calc((100vw-1280px)/2+24px)] no-scrollbar cursor-grab active:cursor-grabbing pb-12"
+                className="flex overflow-x-auto gap-12 px-6 md:px-[calc((100vw-1280px)/2+24px)] no-scrollbar cursor-grab active:cursor-grabbing pb-16"
             >
                 {listings.length === 0 ? (
-                    // Placeholder items if no data
-                    [1, 2, 3, 4].map((n) => (
-                        <div key={n} className="min-w-[300px] md:min-w-[450px] aspect-[4/5] bg-white/5 rounded-[3rem] animate-pulse" />
+                    [1, 2, 3].map((n) => (
+                        <div key={n} className="min-w-[300px] md:min-w-[500px] aspect-[4/5] bg-zinc-50 rounded-[4rem] animate-pulse" />
                     ))
                 ) : (
                     listings.map((listing, i) => (
                         <motion.div
                             key={listing.id}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="min-w-[320px] md:min-w-[500px] group relative"
+                            className="min-w-[320px] md:min-w-[550px] group"
                         >
                             <Link to={`/property/${listing.id}`}>
-                                <div className="aspect-[4/5] rounded-[3.5rem] overflow-hidden border border-white/5 relative shadow-2xl">
-                                    <img
-                                        src={listing.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
-                                        alt={listing.title}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/20 to-transparent" />
-
-                                    <div className="absolute top-8 left-8">
-                                        <div className="px-4 py-2 bg-brand-600 backdrop-blur-md rounded-2xl text-[10px] font-bold text-white uppercase tracking-widest">
-                                            ₹{listing.price}/mo
+                                <div className="nama-card p-4 h-full flex flex-col gap-8 bg-[#fdfdfd]">
+                                    <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden relative">
+                                        <img
+                                            src={listing?.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"}
+                                            alt={listing?.title || "Property"}
+                                            className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000"
+                                        />
+                                        <div className="absolute top-6 right-6">
+                                            <div className="px-5 py-2.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black text-black uppercase tracking-widest border border-black/5">
+                                                ₹{listing?.price?.toLocaleString() || "N/A"}
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="absolute bottom-10 left-10 right-10">
-                                        <div className="flex items-center gap-2 text-brand-500 mb-2">
-                                            <MapPin size={14} />
-                                            <span className="text-[10px] font-bold uppercase tracking-widest">{listing.area}</span>
+                                    <div className="px-4 pb-4 flex justify-between items-end">
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2 text-zinc-400">
+                                                <MapPin size={12} />
+                                                <span className="text-[10px] font-black uppercase tracking-[0.2em]">{listing?.city || "Luxury Stay"}</span>
+                                            </div>
+                                            <h3 className="text-2xl font-display font-black uppercase tracking-tight line-clamp-1">{listing?.title || "Signature Estate"}</h3>
                                         </div>
-                                        <h3 className="text-3xl font-display font-bold text-white line-clamp-1 group-hover:text-brand-400 transition-colors uppercase tracking-tight">{listing.title}</h3>
+                                        <div className="text-zinc-300 group-hover:text-black transition-colors">
+                                            <ArrowRight size={20} />
+                                        </div>
                                     </div>
                                 </div>
                             </Link>
@@ -111,17 +116,18 @@ const FeaturedEstates = () => {
             </div>
 
             {/* Scroll Indicator */}
-            <div className="max-w-7xl mx-auto px-6 mt-12">
-                <div className="w-full h-px bg-white/5 relative">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="w-full h-[1px] bg-black/5 relative">
                     <motion.div
-                        className="absolute top-0 left-0 h-full bg-brand-600 shadow-[0_0_15px_rgba(37,99,235,0.5)]"
+                        className="absolute top-0 left-0 h-full bg-black"
                         style={{ scaleX, originX: 0, width: "100%" }}
                     />
                 </div>
+                <div className="flex justify-between mt-4">
+                    <span className="text-[8px] font-black uppercase tracking-[0.3em] text-black/20">Slide Discovery</span>
+                    <span className="text-[8px] font-black uppercase tracking-[0.3em] text-black/20">LinkHome Signature</span>
+                </div>
             </div>
-
-            {/* Ambient Background Glow */}
-            <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-brand-600/5 blur-[120px] -z-10 rounded-full" />
         </section>
     );
 };

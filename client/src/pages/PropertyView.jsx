@@ -57,58 +57,62 @@ const PropertyView = () => {
     ].filter(a => property[a.id]);
 
     return (
-        <div className="pt-32 pb-24 px-6 min-h-screen bg-dark-900">
-            <div className="max-w-6xl mx-auto">
+        <div className="pt-40 pb-32 px-6 min-h-screen bg-white">
+            <div className="max-w-7xl mx-auto">
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-2 text-white/40 hover:text-white transition-colors mb-12 group"
+                    className="flex items-center gap-3 text-black/20 hover:text-black transition-all mb-16 group"
                 >
-                    <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                    Back to Listings
+                    <div className="w-8 h-8 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+                        <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform" />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">Return to Collection</span>
                 </button>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="space-y-6"
+                        className="space-y-8"
                     >
-                        <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 aspect-[4/5] group shadow-2xl">
-                            <img
-                                src={allImages[activeImage]}
-                                alt={property.title}
-                                className="w-full h-full object-cover transition-all duration-700"
-                            />
-                            <div className="absolute top-6 right-6 flex flex-col gap-3">
-                                {property.isPureVeg && (
-                                    <div className="px-4 py-2 bg-green-500/20 backdrop-blur-md border border-green-500/30 rounded-full text-xs font-bold text-green-400 uppercase tracking-widest flex items-center gap-2">
-                                        <Beef size={14} />
-                                        Pure Veg
+                        <div className="nama-card p-4 bg-[#fdfdfd]">
+                            <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] group shadow-2xl shadow-black/5">
+                                <img
+                                    src={allImages[activeImage]}
+                                    alt={property.title}
+                                    className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000"
+                                />
+                                <div className="absolute top-8 right-8 flex flex-col gap-3">
+                                    {property.isPureVeg && (
+                                        <div className="px-5 py-2.5 bg-white/90 backdrop-blur-md border border-black/5 rounded-full text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-black/5">
+                                            <Beef size={14} strokeWidth={2.5} />
+                                            Pure Veg
+                                        </div>
+                                    )}
+                                    <div className="px-5 py-2.5 bg-white/90 backdrop-blur-md border border-black/5 rounded-full text-[10px] font-black text-black uppercase tracking-widest flex items-center gap-2 shadow-xl shadow-black/5">
+                                        <Users size={14} strokeWidth={2.5} />
+                                        {property.genderPref}
                                     </div>
-                                )}
-                                <div className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2">
-                                    <Users size={14} />
-                                    {property.genderPref}
                                 </div>
                                 <button
                                     onClick={() => setIsTourOpen(true)}
-                                    className="px-4 py-2 bg-brand-600/20 backdrop-blur-md border border-brand-500/30 rounded-full text-xs font-bold text-brand-400 uppercase tracking-widest flex items-center gap-2 hover:bg-brand-500/30 transition-colors"
+                                    className="absolute bottom-8 left-8 right-8 px-6 py-4 bg-black/90 backdrop-blur-md text-white rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-black transition-all shadow-xl shadow-black/20 group/tour overflow-hidden"
                                 >
-                                    <Sparkles size={14} />
-                                    Virtual Tour
+                                    <Sparkles size={16} strokeWidth={2} className="group-hover:scale-125 transition-transform" />
+                                    Launch Virtual Experience
                                 </button>
                             </div>
                         </div>
 
                         {allImages.length > 1 && (
-                            <div className="flex gap-4 overflow-x-auto pb-2 scroll-hide">
+                            <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
                                 {allImages.map((img, idx) => (
                                     <button
                                         key={idx}
                                         onClick={() => setActiveImage(idx)}
-                                        className={`relative w-24 h-24 rounded-2xl overflow-hidden border-2 transition-all flex-shrink-0 ${activeImage === idx ? 'border-brand-500 scale-95' : 'border-white/10 hover:border-white/30'}`}
+                                        className={`relative w-24 h-24 rounded-[1.5rem] overflow-hidden border-2 transition-all flex-shrink-0 ${activeImage === idx ? 'border-black scale-95' : 'border-transparent hover:border-black/10'}`}
                                     >
-                                        <img src={img} className="w-full h-full object-cover" alt="" />
+                                        <img src={img} className={`w-full h-full object-cover transition-all duration-500 ${activeImage === idx ? 'grayscale-0' : 'grayscale'}`} alt="" />
                                     </button>
                                 ))}
                             </div>
@@ -120,22 +124,24 @@ const PropertyView = () => {
                         animate={{ opacity: 1, x: 0 }}
                         className="flex flex-col"
                     >
-                        <div className="flex items-center gap-2 text-brand-500 mb-4">
-                            <MapPin size={18} />
-                            <span className="text-sm font-bold uppercase tracking-widest">{property.area}, {property.city}</span>
+                        <div className="flex items-center gap-3 text-zinc-400 mb-6">
+                            <MapPin size={16} />
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em]">{property.area}, {property.city}</span>
                         </div>
 
-                        <h1 className="text-5xl font-display font-bold mb-6 leading-tight">{property.title}</h1>
+                        <h1 className="text-5xl md:text-7xl font-display font-black mb-10 leading-[1] uppercase tracking-tighter text-black">
+                            {property.title}
+                        </h1>
 
-                        <p className="text-white/40 leading-relaxed mb-8 text-lg">
+                        <p className="text-zinc-500 leading-relaxed mb-12 text-sm font-medium border-l border-black/5 pl-8 font-serif italic">
                             {property.description || `Experience the pinnacle of urban living in this carefully curated space at ${property.area}. Designed for luxury and convenience, this property offers everything you need for a premium lifestyle.`}
                         </p>
 
                         {/* Amenities Badge List */}
                         {amenitiesList.length > 0 && (
-                            <div className="flex flex-wrap gap-3 mb-10">
+                            <div className="flex flex-wrap gap-3 mb-12">
                                 {amenitiesList.map(a => (
-                                    <div key={a.id} className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/60 flex items-center gap-2">
+                                    <div key={a.id} className="px-5 py-2.5 bg-[#fbfbf9] border border-black/5 rounded-full text-[9px] font-black text-black/60 uppercase tracking-widest flex items-center gap-2">
                                         <span>{a.icon}</span>
                                         {a.label}
                                     </div>
@@ -143,53 +149,53 @@ const PropertyView = () => {
                             </div>
                         )}
 
-                        <div className="grid grid-cols-2 gap-8 mb-10">
-                            <div className="glass-card p-6 rounded-3xl border border-white/5">
-                                <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2 block">Monthly Rent</span>
-                                <div className="flex items-center gap-3">
-                                    <Wallet className="text-brand-500" size={24} />
-                                    <span className="text-3xl font-display font-bold">₹{property.price}</span>
+                        <div className="grid grid-cols-2 gap-8 mb-12">
+                            <div className="bg-[#fbfbf9] p-8 rounded-[2rem] border border-black/5">
+                                <span className="text-[9px] uppercase font-black tracking-[0.2em] text-black/30 mb-4 block">Monthly Investment</span>
+                                <div className="flex items-end gap-2">
+                                    <span className="text-3xl font-display font-black text-black">₹{property.price.toLocaleString()}</span>
+                                    <span className="text-[10px] text-zinc-300 font-black uppercase tracking-widest mb-1">/mo</span>
                                 </div>
                             </div>
-                            <div className="glass-card p-6 rounded-3xl border border-white/5">
-                                <span className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-2 block">Availability</span>
+                            <div className="bg-[#fbfbf9] p-8 rounded-[2rem] border border-black/5">
+                                <span className="text-[9px] uppercase font-black tracking-[0.2em] text-black/30 mb-4 block">Availability</span>
                                 <div className="flex items-center gap-3">
-                                    <Calendar className="text-brand-500" size={24} />
-                                    <span className="text-xl font-bold">{property.availableFrom || "Immediately"}</span>
+                                    <Calendar className="text-black/20" size={20} />
+                                    <span className="text-xs font-black uppercase tracking-widest text-black">{property.availableFrom || "Immediate"}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="glass-card p-8 rounded-[2rem] border border-brand-500/20 bg-brand-600/5 mb-10">
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-12 h-12 bg-brand-600 rounded-2xl flex items-center justify-center">
-                                    <ShieldCheck className="text-white" size={24} />
+                        <div className="bg-white p-10 rounded-[2.5rem] border border-black/5 shadow-2xl shadow-black/5 mb-12">
+                            <div className="flex items-center gap-5 mb-8">
+                                <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center shadow-xl shadow-black/10">
+                                    <ShieldCheck className="text-white" size={24} strokeWidth={1.5} />
                                 </div>
-                                <div>
-                                    <h4 className="font-bold">Verified Listing</h4>
-                                    <p className="text-white/40 text-xs">Protected by HomeLink Guarantee</p>
+                                <div className="space-y-1">
+                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-black">Verified Signature Listing</h4>
+                                    <p className="text-zinc-400 text-[9px] font-black uppercase tracking-widest">Protected by HomeLink Ethics</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setIsInquiryOpen(true)}
-                                className="flex items-center justify-center gap-3 w-full py-5 bg-brand-600 hover:bg-brand-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-brand-600/20 active:scale-[0.98]"
+                                className="pill-button w-full justify-center bg-black text-white hover:bg-zinc-800 shadow-xl shadow-black/10"
                             >
-                                <MessageSquare size={20} />
-                                Connect with Owner
+                                <MessageSquare size={16} strokeWidth={2.5} />
+                                Secure Inquiry
                             </button>
                         </div>
 
-                        <div className="mt-auto pt-8 border-t border-white/5 flex items-center justify-between">
-                            <div className="flex gap-4">
-                                {['Zero Deposit', 'Elite Community'].map((benefit, i) => (
-                                    <span key={i} className="text-[10px] font-bold text-white/30 uppercase tracking-widest flex items-center gap-2">
-                                        <ShieldCheck size={12} className="text-brand-500/50" />
+                        <div className="mt-auto pt-8 border-t border-black/5 flex items-center justify-between">
+                            <div className="flex gap-8">
+                                {['Equity Trust', 'Boutique Service'].map((benefit, i) => (
+                                    <span key={i} className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.2em] flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 bg-black/10 rounded-full" />
                                         {benefit}
                                     </span>
                                 ))}
                             </div>
                             {property.phoneNumber && (
-                                <span className="text-xs font-bold text-brand-500">
+                                <span className="text-[10px] font-black text-black uppercase tracking-widest opacity-20">
                                     {property.phoneNumber}
                                 </span>
                             )}

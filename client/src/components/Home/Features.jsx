@@ -13,23 +13,26 @@ const featureList = [
 
 const Features = () => {
     return (
-        <section className="py-24 px-6 relative">
+        <section className="section-spacing px-6 bg-white relative">
             <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-16">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-display font-bold mb-4"
-                    >
-                        Exclusive <span className="text-gradient">Core Features</span>
-                    </motion.h2>
-                    <p className="text-white/40 max-w-2xl mx-auto">
-                        Everything you need to find, book, and enjoy your next luxury living experience without any compromise.
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-24">
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <div className="h-[1px] w-12 bg-black/10" />
+                            <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Excellence</span>
+                        </div>
+                        <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter">
+                            Core <span className="font-serif-accent italic font-light text-zinc-400 normal-case tracking-normal">Signature</span> <br />
+                            Features.
+                        </h2>
+                    </div>
+                    <p className="text-zinc-500 max-w-sm font-medium leading-relaxed">
+                        Every aspect of HomeLink is engineered for perfection, ensuring your search for
+                        the ideal living space is as premium as the properties themselves.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
                     {featureList.map((feature, i) => (
                         <motion.div
                             key={i}
@@ -37,14 +40,13 @@ const Features = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            whileHover={{ y: -10 }}
-                            className="glass-card p-8 rounded-3xl group border border-white/5 hover:border-brand-500/30 transition-all duration-500"
+                            className="nama-card p-12 group"
                         >
-                            <div className="w-14 h-14 bg-brand-600/10 rounded-2xl flex items-center justify-center mb-6 border border-brand-500/20 group-hover:bg-brand-600 group-hover:text-white transition-colors duration-500 text-brand-500">
-                                {React.cloneElement(feature.icon, { size: 28 })}
+                            <div className="w-16 h-16 bg-zinc-50 rounded-full flex items-center justify-center mb-10 border border-black/5 group-hover:bg-black group-hover:text-white transition-all duration-500 text-black">
+                                {React.cloneElement(feature.icon, { size: 24, strokeWidth: 1.5 })}
                             </div>
-                            <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                            <p className="text-white/40 leading-relaxed text-sm">
+                            <h3 className="text-[11px] font-black uppercase tracking-[0.2em] mb-4 text-black underline decoration-black/10 underline-offset-4">{feature.title}</h3>
+                            <p className="text-zinc-500 leading-relaxed text-sm font-medium">
                                 {feature.desc}
                             </p>
                         </motion.div>

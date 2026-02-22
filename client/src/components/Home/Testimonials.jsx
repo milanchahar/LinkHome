@@ -25,46 +25,41 @@ const reviews = [
 
 const Testimonials = () => {
     return (
-        <section className="py-24 px-6 bg-dark-900/50">
+        <section className="section-spacing px-6 bg-[#fbfbf9]">
             <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 text-left">
-                    <div className="max-w-2xl">
-                        <motion.h2
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="text-4xl md:text-5xl font-display font-bold mb-4"
-                        >
-                            What Our <span className="text-gradient">Elite Members</span> Say
-                        </motion.h2>
-                        <p className="text-white/40">Real stories from our community of design-conscious travelers.</p>
+                <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <div className="h-[1px] w-12 bg-black/10" />
+                            <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Voices</span>
+                        </div>
+                        <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter">
+                            Guest <span className="font-serif-accent italic font-light text-zinc-400 normal-case tracking-normal">Experiences.</span>
+                        </h2>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                     {reviews.map((review, i) => (
                         <motion.div
                             key={i}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.2 }}
-                            className="glass-card p-10 rounded-3xl relative"
+                            className="bg-white p-12 rounded-[3.5rem] border border-black/5 shadow-2xl shadow-black/5 flex flex-col justify-between"
                         >
-                            <Quote className="absolute top-8 right-8 text-brand-500/20" size={40} />
-                            <div className="flex gap-1 mb-6">
-                                {[...Array(5)].map((_, j) => (
-                                    <Star key={j} size={16} className="fill-brand-500 text-brand-500" />
-                                ))}
-                            </div>
-                            <p className="text-white/60 mb-8 italic leading-relaxed">
+                            <Quote size={32} className="text-zinc-100 mb-8" />
+
+                            <p className="text-black/70 mb-10 font-serif italic text-lg leading-relaxed">
                                 "{review.text}"
                             </p>
-                            <div className="flex items-center gap-4">
-                                <img src={review.avatar} alt={review.name} className="w-12 h-12 rounded-full border border-white/10" />
+
+                            <div className="pt-8 border-t border-black/5 flex items-center gap-4">
+                                <img src={review.avatar} alt={review.name} className="w-10 h-10 rounded-full grayscale" />
                                 <div>
-                                    <h4 className="font-bold text-white text-sm">{review.name}</h4>
-                                    <p className="text-brand-500 text-xs font-medium">{review.role}</p>
+                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-black">{review.name}</h4>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-300">{review.role}</p>
                                 </div>
                             </div>
                         </motion.div>

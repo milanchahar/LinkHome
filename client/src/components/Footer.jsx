@@ -12,43 +12,38 @@ const Footer = () => {
             links: [
                 { name: "Home", path: "/" },
                 { name: "Browse", path: "/browse" },
-                { name: "List Room", path: "/list-room" },
-                { name: "My Postings", path: "/my-listings" },
+                { name: "Experience", path: "/experience" },
+                { name: "Messages", path: "/messages" },
             ],
         },
         {
-            title: "Company",
+            title: "Collection",
             links: [
-                { name: "About Us", path: "#" },
-                { name: "Careers", path: "#" },
-                { name: "Support", path: "#" },
-                { name: "Privacy Policy", path: "#" },
+                { name: "Posh Estates", path: "/browse" },
+                { name: "Modern Villas", path: "/browse" },
+                { name: "Studio Lofts", path: "/browse" },
+                { name: "Penthouses", path: "/browse" },
             ],
         },
     ];
 
     return (
-        <footer className="pt-24 pb-12 px-6 bg-dark-900 border-t border-white/5 relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-500/50 to-transparent" />
-
+        <footer className="pt-32 pb-16 px-6 bg-white border-t border-black/5 relative overflow-hidden">
             <div className="max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                    <div className="col-span-1 lg:col-span-1">
-                        <Link to="/" className="flex items-center gap-2 mb-6 group">
-                            <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
-                                <HomeIcon className="text-white" size={24} />
-                            </div>
-                            <span className="text-2xl font-display font-bold tracking-tight">
-                                Home<span className="text-brand-500">Link</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 mb-24">
+                    <div className="col-span-1 lg:col-span-1 space-y-8">
+                        <Link to="/" className="flex items-center gap-3 group">
+                            <span className="text-xl font-display font-black tracking-[0.2em] uppercase">
+                                Link<span className="text-zinc-400 font-light">Home</span>
                             </span>
                         </Link>
-                        <p className="text-white/40 text-sm leading-relaxed mb-6">
-                            Redefining the standard of modern living by bridging the gap between premium properties and design-conscious people.
+                        <p className="text-zinc-500 text-[11px] font-medium leading-relaxed uppercase tracking-widest">
+                            A boutique collection of premium <br /> living spaces for the <br /> discerning individual.
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex gap-6">
                             {[Instagram, Twitter, Linkedin].map((Icon, i) => (
-                                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-brand-500 hover:bg-brand-600/10 transition-all border border-white/5">
-                                    <Icon size={18} />
+                                <a key={i} href="#" className="text-black/20 hover:text-black transition-all">
+                                    <Icon size={16} strokeWidth={1.5} />
                                 </a>
                             ))}
                         </div>
@@ -56,11 +51,11 @@ const Footer = () => {
 
                     {footerLinks.map((section, i) => (
                         <div key={i}>
-                            <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">{section.title}</h4>
-                            <ul className="space-y-4">
+                            <h4 className="text-[10px] font-black mb-10 uppercase tracking-[0.3em] text-black underline decoration-black/10 underline-offset-8">{section.title}</h4>
+                            <ul className="space-y-6">
                                 {section.links.map((link, j) => (
                                     <li key={j}>
-                                        <Link to={link.path} className="text-white/40 hover:text-brand-500 transition-colors text-sm">
+                                        <Link to={link.path} className="text-zinc-400 hover:text-black transition-colors text-[10px] uppercase font-black tracking-[0.2em]">
                                             {link.name}
                                         </Link>
                                     </li>
@@ -70,31 +65,34 @@ const Footer = () => {
                     ))}
 
                     <div>
-                        <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-widest">Connect</h4>
-                        <ul className="space-y-4">
-                            <li className="flex items-center gap-3 text-white/40 text-sm">
-                                <Mail size={16} className="text-brand-500" />
-                                hello@homelink.premium
+                        <h4 className="text-[10px] font-black mb-10 uppercase tracking-[0.3em] text-black underline decoration-black/10 underline-offset-8">Information</h4>
+                        <ul className="space-y-6">
+                            <li className="flex items-center gap-4 text-zinc-400 text-[10px] uppercase font-black tracking-widest">
+                                <Mail size={12} strokeWidth={2} />
+                                concierge@linkhome.in
                             </li>
-                            <li className="flex items-center gap-3 text-white/40 text-sm">
-                                <Phone size={16} className="text-brand-500" />
-                                +1 (555) 000-LINK
+                            <li className="flex items-center gap-4 text-zinc-400 text-[10px] uppercase font-black tracking-widest">
+                                <Phone size={12} strokeWidth={2} />
+                                +91 800 000 0000
                             </li>
-                            <li className="flex items-center gap-3 text-white/40 text-sm">
-                                <MapPin size={16} className="text-brand-500" />
-                                Design District, Metropolis
+                            <li className="flex items-center gap-4 text-zinc-400 text-[10px] uppercase font-black tracking-widest">
+                                <MapPin size={12} strokeWidth={2} />
+                                Indiranagar, BLR
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-white/20 text-xs">
-                        © {currentYear} HomeLink Premium. All rights reserved.
+                <div className="pt-12 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-8">
+                    <p className="text-zinc-300 text-[9px] font-black uppercase tracking-[0.3em]">
+                        © {currentYear} LinkHome Collection. Crafted for Excellence.
                     </p>
-                    <div className="flex gap-8">
-                        <a href="#" className="text-white/20 hover:text-white/40 transition-colors text-xs uppercase tracking-widest">Terms</a>
-                        <a href="#" className="text-white/20 hover:text-white/40 transition-colors text-xs uppercase tracking-widest">Privacy</a>
+                    <div className="flex gap-12">
+                        <div className="flex gap-12 text-[9px] font-black uppercase tracking-[0.3em] text-zinc-300">
+                            <a href="#" className="hover:text-black transition-colors">Terms</a>
+                            <a href="#" className="hover:text-black transition-colors">Privacy</a>
+                            <a href="#" className="hover:text-black transition-colors">Cookies</a>
+                        </div>
                     </div>
                 </div>
             </div>

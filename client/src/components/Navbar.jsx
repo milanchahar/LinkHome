@@ -24,55 +24,51 @@ const Navbar = () => {
     };
 
     const navLinks = [
-        { name: "Home", path: "/", icon: <HomeIcon size={18} /> },
-        { name: "Browse", path: "/browse", icon: <Compass size={18} /> },
-        { name: "Experience", path: "/experience", icon: <Sparkles size={18} /> },
-        { name: "Messages", path: "/messages", icon: <MessageSquare size={18} /> },
-        { name: "List Room", path: "/list-room", icon: <PlusCircle size={18} /> },
+        { name: "Home", path: "/" },
+        { name: "Browse", path: "/browse" },
+        { name: "Experience", path: "/experience" },
+        { name: "Messages", path: "/messages" },
+        { name: "List Room", path: "/list-room" },
     ];
 
-
-
     if (user) {
-        navLinks.push({ name: "My Postings", path: "/my-listings", icon: <User size={18} /> });
+        navLinks.push({ name: "My Postings", path: "/my-listings" });
     }
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-4 bg-dark-900/80 backdrop-blur-xl border-b border-white/10" : "py-6 bg-transparent"
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "py-4 bg-white/90 backdrop-blur-md border-b border-black/5 shadow-sm" : "py-8 bg-transparent"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                <Link to="/" className="flex items-center gap-2 group">
-                    <div className="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
-                        <HomeIcon className="text-white" size={24} />
-                    </div>
-                    <span className="text-2xl font-display font-bold tracking-tight">
-                        Home<span className="text-brand-500">Link</span>
+                <Link to="/" className="flex items-center gap-3 group">
+                    <span className="text-xl font-display font-black tracking-[0.2em] uppercase">
+                        Link<span className="text-zinc-400 font-light">Home</span>
                     </span>
                 </Link>
 
-                <div className="hidden md:flex items-center gap-8">
+                <div className="hidden md:flex items-center gap-10">
                     {navLinks.map((link) => (
                         <Link
                             key={link.path}
                             to={link.path}
-                            className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-brand-500 ${location.pathname === link.path ? "text-brand-500" : "text-white/70"
+                            className={`text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:text-black ${location.pathname === link.path ? "text-black" : "text-black/40"
                                 }`}
                         >
-                            {link.icon}
                             {link.name}
                         </Link>
                     ))}
 
+                    <div className="h-4 w-px bg-black/10 mx-2" />
+
                     {!user ? (
-                        <div className="flex items-center gap-4">
-                            <Link to="/login" className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+                        <div className="flex items-center gap-8">
+                            <Link to="/login" className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/40 hover:text-black transition-colors">
                                 Login
                             </Link>
                             <Link
                                 to="/signup"
-                                className="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white rounded-full text-sm font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-brand-600/20"
+                                className="pill-button"
                             >
                                 Join Now
                             </Link>
@@ -80,48 +76,47 @@ const Navbar = () => {
                     ) : (
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-2 text-sm font-medium text-red-400 hover:text-red-300 transition-colors"
+                            className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-500 hover:text-red-600 transition-colors flex items-center gap-2"
                         >
-                            <LogOut size={18} />
+                            <LogOut size={14} />
                             Logout
                         </button>
                     )}
                 </div>
 
-                <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
-                    {isOpen ? <X size={28} /> : <Menu size={28} />}
+                <button className="md:hidden text-black" onClick={() => setIsOpen(!isOpen)}>
+                    {isOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
             </div>
 
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="absolute top-full left-0 right-0 bg-dark-800 border-b border-white/10 p-6 md:hidden flex flex-col gap-4"
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute top-full left-0 right-0 bg-white border-b border-black/5 p-8 md:hidden flex flex-col gap-6 shadow-2xl"
                     >
                         {navLinks.map((link) => (
                             <Link
                                 key={link.path}
                                 to={link.path}
                                 onClick={() => setIsOpen(false)}
-                                className={`flex items-center gap-3 text-lg font-medium ${location.pathname === link.path ? "text-brand-500" : "text-white/70"
+                                className={`text-sm font-bold uppercase tracking-[0.2em] ${location.pathname === link.path ? "text-black" : "text-black/40"
                                     }`}
                             >
-                                {link.icon}
                                 {link.name}
                             </Link>
                         ))}
                         {!user ? (
-                            <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
-                                <Link to="/login" onClick={() => setIsOpen(false)} className="text-white/70 text-center py-2">
+                            <div className="flex flex-col gap-4 pt-6 border-t border-black/5">
+                                <Link to="/login" onClick={() => setIsOpen(false)} className="text-black/40 text-center py-2 text-xs font-bold uppercase tracking-widest">
                                     Login
                                 </Link>
                                 <Link
                                     to="/signup"
                                     onClick={() => setIsOpen(false)}
-                                    className="bg-brand-600 text-white text-center py-3 rounded-xl font-bold"
+                                    className="pill-button justify-center"
                                 >
                                     Join Now
                                 </Link>
@@ -129,9 +124,9 @@ const Navbar = () => {
                         ) : (
                             <button
                                 onClick={handleLogout}
-                                className="flex items-center gap-3 text-red-400 font-medium py-2 pt-4 border-t border-white/10"
+                                className="text-red-500 font-bold uppercase tracking-[0.2em] text-xs py-4 pt-6 border-t border-black/5 flex items-center gap-2"
                             >
-                                <LogOut size={18} />
+                                <LogOut size={16} />
                                 Logout
                             </button>
                         )}
