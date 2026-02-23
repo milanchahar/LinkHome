@@ -28,7 +28,7 @@ const Login = () => {
   };
 
   return (
-    <div className="pt-32 pb-24 px-6 min-h-screen bg-dark-900 flex justify-center items-center">
+    <div className="pt-32 pb-24 px-6 min-h-screen bg-[#fbfbf9] flex justify-center items-center">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -36,36 +36,36 @@ const Login = () => {
       >
         <div className="text-center mb-10">
           <div className="w-16 h-16 bg-brand-600/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-brand-500/20">
-            <LogIn className="text-brand-500" size={32} />
+            <LogIn className="text-brand-600" size={32} />
           </div>
           <h2 className="text-3xl font-display font-bold mb-2">Welcome Back</h2>
-          <p className="text-white/40 text-sm">Enter your credentials to access HomeLink.</p>
+          <p className="text-black/60 text-sm">Enter your credentials to access HomeLink.</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-brand-500 ml-1">Email Address</label>
+            <label className="text-xs font-bold uppercase tracking-widest text-black/40 ml-1">Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={18} />
               <input
                 type="email"
                 placeholder="name@example.com"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-brand-500 transition-all text-white"
+                className="w-full bg-white border border-black/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black placeholder:text-black/20"
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-brand-500 ml-1">Password</label>
+            <label className="text-xs font-bold uppercase tracking-widest text-black/40 ml-1">Password</label>
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={18} />
               <input
                 type="password"
                 placeholder="••••••••"
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-brand-500 transition-all text-white"
+                className="w-full bg-white border border-black/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black placeholder:text-black/20"
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
             </div>
@@ -82,9 +82,9 @@ const Login = () => {
         </form>
 
         <div className="mt-10 text-center">
-          <p className="text-white/40 text-sm">
+          <p className="text-black/60 text-sm">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-brand-500 font-bold hover:underline underline-offset-4">
+            <Link to="/signup" className="text-black font-bold hover:underline underline-offset-4">
               Join HomeLink
             </Link>
           </p>

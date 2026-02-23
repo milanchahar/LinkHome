@@ -91,7 +91,7 @@ const BrowseRooms = () => {
             <input
               type="text"
               placeholder="Search by city or neighborhood..."
-              className="w-full bg-[#fbfbf9] border border-black/5 rounded-full py-4 pl-16 pr-6 outline-none focus:border-black/20 focus:bg-white transition-all text-black text-xs font-black uppercase tracking-widest placeholder:text-black/20"
+              className="w-full bg-[#fbfbf9] border border-black/5 rounded-full py-4 pl-16 pr-6 outline-none focus:border-black/20 focus:bg-white transition-all text-black text-xs font-black uppercase tracking-widest placeholder:text-black/40"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -112,7 +112,7 @@ const BrowseRooms = () => {
             </div>
 
             <div className="flex flex-1 flex-col gap-3 min-w-[200px] bg-[#fbfbf9] border border-black/5 rounded-full px-8 py-3.5">
-              <div className="flex justify-between text-[9px] font-black uppercase tracking-[0.2em] text-black/40">
+              <div className="flex justify-between text-[9px] font-black uppercase tracking-[0.2em] text-black/60">
                 <span>Budget</span>
                 <span className="text-black font-black">₹{maxPrice.toLocaleString()}</span>
               </div>
@@ -138,7 +138,7 @@ const BrowseRooms = () => {
                 <div className="w-10 h-5 bg-black/10 rounded-full border border-black/5 peer-checked:bg-white/20 transition-all peer-hover:bg-black/20" />
                 <div className="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all peer-checked:translate-x-5" />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-black/40 group-hover:text-white transition-colors">Pure Veg</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-black/60 group-hover:text-white transition-colors">Pure Veg</span>
             </label>
           </div>
         </motion.div>
@@ -178,9 +178,9 @@ const BrowseRooms = () => {
                                 )}
                               </div>
                               <img
-                                src={room.imageUrl || (room.images && room.images[0]) || getPlaceholderImage(room.id)}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-all duration-1000 ease-out"
-                                alt={room.title}
+                                src={room?.imageUrl || (room?.images && room?.images[0]) || getPlaceholderImage(room?.id)}
+                                alt={room?.title || "Signature Property"}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
                               />
                             </div>
 
@@ -234,7 +234,7 @@ const BrowseRooms = () => {
               <Search size={32} className="text-black/10" />
             </div>
             <h3 className="text-3xl font-display font-black mb-4 uppercase tracking-tighter">No results found</h3>
-            <p className="text-zinc-600 max-w-sm mx-auto text-[11px] font-black uppercase tracking-widest leading-relaxed">
+            <p className="text-zinc-600 max-w-sm mx-auto text-[11px] font-black uppercase tracking-widest leading-relaxed opacity-80">
               We couldn't find any properties matching your quest. Try adjusting your preferences.
             </p>
             <button

@@ -45,22 +45,25 @@ const ListRoom = () => {
       for (const file of files) {
         const data = new FormData();
         data.append("file", file);
-        data.append("upload_preset", "ml_default"); // User might need to change this
+        data.append("upload_preset", "ml_default");
         data.append("cloud_name", "dqs5rvi8b");
 
+        console.log("Uploading file:", file.name);
         const res = await axios.post(
           "https://api.cloudinary.com/v1_1/dqs5rvi8b/image/upload",
           data
         );
+        console.log("Upload success:", res.data.secure_url);
         uploadedImages.push(res.data.secure_url);
       }
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         images: uploadedImages,
-        imageUrl: uploadedImages[0] || "" // Set first image as primary
-      });
+        imageUrl: uploadedImages[0] || ""
+      }));
       toast.success("Images uploaded! 📸");
     } catch (err) {
+      console.error("Upload error:", err.response?.data || err.message);
       toast.error("Upload failed. Please try again.");
     } finally {
       setUploading(false);
@@ -86,10 +89,19 @@ const ListRoom = () => {
     setLoading(true);
     const token = localStorage.getItem("token");
 
+    // Ensure imageUrl is explicitly set if images exist but imageUrl is empty for some reason
+    const finalFormData = {
+      ...formData,
+      imageUrl: formData.imageUrl || (formData.images && formData.images[0]) || null
+    };
+
+    console.log("Submitting listing payload:", JSON.stringify(finalFormData, null, 2));
+
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/listings`, formData, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/listings`, finalFormData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log("Submit result:", res.data);
       toast.success("Property listed successfully! 🏠");
       navigate("/browse");
     } catch (err) {

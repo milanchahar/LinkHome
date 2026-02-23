@@ -14,16 +14,16 @@ const About = () => {
                 >
                     <div className="flex items-center gap-3 mb-10">
                         <div className="h-[1px] w-12 bg-black/10" />
-                        <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/60">Our Philosophy</span>
+                        <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/80">Our Philosophy</span>
                     </div>
 
                     <h2 className="text-4xl md:text-6xl font-display font-black mb-10 uppercase tracking-tighter leading-tight">
                         Redefining the <br />
-                        <span className="font-serif-accent italic font-light text-zinc-600 normal-case tracking-normal">Standard</span> <br />
+                        <span className="font-serif-accent italic font-light text-zinc-800 normal-case tracking-normal">Standard</span> <br />
                         of Living.
                     </h2>
 
-                    <p className="text-zinc-700 text-lg mb-12 leading-relaxed font-medium">
+                    <p className="text-zinc-900 text-lg mb-12 leading-relaxed font-medium">
                         HomeLink is a curated ecosystem for those who value aesthetics and artisanal quality.
                         We don't just list properties; we curate experiences that blend modern functionality
                         with timeless elegance.
@@ -42,8 +42,8 @@ const About = () => {
                                 transition={{ delay: 0.2 * i }}
                                 className="space-y-3"
                             >
-                                <h4 className="text-[11px] font-black uppercase tracking-widest text-black underline decoration-black/10 underline-offset-4">{item.title}</h4>
-                                <p className="text-zinc-600 text-xs leading-relaxed font-medium">{item.desc}</p>
+                                <h4 className="text-[11px] font-black uppercase tracking-widest text-black underline decoration-black/20 underline-offset-4">{item.title}</h4>
+                                <p className="text-zinc-800 text-xs leading-relaxed font-medium">{item.desc}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -73,7 +73,7 @@ const About = () => {
 
                     {/* Floating detail */}
                     <div className="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full border border-black/5 shadow-2xl flex items-center justify-center p-8 text-center hidden xl:flex">
-                        <p className="text-[9px] font-black uppercase tracking-widest leading-tight">Hand-picked <br /> <span className="text-zinc-600">Curations</span></p>
+                        <p className="text-[9px] font-black uppercase tracking-widest leading-tight">Hand-picked <br /> <span className="text-zinc-800">Curations</span></p>
                     </div>
                 </motion.div>
             </div>

@@ -32,7 +32,9 @@ app.post("/api/auth/signup", async (req, res) => {
     });
     res.json({ message: "User created!", userId: user.id });
   } catch (error) {
-    res.status(400).json({ error: "Email already exists", message: "Email already exists" });
+    res
+      .status(400)
+      .json({ error: "Email already exists", message: "Email already exists" });
   }
 });
 
@@ -46,7 +48,10 @@ app.post("/api/auth/login", async (req, res) => {
     });
     res.json({ token, user: { id: user.id, name: user.name } });
   } else {
-    res.status(401).json({ error: "Invalid email or password", message: "Invalid email or password" });
+    res.status(401).json({
+      error: "Invalid email or password",
+      message: "Invalid email or password",
+    });
   }
 });
 
@@ -94,7 +99,7 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
       data: {
         ownerId: req.user.userId,
         title,
-        description: description || "",
+        description: req.body.description || "test listing",
         price: Number(price),
         city,
         area,
@@ -119,7 +124,9 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
     res.status(201).json(newListing);
   } catch (error) {
     console.error("Error creating listing:", error);
-    res.status(500).json({ error: "Failed to create listing", detail: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to create listing", detail: error.message });
   }
 });
 
@@ -188,14 +195,13 @@ app.put("/api/listings/:id", authenticateToken, async (req, res) => {
     });
     res.json(updated);
   } catch (error) {
-    res.status(500).json({ error: "Failed to update listing", detail: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to update listing", detail: error.message });
   }
 });
 
-
-const PORT = process.env.PORT || 5001;
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));
-}
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = app;

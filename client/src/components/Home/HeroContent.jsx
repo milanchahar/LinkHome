@@ -31,8 +31,8 @@ export default function HeroContent() {
             className="flex items-center gap-3"
           >
             <div className="h-[1px] w-12 bg-black/20" />
-            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/60">
-              Luxury Living <span className="font-serif-accent lowercase italic text-black/60 tracking-normal">reimagined</span>
+            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/80">
+              Luxury Living <span className="font-serif-accent lowercase italic text-black/80 tracking-normal">reimagined</span>
             </span>
           </motion.div>
 
@@ -43,7 +43,7 @@ export default function HeroContent() {
             className="text-6xl md:text-8xl font-display font-black leading-[1.1] tracking-tighter uppercase"
           >
             Elevated <br />
-            <span className="font-serif-accent normal-case italic font-light text-zinc-600">Essential</span> <br />
+            <span className="font-serif-accent normal-case italic font-light text-zinc-800">Essential</span> <br />
             Spaces.
           </motion.h1>
 
@@ -51,7 +51,7 @@ export default function HeroContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-lg text-black/60 max-w-md font-medium leading-relaxed"
+            className="text-lg text-black/80 max-w-md font-medium leading-relaxed"
           >
             A curated collection of premium properties designed for those who appreciate the finer details of modern living.
           </motion.p>
@@ -79,15 +79,15 @@ export default function HeroContent() {
           >
             <div>
               <p className="text-2xl font-display font-black">500+</p>
-              <p className="text-[10px] font-black uppercase tracking-widest text-black/50">Curated Stays</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-black/70">Curated Stays</p>
             </div>
             <div>
               <p className="text-2xl font-display font-black">20+</p>
-              <p className="text-[10px] font-black uppercase tracking-widest text-black/50">Posh Localities</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-black/70">Posh Localities</p>
             </div>
             <div>
               <p className="text-2xl font-display font-black">4.9/5</p>
-              <p className="text-[10px] font-black uppercase tracking-widest text-black/50">Guest Rating</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-black/70">Guest Rating</p>
             </div>
           </motion.div>
         </div>
@@ -125,10 +125,10 @@ export default function HeroContent() {
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-widest">Featured Area</p>
-                <p className="font-serif-accent italic text-zinc-600">Indiranagar, BLR</p>
+                <p className="font-serif-accent italic text-zinc-800">Indiranagar, BLR</p>
               </div>
             </div>
-            <p className="text-[10px] text-black/60 uppercase font-bold tracking-widest">Trending high-end stays this month</p>
+            <p className="text-[10px] text-black/80 uppercase font-bold tracking-widest">Trending high-end stays this month</p>
           </motion.div>
         </div>
       </div>
