@@ -130,6 +130,10 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("LINKHOME BACKEND LIVE");
+});
+
 app.delete("/api/listings/:id", authenticateToken, async (req, res) => {
   try {
     const listingId = parseInt(req.params.id);
