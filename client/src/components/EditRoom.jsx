@@ -159,22 +159,22 @@ const EditRoom = () => {
             <div className="max-w-4xl w-full mb-20 text-center space-y-6 relative">
                 <button
                     onClick={() => navigate(-1)}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-3 text-black/40 hover:text-black transition-all group"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:flex items-center gap-3 text-black/60 hover:text-black transition-all group"
                 >
-                    <div className="w-10 h-10 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+                    <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
                         <ArrowLeft size={16} />
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-widest">Back</span>
                 </button>
 
                 <div className="flex items-center justify-center gap-3">
-                    <div className="h-[1px] w-12 bg-black/20" />
-                    <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/60">The Update</span>
-                    <div className="h-[1px] w-12 bg-black/20" />
+                    <div className="h-[1px] w-12 bg-black/40" />
+                    <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/80">The Update</span>
+                    <div className="h-[1px] w-12 bg-black/40" />
                 </div>
                 <h1 className="text-5xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter uppercase text-black">
                     Refine Your <br />
-                    <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Signature</span>
+                    <span className="font-serif-accent italic font-light text-zinc-800 normal-case tracking-normal">Signature</span>
                 </h1>
             </div>
 
@@ -188,7 +188,7 @@ const EditRoom = () => {
                     <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Property Imagery</label>
-                            <span className="text-[9px] font-black uppercase tracking-widest text-black/20">{formData.images.length}/5 Uploaded</span>
+                            <span className="text-[9px] font-black uppercase tracking-widest text-black/40">{formData.images.length}/5 Uploaded</span>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
                             {formData.images.map((img, index) => (
@@ -204,33 +204,33 @@ const EditRoom = () => {
                                 </div>
                             ))}
                             {formData.images.length < 5 && (
-                                <label className="aspect-square rounded-[1.5rem] border-2 border-dashed border-black/10 hover:border-black/30 hover:bg-zinc-50 flex flex-col items-center justify-center cursor-pointer transition-all">
-                                    <Upload className="text-black/20 mb-3" size={24} />
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-black/40">Add Photo</span>
+                                <label className="aspect-square rounded-[1.5rem] border-2 border-dashed border-black/20 hover:border-black/50 hover:bg-zinc-50 flex flex-col items-center justify-center cursor-pointer transition-all">
+                                    <Upload className="text-black/40 mb-3" size={24} />
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-black/60">Add Photo</span>
                                     <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
                                 </label>
                             )}
                         </div>
-                        {uploading && <p className="text-[10px] font-black uppercase tracking-widest text-black/40 animate-pulse">Uploading...</p>}
+                        {uploading && <p className="text-[10px] font-black uppercase tracking-widest text-black/60 animate-pulse">Uploading...</p>}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                         {/* Basic Info */}
                         <div className="space-y-8">
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Listing Title</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Listing Title</label>
                                 <input
                                     type="text"
                                     value={formData.title}
                                     placeholder="e.g. THE SKY PENTHOUSE"
                                     required
-                                    className="w-full bg-transparent border-b-2 border-black/5 py-4 outline-none focus:border-black transition-all text-lg font-display font-black uppercase tracking-tight placeholder:text-black/10"
+                                    className="w-full bg-transparent border-b-2 border-black/10 py-4 outline-none focus:border-black transition-all text-lg font-display font-black uppercase tracking-tight placeholder:text-black/30"
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                 />
                             </div>
 
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Monthly Investment</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Monthly Investment</label>
                                 <div className="relative">
                                     <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xl font-display font-black">₹</span>
                                     <input
@@ -238,31 +238,31 @@ const EditRoom = () => {
                                         value={formData.price}
                                         placeholder="AMOUNT"
                                         required
-                                        className="w-full bg-transparent border-b-2 border-black/5 py-4 pl-6 outline-none focus:border-black transition-all text-xl font-display font-black uppercase tracking-tight placeholder:text-black/10"
+                                        className="w-full bg-transparent border-b-2 border-black/10 py-4 pl-6 outline-none focus:border-black transition-all text-xl font-display font-black uppercase tracking-tight placeholder:text-black/30"
                                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">City</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">City</label>
                                 <input
                                     type="text"
                                     value={formData.city}
                                     placeholder="LOCATION"
                                     required
-                                    className="w-full bg-transparent border-b-2 border-black/5 py-4 outline-none focus:border-black transition-all text-lg font-display font-black uppercase tracking-tight placeholder:text-black/10"
+                                    className="w-full bg-transparent border-b-2 border-black/10 py-4 outline-none focus:border-black transition-all text-lg font-display font-black uppercase tracking-tight placeholder:text-black/30"
                                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                                 />
                             </div>
 
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Neighborhood / Area</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Neighborhood / Area</label>
                                 <input
                                     type="text"
                                     value={formData.area}
                                     placeholder="DISTRICT"
-                                    className="w-full bg-transparent border-b-2 border-black/5 py-4 outline-none focus:border-black transition-all text-lg font-display font-black uppercase tracking-tight placeholder:text-black/10"
+                                    className="w-full bg-transparent border-b-2 border-black/10 py-4 outline-none focus:border-black transition-all text-lg font-display font-black uppercase tracking-tight placeholder:text-black/30"
                                     onChange={(e) => setFormData({ ...formData, area: e.target.value })}
                                 />
                             </div>
@@ -271,25 +271,25 @@ const EditRoom = () => {
                         {/* Additional Info */}
                         <div className="space-y-10">
                             <div className="space-y-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Property Narrative</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Property Narrative</label>
                                 <textarea
                                     value={formData.description}
                                     placeholder="DESCRIBE THE EXPERIENCE..."
                                     rows={4}
-                                    className="w-full bg-[#fbfbf9] border border-black/5 rounded-[2rem] p-6 outline-none focus:border-black transition-all text-sm font-medium leading-relaxed resize-none placeholder:text-black/10"
+                                    className="w-full bg-[#fbfbf9] border border-black/10 rounded-[2rem] p-6 outline-none focus:border-black transition-all text-sm font-medium leading-relaxed resize-none placeholder:text-black/30"
                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                                 />
                             </div>
 
                             <div className="space-y-4 pt-4">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40">Contact Channel</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Contact Channel</label>
                                 <div className="relative">
-                                    <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-black/20" size={16} />
+                                    <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-black/40" size={16} />
                                     <input
                                         type="text"
                                         value={formData.phoneNumber}
                                         placeholder="WHATSAPP NUMBER"
-                                        className="w-full bg-[#fbfbf9] border border-black/5 rounded-full py-4 pl-16 pr-6 outline-none focus:border-black transition-all text-xs font-black uppercase tracking-widest placeholder:text-black/10"
+                                        className="w-full bg-[#fbfbf9] border border-black/10 rounded-full py-4 pl-16 pr-6 outline-none focus:border-black transition-all text-xs font-black uppercase tracking-widest placeholder:text-black/30"
                                         onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
                                     />
                                 </div>
@@ -318,14 +318,14 @@ const EditRoom = () => {
                         <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Curated Amenities</label>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {amenitiesList.map((item) => (
-                                <label key={item.id} className="flex items-center gap-4 p-5 bg-[#fbfbf9] border border-black/5 rounded-2xl cursor-pointer hover:bg-black hover:text-white transition-all group">
+                                <label key={item.id} className="flex items-center gap-4 p-5 bg-[#fbfbf9] border border-black/10 rounded-2xl cursor-pointer hover:bg-black hover:text-white transition-all group">
                                     <input
                                         type="checkbox"
                                         className="sr-only peer"
                                         checked={formData[item.id]}
                                         onChange={(e) => setFormData({ ...formData, [item.id]: e.target.checked })}
                                     />
-                                    <div className="w-5 h-5 rounded-full border border-black/10 peer-checked:bg-white peer-checked:border-white transition-all flex items-center justify-center">
+                                    <div className="w-5 h-5 rounded-full border border-black/20 peer-checked:bg-white peer-checked:border-white transition-all flex items-center justify-center">
                                         <div className="w-2 h-2 bg-black rounded-full opacity-0 peer-checked:opacity-100 transition-opacity" />
                                     </div>
                                     <span className="text-[10px] font-black uppercase tracking-widest">{item.label}</span>
@@ -335,7 +335,7 @@ const EditRoom = () => {
                     </div>
 
                     <div className="pt-12 flex flex-col md:flex-row items-center gap-8">
-                        <label className="flex items-center gap-4 cursor-pointer group bg-[#fbfbf9] border border-black/5 rounded-full px-8 py-4 transition-all hover:border-black/20">
+                        <label className="flex items-center gap-4 cursor-pointer group bg-[#fbfbf9] border border-black/10 rounded-full px-8 py-4 transition-all hover:border-black/30">
                             <div className="relative">
                                 <input
                                     type="checkbox"
@@ -343,10 +343,10 @@ const EditRoom = () => {
                                     checked={formData.isPureVeg}
                                     onChange={(e) => setFormData({ ...formData, isPureVeg: e.target.checked })}
                                 />
-                                <div className="w-10 h-5 bg-black/10 rounded-full border border-black/5 peer-checked:bg-black transition-all" />
+                                <div className="w-10 h-5 bg-black/10 rounded-full border border-black/10 peer-checked:bg-black transition-all" />
                                 <div className="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all peer-checked:translate-x-5" />
                             </div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-black/40 peer-checked:text-black">Pure Veg Selection</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-black/60 peer-checked:text-black">Pure Veg Selection</span>
                         </label>
 
                         <button

@@ -65,7 +65,7 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-black via-zinc-600 to-zinc-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-black via-zinc-800 to-zinc-600;
   }
 
   .section-spacing {

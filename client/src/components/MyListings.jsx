@@ -52,11 +52,11 @@ const MyListings = () => {
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="h-[1px] w-12 bg-black/20" />
-              <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/60">Your Portfolio</span>
+              <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/80">Your Portfolio</span>
             </div>
             <h1 className="text-5xl md:text-8xl font-display font-black leading-[0.9] tracking-tighter uppercase text-black">
               Property <br />
-              <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Management</span>
+              <span className="font-serif-accent italic font-light text-zinc-800 normal-case tracking-normal">Management</span>
             </h1>
           </div>
           <Link
@@ -80,11 +80,11 @@ const MyListings = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="py-32 bg-white border border-black/5 rounded-[3rem] text-center shadow-2xl shadow-black/5"
               >
-                <div className="w-24 h-24 bg-[#fbfbf9] rounded-full flex items-center justify-center mx-auto mb-10 border border-black/5">
-                  <Home size={32} className="text-black/10" />
+                <div className="w-24 h-24 bg-[#fbfbf9] rounded-full flex items-center justify-center mx-auto mb-10 border border-black/10">
+                  <Home size={32} className="text-black/40" />
                 </div>
-                <h3 className="text-3xl font-display font-black mb-4 uppercase tracking-tighter">No active listings</h3>
-                <p className="text-zinc-500 mb-12 max-w-sm mx-auto text-[11px] font-black uppercase tracking-widest leading-relaxed">
+                <h3 className="text-3xl font-display font-black mb-4 uppercase tracking-tighter text-black">No active listings</h3>
+                <p className="text-zinc-800 mb-12 max-w-sm mx-auto text-[11px] font-black uppercase tracking-widest leading-relaxed">
                   You haven't shared any properties with the community yet.
                   Start listing to reach seekers.
                 </p>
@@ -115,15 +115,15 @@ const MyListings = () => {
                           alt={room.title}
                         />
                         <div className="absolute top-6 left-6">
-                          <div className="px-4 py-2 bg-white/90 backdrop-blur-md border border-black/5 rounded-full text-[9px] font-black text-black uppercase tracking-widest flex items-center gap-2">
-                            <ShieldCheck size={12} className="text-zinc-500" />
+                          <div className="px-4 py-2 bg-white/95 backdrop-blur-md border border-black/10 rounded-full text-[9px] font-black text-black uppercase tracking-widest flex items-center gap-2">
+                            <ShieldCheck size={12} className="text-zinc-700" />
                             Active Listing
                           </div>
                         </div>
                       </div>
 
                       <div className="px-2 pt-6 pb-2">
-                        <div className="flex items-center gap-2 text-zinc-500 mb-2">
+                        <div className="flex items-center gap-2 text-zinc-700 mb-2">
                           <MapPin size={12} />
                           <span className="text-[10px] uppercase font-black tracking-[0.2em]">{room.area}, {room.city}</span>
                         </div>
@@ -131,8 +131,8 @@ const MyListings = () => {
 
                         <div className="flex items-center justify-between gap-4 py-6 border-y border-black/5">
                           <div className="flex items-center gap-2">
-                            <MessageSquare size={12} className="text-zinc-400" />
-                            <span className="text-[9px] font-black text-zinc-500 uppercase tracking-widest">{(room.id * 7) % 15} Inquiries</span>
+                            <MessageSquare size={12} className="text-zinc-600" />
+                            <span className="text-[9px] font-black text-zinc-700 uppercase tracking-widest">{(room.id * 7) % 15} Inquiries</span>
                           </div>
 
                           <div className={`flex items-center gap-2 px-3 py-1 rounded-full border ${room.id % 2 === 0 ? 'bg-zinc-100 border-black/5 text-black' : 'bg-black text-white border-black'}`}>
@@ -143,14 +143,14 @@ const MyListings = () => {
                         <div className="mt-8 flex gap-3">
                           <Link
                             to="/messages"
-                            className="flex-1 py-4 bg-[#fbfbf9] border border-black/5 rounded-full text-center text-[9px] font-black transition-all uppercase tracking-[0.2em] text-black/60 hover:bg-black hover:text-white"
+                            className="flex-1 py-4 bg-[#fbfbf9] border border-black/10 rounded-full text-center text-[9px] font-black transition-all uppercase tracking-[0.2em] text-black/80 hover:bg-black hover:text-white"
                           >
                             Inquiries
                           </Link>
                           <div className="flex gap-2">
                             <Link
                               to={`/edit-room/${room.id}`}
-                              className="w-12 h-12 flex items-center justify-center bg-[#fbfbf9] border border-black/5 rounded-full text-black/40 hover:text-black hover:border-black/20 transition-all"
+                              className="w-12 h-12 flex items-center justify-center bg-[#fbfbf9] border border-black/10 rounded-full text-black/60 hover:text-black hover:border-black/30 transition-all"
                             >
                               <Edit2 size={16} />
                             </Link>
@@ -183,7 +183,7 @@ const MyListings = () => {
             >
               <button
                 onClick={() => setIsVerifyModalOpen(null)}
-                className="absolute top-8 right-8 text-black/20 hover:text-black transition-colors p-2"
+                className="absolute top-8 right-8 text-black/40 hover:text-black transition-colors p-2"
               >
                 <X size={24} />
               </button>
@@ -194,27 +194,27 @@ const MyListings = () => {
                 </div>
                 <div>
                   <h3 className="text-3xl font-display font-black text-black uppercase tracking-tight">Identity</h3>
-                  <p className="text-[10px] text-black/40 font-black uppercase tracking-widest mt-1">Verification Status</p>
+                  <p className="text-[10px] text-black/60 font-black uppercase tracking-widest mt-1">Verification Status</p>
                 </div>
               </div>
 
               <div className="space-y-8">
                 <div className="p-10 border-2 border-dashed border-black/10 rounded-[2rem] bg-zinc-50 text-center group hover:border-black/30 transition-all cursor-pointer">
-                  <div className="w-14 h-14 bg-white rounded-full border border-black/5 flex items-center justify-center mx-auto mb-6 text-black/20 group-hover:text-black group-hover:scale-110 transition-all">
+                  <div className="w-14 h-14 bg-white rounded-full border border-black/10 flex items-center justify-center mx-auto mb-6 text-black/40 group-hover:text-black group-hover:scale-110 transition-all">
                     <PlusCircle size={28} />
                   </div>
                   <p className="text-sm font-black text-black mb-2 uppercase tracking-widest">Ownership Records</p>
-                  <p className="text-[10px] text-black/40 uppercase tracking-[0.2em] font-medium leading-relaxed">PDF or Image (Max 15MB)</p>
+                  <p className="text-[10px] text-black/60 uppercase tracking-[0.2em] font-medium leading-relaxed">PDF or Image (Max 15MB)</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 bg-zinc-50 border border-black/5 rounded-2xl">
                     <div className="w-1.5 h-1.5 rounded-full bg-black mb-2" />
-                    <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">Visibility +70%</p>
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest">Visibility +70%</p>
                   </div>
                   <div className="p-4 bg-zinc-50 border border-black/5 rounded-2xl">
                     <div className="w-1.5 h-1.5 rounded-full bg-black mb-2" />
-                    <p className="text-[10px] font-black text-black/60 uppercase tracking-widest">Priority Care</p>
+                    <p className="text-[10px] font-black text-black uppercase tracking-widest">Priority Care</p>
                   </div>
                 </div>
 

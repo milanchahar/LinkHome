@@ -31,7 +31,7 @@ export default function HeroContent() {
             className="flex items-center gap-3"
           >
             <div className="h-[1px] w-12 bg-black/20" />
-            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/80">
+            <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/80">
               Luxury Living <span className="font-serif-accent lowercase italic text-black/80 tracking-normal">reimagined</span>
             </span>
           </motion.div>
@@ -125,10 +125,10 @@ export default function HeroContent() {
               </div>
               <div>
                 <p className="text-xs font-black uppercase tracking-widest">Featured Area</p>
-                <p className="font-serif-accent italic text-zinc-800">Indiranagar, BLR</p>
+                <p className="font-serif-accent italic text-black">Indiranagar, BLR</p>
               </div>
             </div>
-            <p className="text-[10px] text-black/80 uppercase font-bold tracking-widest">Trending high-end stays this month</p>
+            <p className="text-[10px] text-black/80 uppercase font-black tracking-widest">Trending high-end stays this month</p>
           </motion.div>
         </div>
       </div>

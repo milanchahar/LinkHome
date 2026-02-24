@@ -32,40 +32,40 @@ const Login = () => {
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-md w-full glass-card p-10 rounded-[2.5rem] relative"
+        className="max-w-md w-full bg-white border border-black/5 shadow-2xl rounded-[2.5rem] p-10 relative"
       >
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-brand-600/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-brand-500/20">
-            <LogIn className="text-brand-600" size={32} />
+          <div className="w-16 h-16 bg-black/5 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-black/5">
+            <LogIn className="text-black" size={32} />
           </div>
-          <h2 className="text-3xl font-display font-bold mb-2">Welcome Back</h2>
-          <p className="text-black/60 text-sm">Enter your credentials to access HomeLink.</p>
+          <h2 className="text-3xl font-display font-black mb-2 uppercase tracking-tight text-black">Welcome Back</h2>
+          <p className="text-zinc-500 text-sm font-medium">Enter your credentials to access HomeLink.</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-black/40 ml-1">Email Address</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 ml-1">Email Address</label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={18} />
               <input
                 type="email"
                 placeholder="name@example.com"
                 required
-                className="w-full bg-white border border-black/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black placeholder:text-black/20"
+                className="w-full bg-zinc-50 border border-black/5 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black font-medium placeholder:text-black/20"
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-black/40 ml-1">Password</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/40 ml-1">Password</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-black/20" size={18} />
               <input
                 type="password"
                 placeholder="••••••••"
                 required
-                className="w-full bg-white border border-black/10 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black placeholder:text-black/20"
+                className="w-full bg-zinc-50 border border-black/5 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black font-medium placeholder:text-black/20"
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
             </div>
@@ -74,7 +74,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 bg-brand-600 hover:bg-brand-500 text-white rounded-2xl font-bold transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 group shadow-lg shadow-brand-600/20"
+            className="w-full py-4 bg-black hover:bg-zinc-800 text-white rounded-2xl font-black uppercase text-xs tracking-widest transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-3 group shadow-xl shadow-black/10"
           >
             {loading ? "Authenticating..." : "Login to Account"}
             <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
@@ -82,9 +82,9 @@ const Login = () => {
         </form>
 
         <div className="mt-10 text-center">
-          <p className="text-black/60 text-sm">
+          <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-black font-bold hover:underline underline-offset-4">
+            <Link to="/signup" className="text-black font-black hover:underline underline-offset-8">
               Join HomeLink
             </Link>
           </p>

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { MapPin, Wallet, MessageSquare, ArrowLeft, Beef, Users, Calendar, ShieldCheck, Star, Share2, Shield, Coffee, Sparkles, Phone } from "lucide-react";
+import { MapPin, Wallet, MessageSquare, ArrowLeft, Beef, Users, Calendar, ShieldCheck, Star, Share2, Shield, Coffee, Sparkles } from "lucide-react";
 import { DetailSkeleton } from "../components/ListingSkeleton";
+import InquirySuite from "../components/InquirySuite";
 import { toast } from "react-hot-toast"; // Assuming toast is available, if not, it needs to be imported
 import VirtualTour from "../components/Property/VirtualTour";
 
@@ -13,6 +14,7 @@ const PropertyView = () => {
     const navigate = useNavigate();
     const [property, setProperty] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isInquiryOpen, setIsInquiryOpen] = useState(false);
     const [isTourOpen, setIsTourOpen] = useState(false);
     const [activeImage, setActiveImage] = useState(0);
 
@@ -59,9 +61,9 @@ const PropertyView = () => {
             <div className="max-w-7xl mx-auto">
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center gap-3 text-black/20 hover:text-black transition-all mb-16 group"
+                    className="flex items-center gap-3 text-black/50 hover:text-black transition-all mb-16 group"
                 >
-                    <div className="w-8 h-8 rounded-full border border-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+                    <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
                         <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform" />
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-[0.2em]">Return to Collection</span>
@@ -122,16 +124,16 @@ const PropertyView = () => {
                         animate={{ opacity: 1, x: 0 }}
                         className="flex flex-col"
                     >
-                        <div className="flex items-center gap-3 text-zinc-400 mb-6">
+                        <div className="flex items-center gap-3 text-zinc-700 mb-6 font-medium">
                             <MapPin size={16} />
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em]">{property.area}, {property.city}</span>
+                            <span className="text-[11px] font-black uppercase tracking-[0.2em]">{property.area}, {property.city}</span>
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-display font-black mb-10 leading-[1] uppercase tracking-tighter text-black">
                             {property.title}
                         </h1>
 
-                        <p className="text-zinc-500 leading-relaxed mb-12 text-sm font-medium border-l border-black/5 pl-8 font-serif italic">
+                        <p className="text-black leading-relaxed mb-12 text-sm font-medium border-l border-black/10 pl-8 font-serif italic">
                             {property.description || `Experience the pinnacle of urban living in this carefully curated space at ${property.area}. Designed for luxury and convenience, this property offers everything you need for a premium lifestyle.`}
                         </p>
 
@@ -139,7 +141,7 @@ const PropertyView = () => {
                         {amenitiesList.length > 0 && (
                             <div className="flex flex-wrap gap-3 mb-12">
                                 {amenitiesList.map(a => (
-                                    <div key={a.id} className="px-5 py-2.5 bg-[#fbfbf9] border border-black/5 rounded-full text-[9px] font-black text-black/60 uppercase tracking-widest flex items-center gap-2">
+                                    <div key={a.id} className="px-5 py-2.5 bg-[#fbfbf9] border border-black/10 rounded-full text-[9px] font-black text-black/80 uppercase tracking-widest flex items-center gap-2">
                                         <span>{a.icon}</span>
                                         {a.label}
                                     </div>
@@ -148,17 +150,17 @@ const PropertyView = () => {
                         )}
 
                         <div className="grid grid-cols-2 gap-8 mb-12">
-                            <div className="bg-[#fbfbf9] p-8 rounded-[2rem] border border-black/5">
+                            <div className="bg-[#fbfbf9] p-8 rounded-[2rem] border border-black/10">
                                 <span className="text-[9px] uppercase font-black tracking-[0.2em] text-black/60 mb-4 block">Monthly Investment</span>
                                 <div className="flex items-end gap-2">
                                     <span className="text-3xl font-display font-black text-black">₹{property.price.toLocaleString()}</span>
-                                    <span className="text-[10px] text-zinc-300 font-black uppercase tracking-widest mb-1">/mo</span>
+                                    <span className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">/mo</span>
                                 </div>
                             </div>
-                            <div className="bg-[#fbfbf9] p-8 rounded-[2rem] border border-black/5">
+                            <div className="bg-[#fbfbf9] p-8 rounded-[2rem] border border-black/10">
                                 <span className="text-[9px] uppercase font-black tracking-[0.2em] text-black/60 mb-4 block">Availability</span>
                                 <div className="flex items-center gap-3">
-                                    <Calendar className="text-black/20" size={20} />
+                                    <Calendar className="text-black/40" size={20} />
                                     <span className="text-xs font-black uppercase tracking-widest text-black">{property.availableFrom || "Immediate"}</span>
                                 </div>
                             </div>
@@ -171,22 +173,16 @@ const PropertyView = () => {
                                 </div>
                                 <div className="space-y-1">
                                     <h4 className="text-[10px] font-black uppercase tracking-widest text-black">Verified Signature Listing</h4>
-                                    <p className="text-zinc-400 text-[9px] font-black uppercase tracking-widest">Protected by HomeLink Ethics</p>
+                                    <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest">Protected by HomeLink Ethics</p>
                                 </div>
                             </div>
-                            {property.phoneNumber ? (
-                                <a
-                                    href={`tel:${property.phoneNumber}`}
-                                    className="pill-button w-full justify-center bg-black text-white hover:bg-zinc-800 shadow-xl shadow-black/10"
-                                >
-                                    <Phone size={16} strokeWidth={2.5} />
-                                    Contact Owner
-                                </a>
-                            ) : (
-                                <div className="text-center py-4 bg-zinc-50 rounded-2xl border border-dashed border-black/5">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-black/20">Contact details not provided</p>
-                                </div>
-                            )}
+                            <button
+                                onClick={() => setIsInquiryOpen(true)}
+                                className="pill-button w-full justify-center bg-black text-white hover:bg-zinc-800 shadow-xl shadow-black/10"
+                            >
+                                <MessageSquare size={16} strokeWidth={2.5} />
+                                Secure Inquiry
+                            </button>
                         </div>
 
                         <div className="mt-auto pt-8 border-t border-black/5 flex items-center justify-between">
@@ -199,7 +195,7 @@ const PropertyView = () => {
                                 ))}
                             </div>
                             {property.phoneNumber && (
-                                <span className="text-[10px] font-black text-black uppercase tracking-widest opacity-20">
+                                <span className="text-[10px] font-black text-black uppercase tracking-widest opacity-40">
                                     {property.phoneNumber}
                                 </span>
                             )}
@@ -208,6 +204,11 @@ const PropertyView = () => {
                 </div>
             </div>
 
+            <InquirySuite
+                isOpen={isInquiryOpen}
+                onClose={() => setIsInquiryOpen(false)}
+                property={property}
+            />
 
             <VirtualTour
                 isOpen={isTourOpen}

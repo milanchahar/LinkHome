@@ -13,7 +13,7 @@ const About = () => {
                     transition={{ duration: 1 }}
                 >
                     <div className="flex items-center gap-3 mb-10">
-                        <div className="h-[1px] w-12 bg-black/10" />
+                        <div className="h-[1px] w-12 bg-black/30" />
                         <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/80">Our Philosophy</span>
                     </div>
 
@@ -23,7 +23,7 @@ const About = () => {
                         of Living.
                     </h2>
 
-                    <p className="text-zinc-900 text-lg mb-12 leading-relaxed font-medium">
+                    <p className="text-black text-lg mb-12 leading-relaxed font-medium">
                         HomeLink is a curated ecosystem for those who value aesthetics and artisanal quality.
                         We don't just list properties; we curate experiences that blend modern functionality
                         with timeless elegance.
@@ -43,7 +43,7 @@ const About = () => {
                                 className="space-y-3"
                             >
                                 <h4 className="text-[11px] font-black uppercase tracking-widest text-black underline decoration-black/20 underline-offset-4">{item.title}</h4>
-                                <p className="text-zinc-800 text-xs leading-relaxed font-medium">{item.desc}</p>
+                                <p className="text-zinc-800 text-xs leading-relaxed font-black">{item.desc}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -72,8 +72,8 @@ const About = () => {
                     </div>
 
                     {/* Floating detail */}
-                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full border border-black/5 shadow-2xl flex items-center justify-center p-8 text-center hidden xl:flex">
-                        <p className="text-[9px] font-black uppercase tracking-widest leading-tight">Hand-picked <br /> <span className="text-zinc-800">Curations</span></p>
+                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full border border-black/10 shadow-2xl flex items-center justify-center p-8 text-center hidden xl:flex">
+                        <p className="text-[9px] font-black uppercase tracking-widest leading-tight text-black">Hand-picked <br /> <span className="text-zinc-800">Curations</span></p>
                     </div>
                 </motion.div>
             </div>

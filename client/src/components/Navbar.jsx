@@ -27,6 +27,7 @@ const Navbar = () => {
         { name: "Home", path: "/" },
         { name: "Browse", path: "/browse" },
         { name: "Experience", path: "/experience" },
+        { name: "Messages", path: "/messages" },
         { name: "List Room", path: "/list-room" },
     ];
 
@@ -36,7 +37,7 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "py-4 bg-white/90 backdrop-blur-md border-b border-black/5 shadow-sm" : "py-8 bg-transparent"
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "py-4 bg-white/95 backdrop-blur-md border-b border-black/10 shadow-sm" : "py-8 bg-transparent"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -51,7 +52,7 @@ const Navbar = () => {
                         <Link
                             key={link.path}
                             to={link.path}
-                            className={`text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:text-black ${location.pathname === link.path ? "text-black" : "text-black/60"
+                            className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 hover:text-black ${location.pathname === link.path ? "text-black" : "text-black/60"
                                 }`}
                         >
                             {link.name}
@@ -62,7 +63,7 @@ const Navbar = () => {
 
                     {!user ? (
                         <div className="flex items-center gap-8">
-                            <Link to="/login" className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/40 hover:text-black transition-colors">
+                            <Link to="/login" className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors">
                                 Login
                             </Link>
                             <Link

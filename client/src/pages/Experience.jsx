@@ -11,7 +11,7 @@ const Stats = [
 
 const Experience = () => {
     return (
-        <div className="pt-32 pb-24 bg-[#fbfbf9] overflow-hidden">
+        <div className="pt-32 pb-24 bg-dark-900 overflow-hidden">
             {/* Hero Section */}
             <section className="px-6 mb-32 relative">
                 <div className="max-w-6xl mx-auto text-center">
@@ -37,7 +37,7 @@ const Experience = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-black/60 text-xl max-w-2xl mx-auto leading-relaxed"
+                        className="text-white/40 text-xl max-w-2xl mx-auto leading-relaxed"
                     >
                         We didn't just build a rental platform. We crafted an ecosystem for those who
                         value aesthetic, transparency, and the feeling of home, anywhere in the world.
@@ -65,18 +65,18 @@ const Experience = () => {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent" />
                             <div className="absolute bottom-12 left-12 right-12">
-                                <div className="glass-card p-8 rounded-3xl border border-black/10">
+                                <div className="glass-card p-8 rounded-3xl border border-white/10">
                                     <Heart className="text-brand-500 mb-4" size={32} />
                                     <h4 className="text-2xl font-bold mb-2">Heart-First Design</h4>
-                                    <p className="text-black/60 text-sm">Every listing is curated to meet the highest aesthetic and functional standards.</p>
+                                    <p className="text-white/40 text-sm">Every listing is curated to meet the highest aesthetic and functional standards.</p>
                                 </div>
                             </div>
                         </motion.div>
 
                         <div className="space-y-12">
                             <div>
-                                <h2 className="text-4xl font-display font-bold mb-6">Our DNA is built on <span className="text-black">Excellence</span>.</h2>
-                                <p className="text-black/60 leading-relaxed text-lg">
+                                <h2 className="text-4xl font-display font-bold mb-6">Our DNA is built on <span className="text-brand-500">Excellence</span>.</h2>
+                                <p className="text-white/40 leading-relaxed text-lg">
                                     Born from the frustration of generic rental platforms, HomeLink was
                                     conceived as a sanctuary for the modern nomad. We believe your surroundings
                                     dictate your mood, your productivity, and your peace.
@@ -96,11 +96,11 @@ const Experience = () => {
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="p-6 rounded-2xl bg-black/5 border border-black/10"
+                                        className="p-6 rounded-2xl bg-white/5 border border-white/10"
                                     >
-                                        <item.icon className="text-black mb-4" size={24} />
+                                        <item.icon className="text-brand-500 mb-4" size={24} />
                                         <h4 className="font-bold mb-2">{item.title}</h4>
-                                        <p className="text-black/60 text-xs leading-relaxed">{item.desc}</p>
+                                        <p className="text-white/40 text-xs leading-relaxed">{item.desc}</p>
                                     </motion.div>
                                 ))}
                             </div>
@@ -122,7 +122,7 @@ const Experience = () => {
                                 transition={{ delay: i * 0.1 }}
                             >
                                 <div className="text-5xl md:text-7xl font-display font-bold text-gradient mb-4">{stat.value}</div>
-                                <div className="text-black/40 uppercase tracking-widest text-xs font-bold">{stat.label}</div>
+                                <div className="text-white/40 uppercase tracking-widest text-xs font-bold">{stat.label}</div>
                             </motion.div>
                         ))}
                     </div>
@@ -138,14 +138,14 @@ const Experience = () => {
                         viewport={{ once: true }}
                     >
                         <h2 className="text-4xl md:text-6xl font-display font-bold mb-8">Ready to elevate your lifestyle?</h2>
-                        <p className="text-black/60 mb-12 text-lg max-w-xl mx-auto">
+                        <p className="text-white/40 mb-12 text-lg max-w-xl mx-auto">
                             Join the HomeLink family today and discover what it means to live with zero compromise.
                         </p>
                         <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                            <button className="px-12 py-5 bg-black hover:bg-zinc-800 text-white rounded-2xl font-bold transition-all hover:scale-105 shadow-xl shadow-black/20">
+                            <button className="px-12 py-5 bg-brand-600 hover:bg-brand-500 text-white rounded-2xl font-bold transition-all hover:scale-105 shadow-xl shadow-brand-600/20">
                                 Explore Stays
                             </button>
-                            <button className="px-12 py-5 bg-black/5 hover:bg-black/10 text-black border border-black/10 rounded-2xl font-bold transition-all">
+                            <button className="px-12 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold transition-all">
                                 Become a Host
                             </button>
                         </div>
