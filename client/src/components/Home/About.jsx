@@ -24,7 +24,7 @@ const About = () => {
                     </h2>
 
                     <p className="text-black text-lg mb-12 leading-relaxed font-medium">
-                        HomeLink is a curated ecosystem for those who value aesthetics and artisanal quality.
+                        LinkHome is a curated ecosystem for those who value aesthetics and artisanal quality.
                         We don't just list properties; we curate experiences that blend modern functionality
                         with timeless elegance.
                     </p>

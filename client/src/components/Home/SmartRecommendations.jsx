@@ -35,7 +35,7 @@ const SmartRecommendations = () => {
                             <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Smart Matching</span>
                         </div>
                         <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter">
-                            The <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Perfect</span> <br />
+                            The <span className="font-serif-accent italic font-light text-zinc-800 normal-case tracking-normal">Perfect</span> <br />
                             Fit.
                         </h2>
                     </div>
@@ -66,14 +66,14 @@ const SmartRecommendations = () => {
                                 </div>
 
                                 <div className="px-4 pb-4">
-                                    <div className="flex items-center gap-2 text-zinc-500 mb-2">
+                                    <div className="flex items-center gap-2 text-zinc-800 mb-2">
                                         <MapPin size={12} />
                                         <span className="text-[10px] font-black uppercase tracking-[0.2em]">{match?.area || "Prime Location"}</span>
                                     </div>
                                     <h4 className="text-xl font-display font-black uppercase tracking-tight line-clamp-1 mb-6 text-black">{match?.title || "Signature Stay"}</h4>
 
                                     <div className="flex items-center justify-between pt-6 border-t border-black/5">
-                                        <span className="text-[9px] text-zinc-300 font-black uppercase tracking-widest">Starting from</span>
+                                        <span className="text-[9px] text-zinc-500 font-black uppercase tracking-widest">Starting from</span>
                                         <span className="text-lg font-black text-black">₹{match?.price?.toLocaleString() || "N/A"}</span>
                                     </div>
                                 </div>

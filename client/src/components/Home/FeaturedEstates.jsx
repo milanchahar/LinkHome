@@ -42,8 +42,8 @@ const FeaturedEstates = () => {
                         viewport={{ once: true }}
                         className="flex items-center gap-3"
                     >
-                        <div className="h-[1px] w-12 bg-black/20" />
-                        <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/60">Curated Selection</span>
+                        <div className="h-[1px] w-12 bg-black/40" />
+                        <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/80">Curated Selection</span>
                     </motion.div>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -53,12 +53,12 @@ const FeaturedEstates = () => {
                         className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter"
                     >
                         Signature <br />
-                        <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Collector</span> Items
+                        <span className="font-serif-accent italic font-light text-zinc-800 normal-case tracking-normal">Collector</span> Items
                     </motion.h2>
                 </div>
-                <Link to="/browse" className="group flex items-center gap-4 text-black/40 hover:text-black transition-all">
+                <Link to="/browse" className="group flex items-center gap-4 text-black/60 hover:text-black transition-all">
                     <span className="text-[10px] font-black uppercase tracking-widest">Explore Collection</span>
-                    <div className="w-12 h-12 border border-black/10 rounded-full flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-white transition-all transform group-hover:rotate-45">
+                    <div className="w-12 h-12 border border-black/20 rounded-full flex items-center justify-center group-hover:bg-black group-hover:border-black group-hover:text-white transition-all transform group-hover:rotate-45">
                         <ArrowRight size={18} />
                     </div>
                 </Link>
@@ -100,7 +100,7 @@ const FeaturedEstates = () => {
 
                                     <div className="px-4 pb-4 flex justify-between items-end">
                                         <div className="space-y-2">
-                                            <div className="flex items-center gap-2 text-zinc-600">
+                                            <div className="flex items-center gap-2 text-zinc-800">
                                                 <MapPin size={12} />
                                                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">{listing?.city || "Luxury Stay"}</span>
                                             </div>

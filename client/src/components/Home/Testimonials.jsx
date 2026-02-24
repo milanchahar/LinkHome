@@ -34,7 +34,7 @@ const Testimonials = () => {
                             <span className="text-[10px] font-black tracking-[0.3em] uppercase text-black/40">Voices</span>
                         </div>
                         <h2 className="text-4xl md:text-7xl font-display font-black uppercase tracking-tighter">
-                            Guest <span className="font-serif-accent italic font-light text-zinc-400 normal-case tracking-normal">Experiences.</span>
+                            Guest <span className="font-serif-accent italic font-light text-zinc-600 normal-case tracking-normal">Experiences.</span>
                         </h2>
                     </div>
                 </div>
@@ -49,7 +49,7 @@ const Testimonials = () => {
                             transition={{ delay: i * 0.2 }}
                             className="bg-white p-12 rounded-[3.5rem] border border-black/5 shadow-2xl shadow-black/5 flex flex-col justify-between"
                         >
-                            <Quote size={32} className="text-zinc-100 mb-8" />
+                            <Quote size={32} className="text-zinc-200 mb-8" />
 
                             <p className="text-black/70 mb-10 font-serif italic text-lg leading-relaxed">
                                 "{review.text}"
@@ -59,7 +59,7 @@ const Testimonials = () => {
                                 <img src={review.avatar} alt={review.name} className="w-10 h-10 rounded-full grayscale" />
                                 <div>
                                     <h4 className="text-[10px] font-black uppercase tracking-widest text-black">{review.name}</h4>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-300">{review.role}</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{review.role}</p>
                                 </div>
                             </div>
                         </motion.div>

@@ -11,7 +11,7 @@ const Stats = [
 
 const Experience = () => {
     return (
-        <div className="pt-32 pb-24 bg-dark-900 overflow-hidden">
+        <div className="pt-32 pb-24 bg-[#fbfbf9] overflow-hidden">
             {/* Hero Section */}
             <section className="px-6 mb-32 relative">
                 <div className="max-w-6xl mx-auto text-center">
@@ -27,7 +27,7 @@ const Experience = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-6xl md:text-8xl font-display font-bold mb-8 leading-tight"
+                        className="text-6xl md:text-8xl font-display font-black mb-8 leading-tight text-black"
                     >
                         Redefining <br />
                         <span className="text-gradient">Modern Living</span>
@@ -37,7 +37,7 @@ const Experience = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="text-white/40 text-xl max-w-2xl mx-auto leading-relaxed"
+                        className="text-black/60 text-xl max-w-2xl mx-auto leading-relaxed font-medium"
                     >
                         We didn't just build a rental platform. We crafted an ecosystem for those who
                         value aesthetic, transparency, and the feeling of home, anywhere in the world.
@@ -59,25 +59,25 @@ const Experience = () => {
                             className="relative aspect-square rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl"
                         >
                             <img
-                                src="https://images.unsplash.com/photo-1600585154340-be6199fbfd0b?auto=format&fit=crop&q=80"
+                                src="https://images.unsplash.com/photo-1600607687940-4e527236d89b?auto=format&fit=crop&q=80"
                                 alt="Luxury Interior"
                                 className="w-full h-full object-cover"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                             <div className="absolute bottom-12 left-12 right-12">
-                                <div className="glass-card p-8 rounded-3xl border border-white/10">
-                                    <Heart className="text-brand-500 mb-4" size={32} />
-                                    <h4 className="text-2xl font-bold mb-2">Heart-First Design</h4>
-                                    <p className="text-white/40 text-sm">Every listing is curated to meet the highest aesthetic and functional standards.</p>
+                                <div className="glass-card p-8 rounded-3xl border border-black/5 bg-white/60 backdrop-blur-md shadow-xl">
+                                    <Heart className="text-black mb-4" size={32} />
+                                    <h4 className="text-2xl font-black uppercase tracking-tight mb-2">Heart-First Design</h4>
+                                    <p className="text-black/60 text-sm font-medium">Every listing is curated to meet the highest aesthetic and functional standards.</p>
                                 </div>
                             </div>
                         </motion.div>
 
                         <div className="space-y-12">
                             <div>
-                                <h2 className="text-4xl font-display font-bold mb-6">Our DNA is built on <span className="text-brand-500">Excellence</span>.</h2>
-                                <p className="text-white/40 leading-relaxed text-lg">
-                                    Born from the frustration of generic rental platforms, HomeLink was
+                                <h2 className="text-4xl md:text-5xl font-display font-black mb-6 uppercase tracking-tighter">Our DNA is built on <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">Excellence</span>.</h2>
+                                <p className="text-black/60 leading-relaxed text-lg font-medium">
+                                    Born from the frustration of generic rental platforms, LinkHome was
                                     conceived as a sanctuary for the modern nomad. We believe your surroundings
                                     dictate your mood, your productivity, and your peace.
                                 </p>
@@ -96,11 +96,11 @@ const Experience = () => {
                                         whileInView={{ opacity: 1, y: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="p-6 rounded-2xl bg-white/5 border border-white/10"
+                                        className="p-6 rounded-2xl bg-white border border-black/5 shadow-sm"
                                     >
-                                        <item.icon className="text-brand-500 mb-4" size={24} />
-                                        <h4 className="font-bold mb-2">{item.title}</h4>
-                                        <p className="text-white/40 text-xs leading-relaxed">{item.desc}</p>
+                                        <item.icon className="text-black mb-4" size={24} />
+                                        <h4 className="font-black uppercase tracking-widest text-[11px] mb-2">{item.title}</h4>
+                                        <p className="text-black/60 text-[10px] font-medium leading-relaxed uppercase tracking-widest">{item.desc}</p>
                                     </motion.div>
                                 ))}
                             </div>
@@ -121,8 +121,8 @@ const Experience = () => {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }}
                             >
-                                <div className="text-5xl md:text-7xl font-display font-bold text-gradient mb-4">{stat.value}</div>
-                                <div className="text-white/40 uppercase tracking-widest text-xs font-bold">{stat.label}</div>
+                                <div className="text-5xl md:text-7xl font-display font-black text-gradient mb-4 uppercase tracking-tighter">{stat.value}</div>
+                                <div className="text-black/40 uppercase tracking-widest text-[10px] font-black">{stat.label}</div>
                             </motion.div>
                         ))}
                     </div>
@@ -137,15 +137,15 @@ const Experience = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-4xl md:text-6xl font-display font-bold mb-8">Ready to elevate your lifestyle?</h2>
-                        <p className="text-white/40 mb-12 text-lg max-w-xl mx-auto">
-                            Join the HomeLink family today and discover what it means to live with zero compromise.
+                        <h2 className="text-4xl md:text-6xl font-display font-black mb-8 uppercase tracking-tighter text-black">Ready to <span className="font-serif-accent italic font-light text-zinc-500 normal-case tracking-normal">elevate</span> your <br /> lifestyle?</h2>
+                        <p className="text-black/60 mb-12 text-lg max-w-xl mx-auto font-medium leading-relaxed">
+                            Join the LinkHome family today and discover what it means to live with zero compromise.
                         </p>
                         <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                            <button className="px-12 py-5 bg-brand-600 hover:bg-brand-500 text-white rounded-2xl font-bold transition-all hover:scale-105 shadow-xl shadow-brand-600/20">
+                            <button className="pill-button bg-black text-white hover:bg-zinc-800">
                                 Explore Stays
                             </button>
-                            <button className="px-12 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl font-bold transition-all">
+                            <button className="pill-button bg-white text-black border border-black/10 hover:bg-zinc-50">
                                 Become a Host
                             </button>
                         </div>
