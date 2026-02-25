@@ -148,7 +148,7 @@ const BrowseRooms = () => {
           <div className={`transition-all duration-700 flex-1 ${viewMode === 'split' ? 'xl:max-w-[45vw] xl:h-[calc(100vh-250px)] xl:overflow-y-auto xl:pr-6 custom-scrollbar' : ''}`}>
             <LayoutGroup>
               {loading ? (
-                <BrowseSkeleton />
+                <BrowseSkeleton viewMode={viewMode} />
               ) : (
                 <motion.div
                   layout

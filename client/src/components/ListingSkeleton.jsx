@@ -3,24 +3,24 @@ import { motion } from "framer-motion";
 
 const ListingSkeleton = () => {
     return (
-        <div className="glass-card rounded-[2.5rem] overflow-hidden border border-white/5 bg-white/[0.02]">
-            <div className="aspect-[4/3] bg-white/5 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+        <div className="nama-card p-4 h-full flex flex-col gap-6 bg-white border border-black/5 shadow-sm rounded-2xl">
+            <div className="aspect-[4/5] rounded-[2rem] bg-black/5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
             </div>
-            <div className="p-8 space-y-4">
-                <div className="h-2 w-24 bg-white/5 rounded-full" />
-                <div className="h-6 w-full bg-white/5 rounded-lg" />
-                <div className="pt-6 border-t border-white/5 flex justify-between items-center">
-                    <div className="h-4 w-20 bg-white/5 rounded-full" />
-                    <div className="h-8 w-24 bg-white/5 rounded-xl" />
+            <div className="px-2 pb-2 space-y-4">
+                <div className="h-2 w-24 bg-black/5 rounded-full" />
+                <div className="h-6 w-full bg-black/5 rounded-lg" />
+                <div className="pt-6 border-t border-black/5 flex justify-between items-center">
+                    <div className="h-4 w-20 bg-black/5 rounded-full" />
+                    <div className="h-8 w-10 bg-black/5 rounded-full" />
                 </div>
             </div>
         </div>
     );
 };
 
-export const BrowseSkeleton = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+export const BrowseSkeleton = ({ viewMode }) => (
+    <div className={`grid gap-10 ${viewMode === 'split' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
         {[1, 2, 3, 4, 5, 6].map((i) => (
             <ListingSkeleton key={i} />
         ))}

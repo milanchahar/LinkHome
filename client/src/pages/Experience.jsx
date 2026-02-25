@@ -59,7 +59,7 @@ const Experience = () => {
                             className="relative aspect-square rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl"
                         >
                             <img
-                                src="https://images.unsplash.com/photo-1600607687940-4e527236d89b?auto=format&fit=crop&q=80"
+                                src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80"
                                 alt="Luxury Interior"
                                 className="w-full h-full object-cover"
                             />
