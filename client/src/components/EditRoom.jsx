@@ -318,7 +318,7 @@ const EditRoom = () => {
                         <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Curated Amenities</label>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {amenitiesList.map((item) => (
-                                <label key={item.id} className="flex items-center gap-4 p-5 bg-[#fbfbf9] border border-black/10 rounded-2xl cursor-pointer hover:bg-black hover:text-white transition-all group">
+                                <label key={item.id} className="flex items-center gap-4 p-5 bg-[#fbfbf9] border border-black/10 rounded-2xl cursor-pointer hover:bg-black hover:text-white has-[:checked]:bg-black has-[:checked]:text-white transition-all group">
                                     <input
                                         type="checkbox"
                                         className="sr-only peer"

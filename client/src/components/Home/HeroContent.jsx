@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const images = [
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1600607687940-4e527236d89b?auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80",
   "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80",
 ];
 
