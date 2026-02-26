@@ -86,15 +86,53 @@ const EditRoom = () => {
 
         try {
             for (const file of files) {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                await new Promise((resolve, reject) => {
-                    reader.onload = () => {
-                        uploadedImages.push(reader.result);
-                        resolve();
-                    };
-                    reader.onerror = (error) => reject(error);
-                });
+                if (!file.type.startsWith("image/")) continue;
+
+                try {
+                    const compressedBase64 = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+
+                        reader.onload = (event) => {
+                            const img = new Image();
+                            img.src = event.target.result;
+
+                            img.onload = () => {
+                                const canvas = document.createElement("canvas");
+                                const ctx = canvas.getContext("2d");
+
+                                const MAX_WIDTH = 1080;
+                                const MAX_HEIGHT = 1080;
+                                let width = img.width;
+                                let height = img.height;
+
+                                if (width > height) {
+                                    if (width > MAX_WIDTH) {
+                                        height = Math.round((height * MAX_WIDTH) / width);
+                                        width = MAX_WIDTH;
+                                    }
+                                } else {
+                                    if (height > MAX_HEIGHT) {
+                                        width = Math.round((width * MAX_HEIGHT) / height);
+                                        height = MAX_HEIGHT;
+                                    }
+                                }
+
+                                canvas.width = width;
+                                canvas.height = height;
+                                ctx.drawImage(img, 0, 0, width, height);
+
+                                resolve(canvas.toDataURL("image/jpeg", 0.6));
+                            };
+                            img.onerror = (error) => reject(error);
+                        };
+                        reader.onerror = (error) => reject(error);
+                    });
+
+                    uploadedImages.push(compressedBase64);
+                } catch (err) {
+                    console.error("Image compression error:", err);
+                }
             }
             setFormData({
                 ...formData,
@@ -130,7 +168,14 @@ const EditRoom = () => {
             toast.success("Listing updated successfully! ✨");
             navigate("/my-listings");
         } catch (err) {
-            toast.error("Failed to update listing.");
+            const errorMessage =
+                err.response?.status === 413
+                    ? "Images are too large. Please select fewer or smaller images."
+                    : err.response?.data?.detail ||
+                    err.response?.data?.error ||
+                    err.message ||
+                    "Failed to update listing. Please ensure you're logged in.";
+            toast.error(errorMessage);
         } finally {
             setSaving(false);
         }

@@ -61,7 +61,15 @@ const Navbar = () => {
 
                     <div className="h-4 w-px bg-black/10 mx-2" />
 
-                    {!user ? (
+                    {user ? (
+                        <button
+                            onClick={handleLogout}
+                            className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-500 hover:text-red-600 transition-colors flex items-center gap-2"
+                        >
+                            <LogOut size={14} />
+                            Logout
+                        </button>
+                    ) : (
                         <div className="flex items-center gap-8">
                             <Link to="/login" className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors">
                                 Login
@@ -73,14 +81,6 @@ const Navbar = () => {
                                 Join Now
                             </Link>
                         </div>
-                    ) : (
-                        <button
-                            onClick={handleLogout}
-                            className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-500 hover:text-red-600 transition-colors flex items-center gap-2"
-                        >
-                            <LogOut size={14} />
-                            Logout
-                        </button>
                     )}
                 </div>
 
@@ -108,7 +108,15 @@ const Navbar = () => {
                                 {link.name}
                             </Link>
                         ))}
-                        {!user ? (
+                        {user ? (
+                            <button
+                                onClick={handleLogout}
+                                className="text-red-500 font-bold uppercase tracking-[0.2em] text-xs py-4 pt-6 border-t border-black/5 flex items-center gap-2"
+                            >
+                                <LogOut size={16} />
+                                Logout
+                            </button>
+                        ) : (
                             <div className="flex flex-col gap-4 pt-6 border-t border-black/5">
                                 <Link to="/login" onClick={() => setIsOpen(false)} className="text-black/40 text-center py-2 text-xs font-bold uppercase tracking-widest">
                                     Login
@@ -121,14 +129,6 @@ const Navbar = () => {
                                     Join Now
                                 </Link>
                             </div>
-                        ) : (
-                            <button
-                                onClick={handleLogout}
-                                className="text-red-500 font-bold uppercase tracking-[0.2em] text-xs py-4 pt-6 border-t border-black/5 flex items-center gap-2"
-                            >
-                                <LogOut size={16} />
-                                Logout
-                            </button>
                         )}
                     </motion.div>
                 )}

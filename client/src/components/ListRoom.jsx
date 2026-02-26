@@ -43,15 +43,54 @@ const ListRoom = () => {
 
     try {
       for (const file of files) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        await new Promise((resolve, reject) => {
-          reader.onload = () => {
-            uploadedImages.push(reader.result);
-            resolve();
-          };
-          reader.onerror = (error) => reject(error);
-        });
+        if (!file.type.startsWith("image/")) continue;
+
+        try {
+          const compressedBase64 = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = (event) => {
+              const img = new Image();
+              img.src = event.target.result;
+
+              img.onload = () => {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                const MAX_WIDTH = 1080;
+                const MAX_HEIGHT = 1080;
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                  if (width > MAX_WIDTH) {
+                    height = Math.round((height * MAX_WIDTH) / width);
+                    width = MAX_WIDTH;
+                  }
+                } else {
+                  if (height > MAX_HEIGHT) {
+                    width = Math.round((width * MAX_HEIGHT) / height);
+                    height = MAX_HEIGHT;
+                  }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Use a lower quality to ensure small size (e.g. 0.6 = 60%)
+                resolve(canvas.toDataURL("image/jpeg", 0.6));
+              };
+              img.onerror = (error) => reject(error);
+            };
+            reader.onerror = (error) => reject(error);
+          });
+
+          uploadedImages.push(compressedBase64);
+        } catch (err) {
+          console.error("Image compression error:", err);
+        }
       }
       setFormData({
         ...formData,
@@ -92,7 +131,13 @@ const ListRoom = () => {
       toast.success("Property listed successfully! 🏠");
       navigate("/browse");
     } catch (err) {
-      const errorMessage = err.response?.data?.detail || err.response?.data?.error || "Failed to list room. Please ensure you're logged in.";
+      const errorMessage =
+        err.response?.status === 413
+          ? "Images are too large. Please select fewer or smaller images."
+          : err.response?.data?.detail ||
+          err.response?.data?.error ||
+          err.message ||
+          "Failed to list room. Please ensure you're logged in.";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -100,14 +145,14 @@ const ListRoom = () => {
   };
 
   const amenities = [
-    { id: "hasWifi", label: "WiFi", icon: "🌐" },
-    { id: "hasParking", label: "Parking", icon: "🚗" },
-    { id: "hasGym", label: "Gym", icon: "🏋️" },
-    { id: "hasPool", label: "Pool", icon: "🏊" },
-    { id: "hasAC", label: "AC", icon: "❄️" },
-    { id: "hasLaundry", label: "Laundry", icon: "🧺" },
-    { id: "hasBalcony", label: "Balcony", icon: "🌅" },
-    { id: "isFurnished", label: "Furnished", icon: "🛋️" },
+    { id: "hasWifi", label: "WiFi", icon: "" },
+    { id: "hasParking", label: "Parking", icon: "" },
+    { id: "hasGym", label: "Gym", icon: "" },
+    { id: "hasPool", label: "Pool", icon: "" },
+    { id: "hasAC", label: "AC", icon: "" },
+    { id: "hasLaundry", label: "Laundry", icon: "" },
+    { id: "hasBalcony", label: "Balcony", icon: "" },
+    { id: "isFurnished", label: "Furnished", icon: "" },
   ];
 
   return (
@@ -130,7 +175,6 @@ const ListRoom = () => {
         className="max-w-4xl w-full bg-white border border-black/5 rounded-[3rem] p-8 md:p-16 shadow-2xl shadow-black/5"
       >
         <form onSubmit={handleSubmit} className="space-y-16">
-          {/* Photos */}
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Property Imagery</label>
@@ -161,7 +205,6 @@ const ListRoom = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-            {/* Basic Info */}
             <div className="space-y-8">
               <div className="space-y-4">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Listing Title</label>
@@ -210,7 +253,6 @@ const ListRoom = () => {
               </div>
             </div>
 
-            {/* Additional Info */}
             <div className="space-y-10">
               <div className="space-y-4">
                 <label className="text-[10px] font-black uppercase tracking-[0.2em] text-black/60">Property Narrative</label>
@@ -252,7 +294,6 @@ const ListRoom = () => {
             </div>
           </div>
 
-          {/* Amenities Grid */}
           <div className="space-y-8 pt-8">
             <label className="text-[11px] font-black uppercase tracking-[0.2em] text-black">Curated Amenities</label>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
