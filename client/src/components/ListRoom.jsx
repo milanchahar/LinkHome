@@ -43,21 +43,20 @@ const ListRoom = () => {
 
     try {
       for (const file of files) {
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "ml_default"); // User might need to change this
-        data.append("cloud_name", "dqs5rvi8b");
-
-        const res = await axios.post(
-          "https://api.cloudinary.com/v1_1/dqs5rvi8b/image/upload",
-          data
-        );
-        uploadedImages.push(res.data.secure_url);
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        await new Promise((resolve, reject) => {
+          reader.onload = () => {
+            uploadedImages.push(reader.result);
+            resolve();
+          };
+          reader.onerror = (error) => reject(error);
+        });
       }
       setFormData({
         ...formData,
         images: uploadedImages,
-        imageUrl: uploadedImages[0] || "" // Set first image as primary
+        imageUrl: uploadedImages[0] || ""
       });
       toast.success("Images uploaded! 📸");
     } catch (err) {

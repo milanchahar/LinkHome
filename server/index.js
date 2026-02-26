@@ -31,6 +31,8 @@ process.on("SIGTERM", () => {
   process.exit(0);
 });
 
+const compression = require("compression");
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 
@@ -84,7 +86,23 @@ app.get("/api/listings", async (req, res) => {
     const listings = await prisma.listing.findMany({
       orderBy: { createdAt: "desc" },
     });
-    res.json(listings);
+
+    // Strip large fields from the payload to reduce network transfer size
+    const optimizedListings = listings.map(listing => {
+      let firstImage = null;
+      if (listing.images && Array.isArray(listing.images) && listing.images.length > 0) {
+        firstImage = listing.images[0];
+      }
+
+      const optimized = {
+        ...listing,
+        images: firstImage ? [firstImage] : [],
+      };
+      delete optimized.description;
+      return optimized;
+    });
+
+    res.json(optimizedListings);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch listings" });
   }
