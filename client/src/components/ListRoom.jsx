@@ -58,8 +58,8 @@ const ListRoom = () => {
                 const canvas = document.createElement("canvas");
                 const ctx = canvas.getContext("2d");
 
-                const MAX_WIDTH = 1080;
-                const MAX_HEIGHT = 1080;
+                const MAX_WIDTH = 600;
+                const MAX_HEIGHT = 600;
                 let width = img.width;
                 let height = img.height;
 
@@ -79,8 +79,11 @@ const ListRoom = () => {
                 canvas.height = height;
                 ctx.drawImage(img, 0, 0, width, height);
 
-                // Use a lower quality to ensure small size (e.g. 0.6 = 60%)
-                resolve(canvas.toDataURL("image/jpeg", 0.6));
+                // Use a lower quality to ensure extremely small size (e.g. 0.4 = 40%)
+                const base64String = canvas.toDataURL("image/jpeg", 0.4);
+                console.log(`Original file: ${file.name} | Size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+                console.log(`Compressed Base64 Length: ${(base64String.length / 1024 / 1024).toFixed(2)}MB roughly`);
+                resolve(base64String);
               };
               img.onerror = (error) => reject(error);
             };
