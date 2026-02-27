@@ -248,6 +248,172 @@ app.put("/api/listings/:id", authenticateToken, async (req, res) => {
   }
 });
 
+app.get("/api/conversations", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const conversations = await prisma.conversation.findMany({
+      where: {
+        participants: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+      include: {
+        participants: {
+          select: { id: true, name: true, email: true },
+        },
+        messages: {
+          orderBy: { createdAt: "desc" },
+          take: 1,
+        },
+      },
+      orderBy: { updatedAt: "desc" },
+    });
+
+    res.json(conversations);
+  } catch (error) {
+    console.error("Error fetching conversations:", error);
+    res.status(500).json({ error: "Failed to fetch conversations" });
+  }
+});
+
+app.post("/api/conversations", authenticateToken, async (req, res) => {
+  try {
+    const { partnerId } = req.body;
+    const userId = req.user.userId;
+
+    if (!partnerId) {
+      return res.status(400).json({ error: "partnerId is required" });
+    }
+
+    if (userId === partnerId) {
+      return res.status(400).json({ error: "Cannot create conversation with yourself" });
+    }
+
+    const existingConversation = await prisma.conversation.findFirst({
+      where: {
+        AND: [
+          { participants: { some: { id: userId } } },
+          { participants: { some: { id: partnerId } } },
+        ],
+      },
+      include: {
+        participants: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+    });
+
+    if (existingConversation) {
+      return res.json(existingConversation);
+    }
+
+    const newConversation = await prisma.conversation.create({
+      data: {
+        participants: {
+          connect: [{ id: userId }, { id: partnerId }],
+        },
+      },
+      include: {
+        participants: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+    });
+
+    res.status(201).json(newConversation);
+  } catch (error) {
+    console.error("Error creating conversation:", error);
+    res.status(500).json({ error: "Failed to create conversation" });
+  }
+});
+
+app.get("/api/messages/:conversationId", authenticateToken, async (req, res) => {
+  try {
+    const conversationId = parseInt(req.params.conversationId);
+    const userId = req.user.userId;
+
+    // Verify user is part of the conversation
+    const conversation = await prisma.conversation.findUnique({
+      where: { id: conversationId },
+      include: { participants: true },
+    });
+
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found" });
+    }
+
+    const isParticipant = conversation.participants.some(p => p.id === userId);
+    if (!isParticipant) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const messages = await prisma.message.findMany({
+      where: { conversationId },
+      orderBy: { createdAt: "asc" },
+      include: {
+        sender: {
+          select: { id: true, name: true },
+        },
+      },
+    });
+
+    res.json(messages);
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).json({ error: "Failed to fetch messages" });
+  }
+});
+
+app.post("/api/messages", authenticateToken, async (req, res) => {
+  try {
+    const { conversationId, content } = req.body;
+    const senderId = req.user.userId;
+
+    if (!conversationId || !content) {
+      return res.status(400).json({ error: "conversationId and content are required" });
+    }
+
+    const conversation = await prisma.conversation.findUnique({
+      where: { id: Number(conversationId) },
+      include: { participants: true },
+    });
+
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found" });
+    }
+
+    const isParticipant = conversation.participants.some(p => p.id === senderId);
+    if (!isParticipant) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const message = await prisma.message.create({
+      data: {
+        content,
+        senderId,
+        conversationId: Number(conversationId),
+      },
+      include: {
+        sender: {
+          select: { id: true, name: true },
+        },
+      },
+    });
+
+    await prisma.conversation.update({
+      where: { id: Number(conversationId) },
+      data: { updatedAt: new Date() },
+    });
+
+    res.status(201).json(message);
+  } catch (error) {
+    console.error("Error sending message:", error);
+    res.status(500).json({ error: "Failed to send message" });
+  }
+});
+
 const PORT = process.env.PORT || 5001;
 
 if (require.main === module) {

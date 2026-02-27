@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, MessageSquare, Shield, Clock, CheckCircle2 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const InquirySuite = ({ isOpen, onClose, property }) => {
     const [message, setMessage] = useState("");
     const [sending, setSending] = useState(false);
     const [sent, setSent] = useState(false);
+    const navigate = useNavigate();
 
     if (!isOpen) return null;
 
@@ -14,18 +16,71 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
         e.preventDefault();
         if (!message.trim()) return;
 
-        setSending(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setSending(false);
-        setSent(true);
-        toast.success("Inquiry sent successfully!");
+        const user = JSON.parse(localStorage.getItem("user"));
+        const token = localStorage.getItem("token");
 
-        setTimeout(() => {
+        if (!user || !token) {
+            toast.error("Please login to send inquiries");
             onClose();
-            setSent(false);
-            setMessage("");
-        }, 2000);
+            navigate("/login");
+            return;
+        }
+
+        if (user.id === property?.ownerId) {
+            toast.error("You cannot send an inquiry for your own property.");
+            return;
+        }
+
+        setSending(true);
+
+        try {
+            const convRes = await fetch("http://localhost:5001/api/conversations", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ partnerId: property.ownerId })
+            });
+
+            if (!convRes.ok) {
+                throw new Error("Failed to initialize conversation");
+            }
+
+            const conversation = await convRes.json();
+
+            const enhancedMessage = `Regarding ${property.title}:\n\n${message}`;
+
+            const msgRes = await fetch("http://localhost:5001/api/messages", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    conversationId: conversation.id,
+                    content: enhancedMessage
+                })
+            });
+
+            if (!msgRes.ok) {
+                throw new Error("Failed to send message");
+            }
+
+            setSending(false);
+            setSent(true);
+
+            setTimeout(() => {
+                onClose();
+                setSent(false);
+                setMessage("");
+            }, 3000);
+
+        } catch (error) {
+            console.error("Inquiry error:", error);
+            toast.error("Failed to send inquiry. Please try again.");
+            setSending(false);
+        }
     };
 
     return (
@@ -112,7 +167,16 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
                                     <CheckCircle2 size={40} className="text-green-500" />
                                 </div>
                                 <h3 className="text-2xl font-display font-black mb-2 uppercase tracking-tight">Message Sent</h3>
-                                <p className="text-zinc-800 text-sm font-medium">The owner will be notified immediately.</p>
+                                <p className="text-zinc-800 text-sm font-medium mb-6">The owner has received your message.</p>
+                                <button
+                                    onClick={() => {
+                                        onClose();
+                                        navigate("/messages");
+                                    }}
+                                    className="pill-button text-xs bg-zinc-100 text-black hover:bg-zinc-200"
+                                >
+                                    Go to Messages
+                                </button>
                             </motion.div>
                         )}
                     </div>
