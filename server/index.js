@@ -53,6 +53,16 @@ const authenticateToken = (req, res, next) => {
 app.post("/api/auth/signup", async (req, res) => {
   try {
     const { email, password, name } = req.body;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Please enter a valid email address" });
+    }
+
+    if (!password || password.length < 5) {
+      return res.status(400).json({ error: "Password must be at least 5 characters long" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: { email, password: hashedPassword, name },

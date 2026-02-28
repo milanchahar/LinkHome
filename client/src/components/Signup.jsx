@@ -12,6 +12,18 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address (e.g., name@example.com)");
+      return;
+    }
+
+    if (formData.password.length < 5) {
+      toast.error("Password must be at least 5 characters long");
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, formData);
