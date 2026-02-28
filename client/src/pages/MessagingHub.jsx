@@ -41,7 +41,7 @@ const MessagingHub = () => {
 
     const fetchConversations = async () => {
         try {
-            const response = await fetch("http://localhost:5001/api/conversations", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -59,7 +59,7 @@ const MessagingHub = () => {
 
     const fetchMessages = async (conversationId) => {
         try {
-            const response = await fetch(`http://localhost:5001/api/messages/${conversationId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/messages/${conversationId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -82,7 +82,7 @@ const MessagingHub = () => {
         setSending(true);
 
         try {
-            const response = await fetch("http://localhost:5001/api/messages", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/messages`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

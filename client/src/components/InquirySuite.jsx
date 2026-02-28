@@ -34,7 +34,7 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
         setSending(true);
 
         try {
-            const convRes = await fetch("http://localhost:5001/api/conversations", {
+            const convRes = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
 
             const enhancedMessage = `Regarding ${property.title}:\n\n${message}`;
 
-            const msgRes = await fetch("http://localhost:5001/api/messages", {
+            const msgRes = await fetch(`${import.meta.env.VITE_API_URL}/api/messages`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

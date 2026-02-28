@@ -7,6 +7,7 @@ import { Menu, X, Home as HomeIcon, Compass, PlusCircle, User, LogOut, Sparkles,
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [profileOpen, setProfileOpen] = useState(false);
     const location = useLocation();
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -62,13 +63,48 @@ const Navbar = () => {
                     <div className="h-4 w-px bg-black/10 mx-2" />
 
                     {user ? (
-                        <button
-                            onClick={handleLogout}
-                            className="text-[10px] font-bold uppercase tracking-[0.2em] text-red-500 hover:text-red-600 transition-colors flex items-center gap-2"
-                        >
-                            <LogOut size={14} />
-                            Logout
-                        </button>
+                        <div className="relative">
+                            <button
+                                onClick={() => setProfileOpen(!profileOpen)}
+                                className="flex items-center gap-2 text-black hover:text-black/70 transition-colors"
+                            >
+                                <div className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center font-display font-bold text-sm">
+                                    {user.name ? user.name.charAt(0).toUpperCase() : <User size={14} />}
+                                </div>
+                            </button>
+
+                            <AnimatePresence>
+                                {profileOpen && (
+                                    <>
+                                        <div
+                                            className="fixed inset-0 z-40"
+                                            onClick={() => setProfileOpen(false)}
+                                        />
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="absolute right-0 mt-4 w-64 bg-white rounded-3xl shadow-xl border border-black/5 z-50 overflow-hidden"
+                                        >
+                                            <div className="p-5 border-b border-black/5 bg-[#fbfbf9]/50">
+                                                <p className="font-display font-black text-lg text-black truncate">{user.name || "User"}</p>
+                                                <p className="text-xs text-zinc-500 font-medium truncate mt-0.5">{user.email || "No email available"}</p>
+                                            </div>
+                                            <div className="p-2">
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="w-full text-left px-4 py-3 rounded-2xl text-xs font-black uppercase tracking-widest text-red-500 hover:bg-red-50 hover:text-red-600 transition-all flex items-center gap-3"
+                                                >
+                                                    <LogOut size={16} />
+                                                    Logout
+                                                </button>
+                                            </div>
+                                        </motion.div>
+                                    </>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     ) : (
                         <div className="flex items-center gap-8">
                             <Link to="/login" className="text-[10px] font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors">
