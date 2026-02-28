@@ -76,7 +76,7 @@ app.post("/api/auth/signup", async (req, res) => {
     res.json({
       message: "User created!",
       token,
-      user: { id: user.id, name: user.name }
+      user: { id: user.id, name: user.name, email: user.email }
     });
   } catch (error) {
     res
@@ -93,7 +93,7 @@ app.post("/api/auth/login", async (req, res) => {
     const token = jwt.sign({ userId: user.id }, secret, {
       expiresIn: "24h",
     });
-    res.json({ token, user: { id: user.id, name: user.name } });
+    res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
   } else {
     res.status(401).json({
       error: "Invalid email or password",

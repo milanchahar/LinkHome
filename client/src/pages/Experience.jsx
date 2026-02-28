@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Sparkles, Shield, Zap, Globe, Heart, Award } from "lucide-react";
 
@@ -12,7 +13,6 @@ const Stats = [
 const Experience = () => {
     return (
         <div className="pt-32 pb-24 bg-[#fbfbf9] overflow-hidden">
-            {/* Hero Section */}
             <section className="px-6 mb-32 relative">
                 <div className="max-w-6xl mx-auto text-center">
                     <motion.div
@@ -44,11 +44,9 @@ const Experience = () => {
                     </motion.p>
                 </div>
 
-                {/* Floating background elements */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-brand-600/5 blur-[120px] -z-10 rounded-full" />
             </section>
 
-            {/* Philosophy Section */}
             <section className="px-6 mb-40 relative">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
@@ -109,7 +107,6 @@ const Experience = () => {
                 </div>
             </section>
 
-            {/* Stats Section */}
             <section className="px-6 mb-40">
                 <div className="max-w-7xl mx-auto py-24 border-y border-white/5">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
@@ -129,7 +126,6 @@ const Experience = () => {
                 </div>
             </section>
 
-            {/* Call to Action */}
             <section className="px-6">
                 <div className="max-w-5xl mx-auto glass-card rounded-[4rem] p-16 md:p-24 text-center border border-brand-500/20 bg-brand-600/5 relative overflow-hidden">
                     <motion.div
@@ -141,13 +137,13 @@ const Experience = () => {
                         <p className="text-black/60 mb-12 text-lg max-w-xl mx-auto font-medium leading-relaxed">
                             Join the LinkHome family today and discover what it means to live with zero compromise.
                         </p>
-                        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                            <button className="pill-button bg-black text-white hover:bg-zinc-800">
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-6 z-10 relative">
+                            <Link to="/browse" className="pill-button bg-black text-white hover:bg-zinc-800 text-center justify-center">
                                 Explore Stays
-                            </button>
-                            <button className="pill-button bg-white text-black border border-black/10 hover:bg-zinc-50">
+                            </Link>
+                            <Link to="/list-room" className="pill-button bg-white text-black border border-black/10 hover:bg-zinc-50 text-center justify-center">
                                 Become a Host
-                            </button>
+                            </Link>
                         </div>
                     </motion.div>
 
