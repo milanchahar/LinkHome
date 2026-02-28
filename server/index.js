@@ -84,27 +84,60 @@ app.post("/api/auth/login", async (req, res) => {
 
 app.get("/api/listings", async (req, res) => {
   try {
+    const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
+    const sortBy = req.query.sortBy;
+
+    let orderBy = { createdAt: "desc" };
+    if (sortBy === "price_desc") {
+      orderBy = { price: "desc" };
+    } else if (sortBy === "price_asc") {
+      orderBy = { price: "asc" };
+    }
+
     const listings = await prisma.listing.findMany({
-      orderBy: { createdAt: "desc" },
+      take: limit,
+      orderBy,
+      select: {
+        id: true,
+        ownerId: true,
+        title: true,
+        price: true,
+        city: true,
+        area: true,
+        address: true,
+        imageUrl: true,
+        isPureVeg: true,
+        genderPref: true,
+        lifestyle: true,
+        availableFrom: true,
+        hasWifi: true,
+        isFurnished: true,
+        hasParking: true,
+        hasGym: true,
+        hasPool: true,
+        hasAC: true,
+        hasLaundry: true,
+        hasBalcony: true,
+        createdAt: true,
+        images: true,
+      }
     });
 
-    // Strip large fields from the payload to reduce network transfer size
     const optimizedListings = listings.map(listing => {
       let firstImage = null;
       if (listing.images && Array.isArray(listing.images) && listing.images.length > 0) {
         firstImage = listing.images[0];
       }
 
-      const optimized = {
+      return {
         ...listing,
         images: firstImage ? [firstImage] : [],
       };
-      delete optimized.description;
-      return optimized;
     });
 
     res.json(optimizedListings);
   } catch (error) {
+    console.error("Error fetching listings:", error);
     res.status(500).json({ error: "Failed to fetch listings" });
   }
 });

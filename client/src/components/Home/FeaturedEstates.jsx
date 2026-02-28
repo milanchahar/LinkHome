@@ -13,9 +13,8 @@ const FeaturedEstates = () => {
     useEffect(() => {
         const fetchTopListings = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
-                // Get exactly 8 items for a lush collection
-                setListings((res.data || []).slice(0, 8));
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings?limit=8`);
+                setListings(res.data || []);
             } catch (err) {
                 console.error("Error fetching featured estates:", err);
             }

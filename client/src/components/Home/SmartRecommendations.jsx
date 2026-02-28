@@ -12,12 +12,9 @@ const SmartRecommendations = () => {
     useEffect(() => {
         const fetchMatches = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
-                const sorted = (res.data || [])
-                    .filter(item => item && typeof item.price === 'number')
-                    .sort((a, b) => b.price - a.price)
-                    .slice(0, 3);
-                setMatches(sorted);
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings?limit=3&sortBy=price_desc`);
+                const validMatches = (res.data || []).filter(item => item && typeof item.price === 'number');
+                setMatches(validMatches);
             } catch (err) {
                 console.error("Error fetching matches:", err);
             }

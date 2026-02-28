@@ -45,6 +45,9 @@ model Listing {
   hasLaundry   Boolean  @default(false)
   hasBalcony   Boolean  @default(false)
   createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([price])
 }
 
 model Conversation {
