@@ -48,9 +48,9 @@ const BrowseRooms = () => {
   }, [rooms, searchTerm, vegOnly, genderFilter, maxPrice]);
 
   return (
-    <div className={`pt-40 pb-24 px-6 min-h-screen bg-[#fbfbf9] transition-all duration-700 ${viewMode === 'split' ? 'xl:pr-0' : ''}`}>
+    <div className={`pt-32 pb-24 px-6 min-h-screen bg-[#fbfbf9] transition-all duration-700 ${viewMode === 'split' ? 'xl:pr-0' : ''}`}>
       <div className={`${viewMode === 'split' ? 'max-w-none' : 'max-w-7xl mx-auto'}`}>
-        <div className="mb-20 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
+        <div className="mb-0 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
               <div className="h-[1px] w-12 bg-black/20" />
@@ -80,66 +80,68 @@ const BrowseRooms = () => {
           </div>
         </div>
 
-        <motion.div
-          layout
-          className={`bg-white p-6 rounded-[2rem] mb-20 border border-black/5 flex flex-col xl:flex-row gap-6 items-center sticky top-28 z-40 backdrop-blur-md shadow-2xl shadow-black/5 ${viewMode === 'split' ? 'mr-6' : ''}`}
-        >
-          <div className="flex-1 w-full relative group">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-black/40 group-focus-within:text-black transition-colors" size={20} />
-            <input
-              type="text"
-              placeholder="Search by city or neighborhood..."
-              className="w-full bg-[#fbfbf9] border border-black/5 rounded-full py-4 pl-16 pr-6 outline-none focus:border-black/20 focus:bg-white transition-all text-black text-sm font-black tracking-wide placeholder:text-black/30"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
-            <div className="flex items-center gap-3 bg-[#fbfbf9] border border-black/5 rounded-full px-6 py-4 hover:border-black/20 transition-colors">
-              <Users className="text-black/40" size={18} />
-              <select
-                className="bg-transparent outline-none text-black text-xs font-black uppercase tracking-widest cursor-pointer appearance-none pr-4"
-                value={genderFilter}
-                onChange={(e) => setGenderFilter(e.target.value)}
-              >
-                <option value="Any">All Genders</option>
-                <option value="Male">Males Only</option>
-                <option value="Female">Females Only</option>
-              </select>
-            </div>
-
-            <div className="flex flex-1 flex-col gap-3 min-w-[220px] bg-[#fbfbf9] border border-black/5 rounded-full px-8 py-4 hover:border-black/20 transition-colors">
-              <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-black/60">
-                <span>Max Budget</span>
-                <span className="text-black font-black text-xs tracking-normal">₹{Number(maxPrice).toLocaleString('en-IN')}</span>
-              </div>
+        <div className="flex w-full justify-center mt-2 mb-20">
+          <motion.div
+            layout
+            className={`w-full max-w-5xl bg-white p-6 rounded-[2rem] mb-20 border border-black/5 flex flex-col xl:flex-row gap-6 items-center sticky top-28 z-40 backdrop-blur-md shadow-2xl shadow-black/5 ${viewMode === 'split' ? 'mr-6' : ''}`}
+          >
+            <div className="flex-1 w-full relative group">
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-black/40 group-focus-within:text-black transition-colors" size={20} />
               <input
-                type="range"
-                min="1000"
-                max="1000000"
-                step="5000"
-                className="w-full h-1.5 bg-black/10 rounded-full appearance-none cursor-pointer outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-black [&::-webkit-slider-thumb]:rounded-full hover:[&::-webkit-slider-thumb]:scale-125 active:[&::-webkit-slider-thumb]:scale-90 [&::-webkit-slider-thumb]:transition-transform"
-                value={maxPrice}
-                onChange={(e) => setMaxPrice(e.target.value)}
+                type="text"
+                placeholder="Search by city or neighborhood..."
+                className="w-full bg-[#fbfbf9] border border-black/5 rounded-full py-4 pl-16 pr-6 outline-none focus:border-black/20 focus:bg-white transition-all text-black text-sm font-black tracking-wide placeholder:text-black/30"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
 
-            <label className="flex items-center gap-4 cursor-pointer group bg-[#fbfbf9] border border-black/5 rounded-full px-8 py-4 transition-all hover:bg-black hover:text-white">
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  className="sr-only peer"
-                  checked={vegOnly}
-                  onChange={(e) => setVegOnly(e.target.checked)}
-                />
-                <div className="w-10 h-5 bg-black/10 rounded-full border border-black/5 peer-checked:bg-white/20 transition-all peer-hover:bg-black/20" />
-                <div className="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all peer-checked:translate-x-5" />
+            <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto">
+              <div className="flex items-center gap-3 bg-[#fbfbf9] border border-black/5 rounded-full px-6 py-4 hover:border-black/20 transition-colors">
+                <Users className="text-black/40" size={18} />
+                <select
+                  className="bg-transparent outline-none text-black text-xs font-black uppercase tracking-widest cursor-pointer appearance-none pr-4"
+                  value={genderFilter}
+                  onChange={(e) => setGenderFilter(e.target.value)}
+                >
+                  <option value="Any">All Genders</option>
+                  <option value="Male">Males Only</option>
+                  <option value="Female">Females Only</option>
+                </select>
               </div>
-              <span className="text-xs font-black uppercase tracking-widest text-black/60 group-hover:text-white transition-colors">Pure Veg</span>
-            </label>
-          </div>
-        </motion.div>
+
+              <div className="flex flex-1 flex-col gap-3 min-w-[220px] bg-[#fbfbf9] border border-black/5 rounded-full px-8 py-4 hover:border-black/20 transition-colors">
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-black/60">
+                  <span>Max Budget</span>
+                  <span className="text-black font-black text-xs tracking-normal">₹{Number(maxPrice).toLocaleString('en-IN')}</span>
+                </div>
+                <input
+                  type="range"
+                  min="1000"
+                  max="1000000"
+                  step="5000"
+                  className="w-full h-1.5 bg-black/10 rounded-full appearance-none cursor-pointer outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-black [&::-webkit-slider-thumb]:rounded-full hover:[&::-webkit-slider-thumb]:scale-125 active:[&::-webkit-slider-thumb]:scale-90 [&::-webkit-slider-thumb]:transition-transform"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </div>
+
+              <label className="flex items-center gap-4 cursor-pointer group bg-[#fbfbf9] border border-black/5 rounded-full px-8 py-4 transition-all hover:bg-emerald-50 hover:border-emerald-200">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={vegOnly}
+                    onChange={(e) => setVegOnly(e.target.checked)}
+                  />
+                  <div className="w-10 h-5 bg-black/10 rounded-full border border-black/5 peer-checked:bg-emerald-500 transition-all peer-hover:bg-emerald-200" />
+                  <div className="absolute top-1 left-1 w-3 h-3 bg-white rounded-full transition-all peer-checked:translate-x-5 shadow-sm" />
+                </div>
+                <span className="text-xs font-black uppercase tracking-widest text-black/60 group-hover:text-emerald-700 transition-colors peer-checked:text-emerald-600">Pure Veg</span>
+              </label>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       <div className={`flex flex-col xl:flex-row gap-8 ${viewMode === 'split' ? '' : 'max-w-7xl mx-auto'}`}>
