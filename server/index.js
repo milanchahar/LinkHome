@@ -57,7 +57,17 @@ app.post("/api/auth/signup", async (req, res) => {
     const user = await prisma.user.create({
       data: { email, password: hashedPassword, name },
     });
-    res.json({ message: "User created!", userId: user.id });
+
+    const secret = process.env.JWT_SECRET || "milan_secret_key";
+    const token = jwt.sign({ userId: user.id }, secret, {
+      expiresIn: "24h",
+    });
+
+    res.json({
+      message: "User created!",
+      token,
+      user: { id: user.id, name: user.name }
+    });
   } catch (error) {
     res
       .status(400)

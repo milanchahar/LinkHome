@@ -14,9 +14,17 @@ const Signup = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, formData);
-      toast.success("Account created successfully! 🎉");
-      navigate("/login");
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/signup`, formData);
+
+      if (res.data.token && res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.token);
+        toast.success(`Account created successfully! Welcome, ${res.data.user.name}! 🎉`);
+        window.location.href = "/";
+      } else {
+        toast.success("Account created successfully! 🎉");
+        navigate("/login");
+      }
     } catch (err) {
       const errorMessage = err.response?.data?.error || err.response?.data?.message || (err.request ? "Cannot connect to server. Please ensure the backend is running." : "Signup failed. Please try again.");
       toast.error(errorMessage);
