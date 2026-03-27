@@ -144,9 +144,18 @@ app.get("/api/listings", async (req, res) => {
     });
 
     const optimizedListings = listings.map(listing => {
+      let parsedImages = [];
+      try {
+        if (typeof listing.images === 'string') {
+          parsedImages = JSON.parse(listing.images);
+        } else if (Array.isArray(listing.images)) {
+          parsedImages = listing.images;
+        }
+      } catch (e) {}
+
       let firstImage = null;
-      if (listing.images && Array.isArray(listing.images) && listing.images.length > 0) {
-        firstImage = listing.images[0];
+      if (parsedImages.length > 0) {
+        firstImage = parsedImages[0];
       }
 
       return {
@@ -169,6 +178,15 @@ app.get("/api/listings/:id", async (req, res) => {
       where: { id: listingId },
     });
     if (!listing) return res.status(404).json({ error: "Listing not found" });
+    
+    if (typeof listing.images === 'string') {
+      try {
+        listing.images = JSON.parse(listing.images);
+      } catch (e) {
+        listing.images = [];
+      }
+    }
+    
     res.json(listing);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch listing" });
@@ -201,7 +219,7 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
         area,
         address,
         imageUrl: imageUrl || null,
-        images: req.body.images || [],
+        images: JSON.stringify(req.body.images || []),
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",
         lifestyle: lifestyle || "Any",
@@ -278,7 +296,7 @@ app.put("/api/listings/:id", authenticateToken, async (req, res) => {
         area,
         address: req.body.address || "",
         imageUrl,
-        images: req.body.images || [],
+        images: JSON.stringify(req.body.images || []),
         price: Number(price),
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",

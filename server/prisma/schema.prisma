@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -31,7 +30,7 @@ model Listing {
   area         String   
   address      String
   imageUrl     String?
-  images       Json?
+  images       String?
   isPureVeg    Boolean  @default(true)
   genderPref   String   
   lifestyle    String   
