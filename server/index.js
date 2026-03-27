@@ -79,9 +79,12 @@ app.post("/api/auth/signup", async (req, res) => {
       user: { id: user.id, name: user.name, email: user.email }
     });
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: "Email already exists", message: "Email already exists" });
+    if (error.code === 'P2002') {
+      res.status(400).json({ error: "Email already exists", message: "Email already exists" });
+    } else {
+      console.error("Signup Error:", error);
+      res.status(500).json({ error: "Internal server error during signup" });
+    }
   }
 });
 

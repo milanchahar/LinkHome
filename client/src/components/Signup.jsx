@@ -70,7 +70,7 @@ const Signup = () => {
                 placeholder="John Doe"
                 required
                 className="w-full bg-zinc-50 border border-black/5 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black font-medium placeholder:text-black/20"
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               />
             </div>
           </div>
@@ -84,7 +84,7 @@ const Signup = () => {
                 placeholder="name@example.com"
                 required
                 className="w-full bg-zinc-50 border border-black/5 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black font-medium placeholder:text-black/20"
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               />
             </div>
           </div>
@@ -98,7 +98,7 @@ const Signup = () => {
                 placeholder="••••••••"
                 required
                 className="w-full bg-zinc-50 border border-black/5 rounded-2xl py-4 pl-12 pr-4 outline-none focus:border-black transition-all text-black font-medium placeholder:text-black/20"
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
               />
             </div>
           </div>
