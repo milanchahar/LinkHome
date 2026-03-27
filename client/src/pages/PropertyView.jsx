@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { fetchWithTiming } from "../utils/fetchWithTiming";
 import { motion } from "framer-motion";
 import { MapPin, Wallet, MessageSquare, ArrowLeft, Beef, Users, Calendar, ShieldCheck, Star, Share2, Shield, Coffee, Sparkles } from "lucide-react";
 import { DetailSkeleton } from "../components/ListingSkeleton";
@@ -21,8 +21,9 @@ const PropertyView = () => {
     useEffect(() => {
         const fetchProperty = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings/${id}`);
-                setProperty(res.data);
+                const { data, duration } = await fetchWithTiming(`${import.meta.env.VITE_API_URL}/api/listings/${id}`);
+                setProperty(data);
+                console.log(`Fetched property in ${duration}ms`);
             } catch (err) {
                 try {
                     const resAll = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);

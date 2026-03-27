@@ -1,4 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
+import { fetchWithTiming } from "../utils/fetchWithTiming";
+import { ConversationSkeleton } from "../components/ConversationSkeleton";
+import { MessageSkeleton } from "../components/MessageSkeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, User as UserIcon, Clock, ChevronLeft, MoreVertical, MessageSquare } from "lucide-react";
 import toast from "react-hot-toast";
@@ -41,16 +44,14 @@ const MessagingHub = () => {
 
     const fetchConversations = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations`, {
+            const { data, duration } = await fetchWithTiming(`${import.meta.env.VITE_API_URL}/api/conversations`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            if (response.ok) {
-                const data = await response.json();
-                setConversations(data);
-                setLoading(false);
-            }
+            setConversations(data);
+            setLoading(false);
+            console.log(`Fetched conversations in ${duration}ms`);
         } catch (error) {
             console.error("Failed to fetch conversations:", error);
             setLoading(false);
@@ -59,17 +60,18 @@ const MessagingHub = () => {
 
     const fetchMessages = async (conversationId) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/messages/${conversationId}`, {
+            setMessagesLoading(true);
+            const { data, duration } = await fetchWithTiming(`${import.meta.env.VITE_API_URL}/api/messages/${conversationId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            if (response.ok) {
-                const data = await response.json();
-                setMessages(data);
-            }
+            setMessages(data);
+            setMessagesLoading(false);
+            console.log(`Fetched messages in ${duration}ms`);
         } catch (error) {
             console.error("Failed to fetch messages:", error);
+            setMessagesLoading(false);
         }
     };
 
@@ -223,7 +225,13 @@ const MessagingHub = () => {
                             </div>
 
                             <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-zinc-50/30 custom-scrollbar">
-                                {messages.length === 0 ? (
+                                {messagesLoading ? (
+                                    <>
+                                        {[...Array(3)].map((_, i) => (
+                                            <MessageSkeleton key={i} />
+                                        ))}
+                                    </>
+                                ) : messages.length === 0 ? (
                                     <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
                                         <Clock size={32} className="mb-4 text-zinc-400" />
                                         <p className="font-medium text-zinc-600">Start of conversation</p>
