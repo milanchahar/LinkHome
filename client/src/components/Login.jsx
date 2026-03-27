@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Mail, Lock, LogIn, ArrowRight } from "lucide-react";
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -22,6 +23,26 @@ const Login = () => {
     } catch (err) {
       const errorMessage = err.response?.data?.message || err.response?.data?.error || (err.request ? "Cannot connect to server. Please ensure the backend is running." : "Login failed. Please try again.");
       toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setLoading(true);
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/google`, {
+        token: credentialResponse.credential,
+      });
+
+      if (res.data.token && res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.token);
+        toast.success(`Welcome, ${res.data.user.name}! 🎉`);
+        window.location.href = "/";
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.error || "Google Login failed");
     } finally {
       setLoading(false);
     }
@@ -80,6 +101,26 @@ const Login = () => {
             <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
           </button>
         </form>
+
+        <div className="mt-8">
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-black/10"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-zinc-500 font-medium">Or continue with</span>
+            </div>
+          </div>
+          <div className="mt-6 flex justify-center">
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={() => toast.error("Google Login Failed")}
+              theme="outline"
+              size="large"
+              shape="pill"
+            />
+          </div>
+        </div>
 
         <div className="mt-10 text-center">
           <p className="text-zinc-400 text-xs font-bold uppercase tracking-widest">

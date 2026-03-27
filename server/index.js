@@ -4,6 +4,7 @@ const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { OAuth2Client } = require("google-auth-library");
 const app = express();
 const prisma = new PrismaClient();
 
@@ -102,6 +103,45 @@ app.post("/api/auth/login", async (req, res) => {
       error: "Invalid email or password",
       message: "Invalid email or password",
     });
+  }
+});
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+app.post("/api/auth/google", async (req, res) => {
+  try {
+    const { token } = req.body;
+    
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name } = payload;
+    
+    let user = await prisma.user.findUnique({ where: { email } });
+    
+    if (!user) {
+      user = await prisma.user.create({
+        data: { email, name, googleId },
+      });
+    } else if (!user.googleId) {
+      user = await prisma.user.update({
+        where: { email },
+        data: { googleId },
+      });
+    }
+
+    const secret = process.env.JWT_SECRET || "milan_secret_key";
+    const jwtToken = jwt.sign({ userId: user.id }, secret, {
+      expiresIn: "24h",
+    });
+    
+    res.json({ token: jwtToken, user: { id: user.id, name: user.name, email: user.email } });
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    res.status(401).json({ error: "Invalid Google authentication" });
   }
 });
 
