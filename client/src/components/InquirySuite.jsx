@@ -43,6 +43,24 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
                 body: JSON.stringify({ partnerId: property.ownerId })
             });
 
+            if (convRes.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                toast.error("Your session has expired. Please log in again.");
+                onClose();
+                navigate("/login");
+                return;
+            }
+
+            if (convRes.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                toast.error("Your session has expired. Please log in again.");
+                onClose();
+                navigate("/login");
+                return;
+            }
+
             if (!convRes.ok) {
                 throw new Error("Failed to initialize conversation");
             }

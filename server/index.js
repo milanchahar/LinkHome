@@ -44,10 +44,16 @@ const authenticateToken = (req, res, next) => {
   if (!token) return res.status(401).json({ error: "Please login first" });
 
   const secret = process.env.JWT_SECRET || "milan_secret_key";
-  jwt.verify(token, secret, (err, user) => {
+  jwt.verify(token, secret, async (err, decoded) => {
     if (err) return res.status(403).json({ error: "Invalid token" });
-    req.user = user;
-    next();
+    try {
+      const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+      if (!user) return res.status(401).json({ error: "Session expired or invalid" });
+      req.user = decoded;
+      next();
+    } catch (dbErr) {
+      return res.status(500).json({ error: "Auth DB Error" });
+    }
   });
 };
 
