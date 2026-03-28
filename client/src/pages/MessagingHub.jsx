@@ -18,11 +18,19 @@ const MessagingHub = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
     const messagesEndRef = useRef(null);
+    const navigate = require("react-router-dom").useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        toast.error("Your session has expired. Please log in again.");
+        window.location.href = "/login";
+    };
 
     useEffect(() => {
         fetchConversations();
 
-        const interval = setInterval(fetchConversations, 10000);
+        const interval = setInterval(() => fetchConversations(true), 10000);
         return () => clearInterval(interval);
     }, []);
 
@@ -30,7 +38,7 @@ const MessagingHub = () => {
         if (activeConversation) {
             fetchMessages(activeConversation.id);
 
-            const interval = setInterval(() => fetchMessages(activeConversation.id), 3000);
+            const interval = setInterval(() => fetchMessages(activeConversation.id, true), 3000);
             return () => clearInterval(interval);
         }
     }, [activeConversation]);
@@ -43,36 +51,36 @@ const MessagingHub = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    const fetchConversations = async () => {
+    const fetchConversations = async (silent = false) => {
         try {
-            const { data, duration } = await fetchWithTiming(`${import.meta.env.VITE_API_URL}/api/conversations`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations`, {
+                headers: { Authorization: `Bearer ${token}` }
             });
+            if (res.status === 401) handleLogout();
+            
+            const data = await res.json();
             setConversations(data);
-            setLoading(false);
-            console.log(`Fetched conversations in ${duration}ms`);
+            if (!silent) setLoading(false);
         } catch (error) {
             console.error("Failed to fetch conversations:", error);
-            setLoading(false);
+            if (!silent) setLoading(false);
         }
     };
 
-    const fetchMessages = async (conversationId) => {
+    const fetchMessages = async (conversationId, silent = false) => {
         try {
-            setMessagesLoading(true);
-            const { data, duration } = await fetchWithTiming(`${import.meta.env.VITE_API_URL}/api/messages/${conversationId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            if (!silent) setMessagesLoading(true);
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/messages/${conversationId}`, {
+                headers: { Authorization: `Bearer ${token}` }
             });
+            if (res.status === 401) handleLogout();
+            
+            const data = await res.json();
             setMessages(data);
-            setMessagesLoading(false);
-            console.log(`Fetched messages in ${duration}ms`);
+            if (!silent) setMessagesLoading(false);
         } catch (error) {
             console.error("Failed to fetch messages:", error);
-            setMessagesLoading(false);
+            if (!silent) setMessagesLoading(false);
         }
     };
 
