@@ -173,8 +173,8 @@ const PropertyView = () => {
                                     <ShieldCheck className="text-white" size={24} strokeWidth={1.5} />
                                 </div>
                                 <div className="space-y-1">
-                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-black">Verified Signature Listing</h4>
-                                    <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest">Protected by HomeLink Ethics</p>
+                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-black">Listed By: {property.owner?.name || 'HomeLink Agent'}</h4>
+                                    <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest">{property.owner?.phone || property.phoneNumber || 'Contact for details'}</p>
                                 </div>
                             </div>
                             <button

@@ -216,6 +216,11 @@ app.get("/api/listings/:id", async (req, res) => {
     const listingId = parseInt(req.params.id);
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
+      include: {
+        owner: {
+          select: { name: true, phone: true, email: true }
+        }
+      }
     });
     if (!listing) return res.status(404).json({ error: "Listing not found" });
     

@@ -12,6 +12,7 @@ const MessagingHub = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [loading, setLoading] = useState(true);
+    const [messagesLoading, setMessagesLoading] = useState(false);
     const [sending, setSending] = useState(false);
 
     const user = JSON.parse(localStorage.getItem("user"));
