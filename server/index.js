@@ -187,14 +187,12 @@ app.get("/api/listings", async (req, res) => {
 
     const optimizedListings = listings.map(listing => {
       let parsedImages = [];
-      try {
-        if (typeof listing.images === 'string') {
-          parsedImages = JSON.parse(listing.images);
-        } else if (Array.isArray(listing.images)) {
-          parsedImages = listing.images;
-        }
-      } catch (e) {}
-
+      if (Array.isArray(listing.images)) {
+        parsedImages = listing.images;
+      } else if (typeof listing.images === "string") {
+        try { parsedImages = JSON.parse(listing.images); } catch(e) {}
+      }
+      
       let firstImage = null;
       if (parsedImages.length > 0) {
         firstImage = parsedImages[0];
@@ -220,14 +218,6 @@ app.get("/api/listings/:id", async (req, res) => {
       where: { id: listingId },
     });
     if (!listing) return res.status(404).json({ error: "Listing not found" });
-    
-    if (typeof listing.images === 'string') {
-      try {
-        listing.images = JSON.parse(listing.images);
-      } catch (e) {
-        listing.images = [];
-      }
-    }
     
     res.json(listing);
   } catch (error) {
