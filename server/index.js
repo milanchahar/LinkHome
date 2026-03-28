@@ -99,22 +99,18 @@ app.post("/api/auth/login", async (req, res) => {
     });
     res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
   } else {
-    res.status(401).json({
-      error: "Invalid email or password",
-      message: "Invalid email or password",
     });
   }
 });
 
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
+const googleClient = new OAuth2Client("513670477753-pos4nceeq6j0hatr8knh25lhsn335i7f.apps.googleusercontent.com");
 app.post("/api/auth/google", async (req, res) => {
   try {
     const { token } = req.body;
     
     const ticket = await googleClient.verifyIdToken({
       idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: "513670477753-pos4nceeq6j0hatr8knh25lhsn335i7f.apps.googleusercontent.com",
     });
     
     const payload = ticket.getPayload();
