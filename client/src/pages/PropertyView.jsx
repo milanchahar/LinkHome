@@ -172,9 +172,10 @@ const PropertyView = () => {
                                 <div className="w-14 h-14 bg-black rounded-full flex items-center justify-center shadow-xl shadow-black/10">
                                     <ShieldCheck className="text-white" size={24} strokeWidth={1.5} />
                                 </div>
-                                <div className="space-y-1">
+                                <div className="space-y-1 flex flex-col justify-center">
                                     <h4 className="text-[10px] font-black uppercase tracking-widest text-black">Listed By: {property.owner?.name || 'HomeLink Agent'}</h4>
-                                    <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest">{property.owner?.phone || property.phoneNumber || 'Contact for details'}</p>
+                                    <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest">{property.owner?.phone || property.phoneNumber || 'Contact via Secure Inquiry'}</p>
+                                    {property.owner?.email && <p className="text-zinc-500 text-[10px] font-bold tracking-wider">{property.owner.email}</p>}
                                 </div>
                             </div>
                             <button
