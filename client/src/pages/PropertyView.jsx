@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { fetchWithTiming } from "../utils/fetchWithTiming";
 import { motion } from "framer-motion";
 import { MapPin, Wallet, MessageSquare, ArrowLeft, Beef, Users, Calendar, ShieldCheck, Star, Share2, Shield, Coffee, Sparkles } from "lucide-react";
@@ -44,7 +45,14 @@ const PropertyView = () => {
     if (loading) return <DetailSkeleton />;
     if (!property) return null;
 
-    const allImages = property.images && property.images.length > 0 ? property.images : [property.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"];
+    let imagesSource = [];
+    if (Array.isArray(property.images)) {
+        imagesSource = property.images;
+    } else if (typeof property.images === "string") {
+        try { imagesSource = JSON.parse(property.images); } catch (e) { imagesSource = []; }
+    }
+
+    const allImages = imagesSource.length > 0 ? imagesSource : [property.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"];
 
     const amenitiesList = [
         { id: "hasWifi", label: "WiFi", icon: "🌐" },
@@ -154,7 +162,9 @@ const PropertyView = () => {
                             <div className="bg-[#fbfbf9] p-8 rounded-[2rem] border border-black/10">
                                 <span className="text-[9px] uppercase font-black tracking-[0.2em] text-black/60 mb-4 block">Monthly Investment</span>
                                 <div className="flex items-end gap-2">
-                                    <span className="text-3xl font-display font-black text-black">₹{property.price.toLocaleString()}</span>
+                                    <span className="text-3xl font-display font-black text-black">
+                                        ₹{typeof property.price === 'number' ? property.price.toLocaleString() : property.price || '0'}
+                                    </span>
                                     <span className="text-[10px] text-zinc-500 font-black uppercase tracking-widest mb-1">/mo</span>
                                 </div>
                             </div>
@@ -173,7 +183,7 @@ const PropertyView = () => {
                                     <ShieldCheck className="text-white" size={24} strokeWidth={1.5} />
                                 </div>
                                 <div className="space-y-1 flex flex-col justify-center">
-                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-black">Listed By: {property.owner?.name || 'HomeLink Agent'}</h4>
+                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-black">Listed By: {property.owner?.name || property.ownerName || 'HomeLink Agent'}</h4>
                                     <p className="text-zinc-700 text-[9px] font-black uppercase tracking-widest">{property.owner?.phone || property.phoneNumber || 'Contact via Secure Inquiry'}</p>
                                     {property.owner?.email && <p className="text-zinc-500 text-[10px] font-bold tracking-wider">{property.owner.email}</p>}
                                 </div>

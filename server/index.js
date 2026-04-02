@@ -116,17 +116,17 @@ const googleClient = new OAuth2Client("513670477753-pos4nceeq6j0hatr8knh25lhsn33
 app.post("/api/auth/google", async (req, res) => {
   try {
     const { token } = req.body;
-    
+
     const ticket = await googleClient.verifyIdToken({
       idToken: token,
       audience: "513670477753-pos4nceeq6j0hatr8knh25lhsn335i7f.apps.googleusercontent.com",
     });
-    
+
     const payload = ticket.getPayload();
     const { sub: googleId, email, name } = payload;
-    
+
     let user = await prisma.user.findUnique({ where: { email } });
-    
+
     if (!user) {
       user = await prisma.user.create({
         data: { email, name, googleId },
@@ -142,7 +142,7 @@ app.post("/api/auth/google", async (req, res) => {
     const jwtToken = jwt.sign({ userId: user.id }, secret, {
       expiresIn: "24h",
     });
-    
+
     res.json({ token: jwtToken, user: { id: user.id, name: user.name, email: user.email } });
   } catch (error) {
     console.error("Google Auth Error:", error);
@@ -196,9 +196,9 @@ app.get("/api/listings", async (req, res) => {
       if (Array.isArray(listing.images)) {
         parsedImages = listing.images;
       } else if (typeof listing.images === "string") {
-        try { parsedImages = JSON.parse(listing.images); } catch(e) {}
+        try { parsedImages = JSON.parse(listing.images); } catch (e) { }
       }
-      
+
       let firstImage = null;
       if (parsedImages.length > 0) {
         firstImage = parsedImages[0];
@@ -229,8 +229,18 @@ app.get("/api/listings/:id", async (req, res) => {
       }
     });
     if (!listing) return res.status(404).json({ error: "Listing not found" });
-    
-    res.json(listing);
+
+    let parsedImages = [];
+    if (Array.isArray(listing.images)) {
+      parsedImages = listing.images;
+    } else if (typeof listing.images === "string") {
+      try { parsedImages = JSON.parse(listing.images); } catch (e) { parsedImages = []; }
+    }
+
+    res.json({
+      ...listing,
+      images: parsedImages
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch listing" });
   }
@@ -262,7 +272,7 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
         area,
         address,
         imageUrl: imageUrl || null,
-        images: JSON.stringify(req.body.images || []),
+        images: req.body.images || [],
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",
         lifestyle: lifestyle || "Any",
@@ -339,7 +349,7 @@ app.put("/api/listings/:id", authenticateToken, async (req, res) => {
         area,
         address: req.body.address || "",
         imageUrl,
-        images: JSON.stringify(req.body.images || []),
+        images: req.body.images || [],
         price: Number(price),
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",
