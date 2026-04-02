@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../utils/api";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Save, ArrowLeft, Home, MapPin, Wallet, Phone, Upload } from "lucide-react";
+import { handleImageBatchUpload } from "../utils/imageUpload";
 import { getPlaceholderImage } from "../utils/placeholders";
 
 const EditRoom = () => {
@@ -37,8 +38,8 @@ const EditRoom = () => {
     useEffect(() => {
         const fetchRoom = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
-                const found = res.data.find(r => r.id === parseInt(id));
+                const res = await api.get(`/api/listings/${id}`);
+                const found = res.data;
                 if (found) {
                     setFormData({
                         title: found.title || "",
@@ -48,7 +49,7 @@ const EditRoom = () => {
                         isPureVeg: found.isPureVeg || false,
                         genderPref: found.genderPref || "Any",
                         imageUrl: found.imageUrl || "",
-                        images: found.images || [],
+                        images: Array.isArray(found.images) ? found.images : [],
                         phoneNumber: found.phoneNumber || "",
                         address: found.address || "",
                         description: found.description || "",
@@ -61,12 +62,10 @@ const EditRoom = () => {
                         hasBalcony: found.hasBalcony || false,
                         isFurnished: found.isFurnished || false,
                     });
-                } else {
-                    toast.error("Property not found.");
-                    navigate("/my-listings");
                 }
             } catch (err) {
                 toast.error("Failed to load property details.");
+                navigate("/my-listings");
             } finally {
                 setLoading(false);
             }
@@ -75,71 +74,17 @@ const EditRoom = () => {
     }, [id, navigate]);
 
     const handleImageUpload = async (e) => {
-        const files = Array.from(e.target.files);
-        if (files.length + formData.images.length > 5) {
-            toast.error("Maximum 5 images allowed");
-            return;
-        }
-
         setUploading(true);
-        const uploadedImages = [...formData.images];
-
         try {
-            for (const file of files) {
-                if (!file.type.startsWith("image/")) continue;
-
-                try {
-                    const compressedBase64 = await new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.readAsDataURL(file);
-
-                        reader.onload = (event) => {
-                            const img = new Image();
-                            img.src = event.target.result;
-
-                            img.onload = () => {
-                                const canvas = document.createElement("canvas");
-                                const ctx = canvas.getContext("2d");
-
-                                const MAX_WIDTH = 600;
-                                const MAX_HEIGHT = 600;
-                                let width = img.width;
-                                let height = img.height;
-
-                                if (width > height) {
-                                    if (width > MAX_WIDTH) {
-                                        height = Math.round((height * MAX_WIDTH) / width);
-                                        width = MAX_WIDTH;
-                                    }
-                                } else {
-                                    if (height > MAX_HEIGHT) {
-                                        width = Math.round((width * MAX_HEIGHT) / height);
-                                        height = MAX_HEIGHT;
-                                    }
-                                }
-
-                                canvas.width = width;
-                                canvas.height = height;
-                                ctx.drawImage(img, 0, 0, width, height);
-
-                                resolve(canvas.toDataURL("image/jpeg", 0.4));
-                            };
-                            img.onerror = (error) => reject(error);
-                        };
-                        reader.onerror = (error) => reject(error);
-                    });
-
-                    uploadedImages.push(compressedBase64);
-                } catch (err) {
-                    console.error("Image compression error:", err);
-                }
-            }
+            const updatedImages = await handleImageBatchUpload(e.target.files, formData.images);
             setFormData({
                 ...formData,
-                images: uploadedImages,
-                imageUrl: uploadedImages[0] || ""
+                images: updatedImages,
+                imageUrl: updatedImages[0] || ""
             });
-            toast.success("Images uploaded! 📸");
+            if (updatedImages.length > formData.images.length) {
+                toast.success("Images uploaded! 📸");
+            }
         } catch (err) {
             toast.error("Upload failed.");
         } finally {
@@ -159,11 +104,11 @@ const EditRoom = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSaving(true);
-        const token = localStorage.getItem("token");
 
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/listings/${id}`, formData, {
-                headers: { Authorization: `Bearer ${token}` },
+            await api.put(`/api/listings/${id}`, {
+                ...formData,
+                price: Number(formData.price)
             });
             toast.success("Listing updated successfully! ✨");
             navigate("/my-listings");

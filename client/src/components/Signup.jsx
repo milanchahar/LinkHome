@@ -56,7 +56,7 @@ const Signup = () => {
       if (res.data.token && res.data.user) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         localStorage.setItem("token", res.data.token);
-        toast.success(`Welcome, ${res.data.user.name}! 🎉`);
+        toast.success(`Welcome back, ${res.data.user.name}!`);
         window.location.href = "/";
       }
     } catch (err) {

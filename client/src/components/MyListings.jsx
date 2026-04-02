@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Trash2, Home, Plus, ExternalLink, ShieldCheck, Shield, Edit2, X, PlusCircle, MessageSquare, Save, ArrowLeft, Wallet, Phone, Upload } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -16,13 +16,13 @@ const MyListings = () => {
   useEffect(() => {
     const fetchMyRooms = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
+        const res = await api.get(`/api/listings`);
         const filtered = res.data.filter(
           (room) => Number(room.ownerId) === Number(user.id)
         );
         setMyRooms(filtered);
       } catch (err) {
-        toast.error("Failed to load your listings.");
+        console.error("Failed to load your listings:", err);
       } finally {
         setLoading(false);
       }
@@ -33,11 +33,8 @@ const MyListings = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to remove this listing?")) return;
 
-    const token = localStorage.getItem("token");
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/listings/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.delete(`/api/listings/${id}`);
       setMyRooms(myRooms.filter((room) => room.id !== id));
       toast.success("Listing removed successfully.");
     } catch (err) {
@@ -69,9 +66,7 @@ const MyListings = () => {
         </div>
 
         {loading ? (
-          <div className="py-32 flex justify-center">
-            <div className="w-12 h-12 border-4 border-black/5 border-t-black rounded-full animate-spin" />
-          </div>
+          <BrowseSkeleton viewMode="grid" />
         ) : (
           <div className="space-y-12">
             {myRooms.length === 0 ? (

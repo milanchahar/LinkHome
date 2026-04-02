@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Search, MapPin, Wallet, Beef, Users, MessageSquare, SlidersHorizontal, ArrowRight, Star, LayoutGrid, Map as MapIcon } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -21,12 +21,12 @@ const BrowseRooms = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
+        const res = await api.get(`/api/listings`);
         setRooms(res.data);
       } catch (err) {
-        console.error(err);
+        console.error("Failed to fetch rooms:", err);
       } finally {
-        setTimeout(() => setLoading(false), 800);
+        setLoading(false);
       }
     };
     fetchRooms();

@@ -45,7 +45,10 @@ const authenticateToken = (req, res, next) => {
 
   const secret = process.env.JWT_SECRET || "milan_secret_key";
   jwt.verify(token, secret, async (err, decoded) => {
-    if (err) return res.status(403).json({ error: "Invalid token" });
+    if (err) {
+      console.error("JWT Verification Error:", err.message);
+      return res.status(403).json({ error: "Session expired or invalid token. Please log in again." });
+    }
     try {
       const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
       if (!user) return res.status(401).json({ error: "Session expired or invalid" });
@@ -272,7 +275,7 @@ app.post("/api/listings", authenticateToken, async (req, res) => {
         area,
         address,
         imageUrl: imageUrl || null,
-        images: req.body.images || [],
+        images: JSON.stringify(req.body.images || []),
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",
         lifestyle: lifestyle || "Any",
@@ -349,7 +352,7 @@ app.put("/api/listings/:id", authenticateToken, async (req, res) => {
         area,
         address: req.body.address || "",
         imageUrl,
-        images: req.body.images || [],
+        images: JSON.stringify(req.body.images || []),
         price: Number(price),
         isPureVeg: isPureVeg === true,
         genderPref: genderPref || "Any",

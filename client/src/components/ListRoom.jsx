@@ -1,9 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Upload, MapPin, Wallet, Home, Phone, Beef, UserCheck } from "lucide-react";
+import { handleImageBatchUpload } from "../utils/imageUpload";
 
 const ListRoom = () => {
   const [formData, setFormData] = useState({
@@ -32,77 +33,19 @@ const ListRoom = () => {
   const navigate = useNavigate();
 
   const handleImageUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length + formData.images.length > 5) {
-      toast.error("Maximum 5 images allowed");
-      return;
-    }
-
     setUploading(true);
-    const uploadedImages = [...formData.images];
-
     try {
-      for (const file of files) {
-        if (!file.type.startsWith("image/")) continue;
-
-        try {
-          const compressedBase64 = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onload = (event) => {
-              const img = new Image();
-              img.src = event.target.result;
-
-              img.onload = () => {
-                const canvas = document.createElement("canvas");
-                const ctx = canvas.getContext("2d");
-
-                const MAX_WIDTH = 600;
-                const MAX_HEIGHT = 600;
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                  if (width > MAX_WIDTH) {
-                    height = Math.round((height * MAX_WIDTH) / width);
-                    width = MAX_WIDTH;
-                  }
-                } else {
-                  if (height > MAX_HEIGHT) {
-                    width = Math.round((width * MAX_HEIGHT) / height);
-                    height = MAX_HEIGHT;
-                  }
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-
-                // Use a lower quality to ensure extremely small size (e.g. 0.4 = 40%)
-                const base64String = canvas.toDataURL("image/jpeg", 0.4);
-                console.log(`Original file: ${file.name} | Size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
-                console.log(`Compressed Base64 Length: ${(base64String.length / 1024 / 1024).toFixed(2)}MB roughly`);
-                resolve(base64String);
-              };
-              img.onerror = (error) => reject(error);
-            };
-            reader.onerror = (error) => reject(error);
-          });
-
-          uploadedImages.push(compressedBase64);
-        } catch (err) {
-          console.error("Image compression error:", err);
-        }
-      }
+      const updatedImages = await handleImageBatchUpload(e.target.files, formData.images);
       setFormData({
         ...formData,
-        images: uploadedImages,
-        imageUrl: uploadedImages[0] || ""
+        images: updatedImages,
+        imageUrl: updatedImages[0] || ""
       });
-      toast.success("Images uploaded! 📸");
+      if (updatedImages.length > formData.images.length) {
+        toast.success("Images uploaded! 📸");
+      }
     } catch (err) {
-      toast.error("Upload failed. Please try again.");
+      toast.error("Upload failed.");
     } finally {
       setUploading(false);
     }
@@ -125,11 +68,11 @@ const ListRoom = () => {
     }
 
     setLoading(true);
-    const token = localStorage.getItem("token");
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/listings`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
+      await api.post(`/api/listings`, {
+        ...formData,
+        price: Number(formData.price)
       });
       toast.success("Property listed successfully! 🏠");
       navigate("/browse");

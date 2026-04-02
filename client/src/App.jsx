@@ -19,9 +19,16 @@ import MyListings from "./components/MyListings";
 import PropertyView from "./pages/PropertyView";
 import EditRoom from "./components/EditRoom";
 import Experience from "./pages/Experience";
-import MessagingHub from "./pages/MessagingHub";
+import MessagingHub from "./pages/MessagingHub";const ProtectedRoute = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
 
+  if (!user || !token) {
+    return <Navigate to="/login" replace />;
+  }
 
+  return children;
+};
 
 const PageTransition = ({ children }) => (
   <motion.div
@@ -49,19 +56,19 @@ function AppContent() {
           <Route path="/browse" element={<PageTransition><BrowseRooms /></PageTransition>} />
           <Route path="/experience" element={<PageTransition><Experience /></PageTransition>} />
           <Route path="/property/:id" element={<PageTransition><PropertyView /></PageTransition>} />
-          <Route path="/messages" element={user ? <PageTransition><MessagingHub /></PageTransition> : <Navigate to="/login" />} />
+          <Route path="/messages" element={<ProtectedRoute><PageTransition><MessagingHub /></PageTransition></ProtectedRoute>} />
 
           <Route
             path="/list-room"
-            element={user ? <PageTransition><ListRoom /></PageTransition> : <Navigate to="/login" />}
+            element={<ProtectedRoute><PageTransition><ListRoom /></PageTransition></ProtectedRoute>}
           />
           <Route
             path="/my-listings"
-            element={user ? <PageTransition><MyListings /></PageTransition> : <Navigate to="/login" />}
+            element={<ProtectedRoute><PageTransition><MyListings /></PageTransition></ProtectedRoute>}
           />
           <Route
             path="/edit-room/:id"
-            element={user ? <PageTransition><EditRoom /></PageTransition> : <Navigate to="/login" />}
+            element={<ProtectedRoute><PageTransition><EditRoom /></PageTransition></ProtectedRoute>}
           />
 
           <Route path="/signup" element={<PageTransition><Signup /></PageTransition>} />
