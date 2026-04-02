@@ -44,7 +44,7 @@ const ListRoom = () => {
       if (updatedImages.length > formData.images.length) {
         toast.success("Images uploaded! 📸");
       }
-    } catch (err) {
+    } catch {
       toast.error("Upload failed.");
     } finally {
       setUploading(false);

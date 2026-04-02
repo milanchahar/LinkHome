@@ -90,7 +90,7 @@ const BrowseMap = ({ listings, activeId, onMarkerClick }) => {
 
             {/* Property Markers */}
             <div className="relative w-full h-full p-12 mt-12">
-                {listings.map((listing, i) => {
+                {listings.map((listing) => {
                     const x = (listing.id * 137) % 80 + 10;
                     const y = (listing.id * 223) % 80 + 10;
 

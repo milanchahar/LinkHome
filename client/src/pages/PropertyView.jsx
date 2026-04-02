@@ -25,13 +25,13 @@ const PropertyView = () => {
                 const { data, duration } = await fetchWithTiming(`${import.meta.env.VITE_API_URL}/api/listings/${id}`);
                 setProperty(data);
                 console.log(`Fetched property in ${duration}ms`);
-            } catch (err) {
+            } catch {
                 try {
                     const resAll = await axios.get(`${import.meta.env.VITE_API_URL}/api/listings`);
                     const found = resAll.data.find(r => r.id === parseInt(id));
                     if (found) setProperty(found);
                     else throw new Error("Not found");
-                } catch (e) {
+                } catch {
                     toast.error("Property not found.");
                     navigate("/browse");
                 }
@@ -49,7 +49,7 @@ const PropertyView = () => {
     if (Array.isArray(property.images)) {
         imagesSource = property.images;
     } else if (typeof property.images === "string") {
-        try { imagesSource = JSON.parse(property.images); } catch (e) { imagesSource = []; }
+        try { imagesSource = JSON.parse(property.images); } catch { imagesSource = []; }
     }
 
     const allImages = imagesSource.length > 0 ? imagesSource : [property.imageUrl || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"];

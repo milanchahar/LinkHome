@@ -42,7 +42,6 @@ const PageTransition = ({ children }) => (
 );
 
 function AppContent() {
-  const user = JSON.parse(localStorage.getItem("user"));
   const location = useLocation();
 
   return (

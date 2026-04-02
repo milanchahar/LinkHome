@@ -37,7 +37,7 @@ const MyListings = () => {
       await api.delete(`/api/listings/${id}`);
       setMyRooms(myRooms.filter((room) => room.id !== id));
       toast.success("Listing removed successfully.");
-    } catch (err) {
+    } catch {
       toast.error("Error deleting listing.");
     }
   };

@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { Save, ArrowLeft, Home, MapPin, Wallet, Phone, Upload } from "lucide-react";
 import { handleImageBatchUpload } from "../utils/imageUpload";
-import { getPlaceholderImage } from "../utils/placeholders";
 
 const EditRoom = () => {
     const { id } = useParams();
@@ -63,7 +62,7 @@ const EditRoom = () => {
                         isFurnished: found.isFurnished || false,
                     });
                 }
-            } catch (err) {
+            } catch {
                 toast.error("Failed to load property details.");
                 navigate("/my-listings");
             } finally {
@@ -85,7 +84,7 @@ const EditRoom = () => {
             if (updatedImages.length > formData.images.length) {
                 toast.success("Images uploaded! 📸");
             }
-        } catch (err) {
+        } catch {
             toast.error("Upload failed.");
         } finally {
             setUploading(false);

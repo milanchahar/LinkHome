@@ -55,7 +55,8 @@ const authenticateToken = (req, res, next) => {
       req.user = decoded;
       next();
     } catch (dbErr) {
-      return res.status(500).json({ error: "Auth DB Error" });
+      console.error("Auth DB Error:", dbErr.message);
+      return res.status(500).json({ error: "Authentication database error. Please check server logs." });
     }
   });
 };
@@ -99,19 +100,24 @@ app.post("/api/auth/signup", async (req, res) => {
 });
 
 app.post("/api/auth/login", async (req, res) => {
-  const { email, password } = req.body;
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (user && (await bcrypt.compare(password, user.password))) {
-    const secret = process.env.JWT_SECRET || "milan_secret_key";
-    const token = jwt.sign({ userId: user.id }, secret, {
-      expiresIn: "24h",
-    });
-    res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
-  } else {
-    res.status(401).json({
-      error: "Invalid email or password",
-      message: "Invalid email or password",
-    });
+  try {
+    const { email, password } = req.body;
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const secret = process.env.JWT_SECRET || "milan_secret_key";
+      const token = jwt.sign({ userId: user.id }, secret, {
+        expiresIn: "24h",
+      });
+      res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+    } else {
+      res.status(401).json({
+        error: "Invalid email or password",
+        message: "Invalid email or password",
+      });
+    }
+  } catch (error) {
+    console.error("Login server error:", error);
+    res.status(500).json({ error: "Internal server error during login" });
   }
 });
 

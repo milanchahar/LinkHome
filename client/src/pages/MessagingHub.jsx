@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchWithTiming } from "../utils/fetchWithTiming";
 import { ConversationSkeleton } from "../components/ConversationSkeleton";
 import { MessageSkeleton } from "../components/MessageSkeleton";
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,6 +38,7 @@ const MessagingHub = () => {
 
         const interval = setInterval(() => fetchConversations(true), 15000);
         return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -48,6 +48,7 @@ const MessagingHub = () => {
             const interval = setInterval(() => fetchMessages(activeConversation.id, true), 3000);
             return () => clearInterval(interval);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeConversation]);
 
     useEffect(() => {
@@ -124,7 +125,7 @@ const MessagingHub = () => {
                 toast.error("Failed to send message");
                 setNewMessage(messageContent);
             }
-        } catch (error) {
+        } catch {
             toast.error("Error sending message");
             setNewMessage(messageContent);
         } finally {
@@ -330,7 +331,7 @@ const MessagingHub = () => {
                                                             {formatTime(msg.createdAt)}
                                                         </span>
                                                     </div>
-                                                </div>
+                                                </motion.div>
                                             );
                                         })}
                                     </div>

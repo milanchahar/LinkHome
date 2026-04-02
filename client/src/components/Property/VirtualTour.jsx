@@ -29,13 +29,116 @@ const rooms = [
     }
 ];
 
-const VirtualTour = ({ isOpen, onClose, propertyName }) => {
+const HeroSection = ({ scrollYProgress }) => {
+    const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
+    return (
+        <section className="h-screen relative flex items-center justify-center text-center px-6">
+            <motion.div
+                style={{ opacity }}
+                className="max-w-3xl"
+            >
+                <Sparkles className="text-brand-500 mx-auto mb-6" size={48} />
+                <h1 className="text-6xl md:text-8xl font-display font-bold text-white mb-8 tracking-tighter leading-none">
+                    STEP INTO <br /> THE <span className="text-brand-500 italic">FUTURE</span>
+                </h1>
+                <p className="text-white/40 text-lg uppercase tracking-[0.2em] font-medium">Scroll to explore every detail</p>
+                <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="mt-12 text-white/20"
+                >
+                    <ChevronDown size={32} />
+                </motion.div>
+            </motion.div>
+        </section>
+    );
+};
+
+const RoomSection = ({ room, index, scrollYProgress }) => {
+    const start = 0.1 + (index * 0.2);
+    const end = start + 0.2;
+
+    const scale = useTransform(scrollYProgress, [start, end], [1.2, 1]);
+    const opacityBg = useTransform(scrollYProgress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0]);
+    const yText = useTransform(scrollYProgress, [start, end], [100, -100]);
+    const opacityText = useTransform(scrollYProgress, [start + 0.02, start + 0.08, end - 0.08, end - 0.02], [0, 1, 1, 0]);
+    const scaleX = useTransform(scrollYProgress, [start, end], [0, 1]);
+
+    return (
+        <section className="h-screen relative overflow-hidden bg-dark-800">
+            <motion.div
+                style={{
+                    scale,
+                    opacity: opacityBg
+                }}
+                className="absolute inset-0"
+            >
+                <img
+                    src={room.image}
+                    className="w-full h-full object-cover"
+                    alt={room.name}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-dark-900/50" />
+            </motion.div>
+
+            <div className="absolute inset-0 flex items-center justify-center p-8">
+                <motion.div
+                    style={{
+                        y: yText,
+                        opacity: opacityText
+                    }}
+                    className="max-w-xl text-center"
+                >
+                    <span className="inline-block px-4 py-1.5 bg-brand-600/20 border border-brand-500/30 rounded-full text-[10px] font-black uppercase text-brand-400 tracking-widest mb-6">
+                        {room.name}
+                    </span>
+                    <h3 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 uppercase tracking-tighter leading-tight">
+                        {room.desc.split(" ").slice(0, 3).join(" ")} <br />
+                        <span className="text-white/40">{room.desc.split(" ").slice(3).join(" ")}</span>
+                    </h3>
+                </motion.div>
+            </div>
+
+            {/* Visual Indicators */}
+            <div className="absolute bottom-12 left-12 flex gap-4">
+                <div className="w-12 h-[2px] bg-white/10 overflow-hidden">
+                    <motion.div
+                        className="h-full bg-brand-500 origin-left"
+                        style={{ scaleX }}
+                    />
+                </div>
+                <span className="text-[10px] font-black text-white/30 tracking-widest uppercase">Room 0{room.id}</span>
+            </div>
+        </section>
+    );
+};
+
+const EndSection = ({ scrollYProgress, onClose }) => {
+    const opacity = useTransform(scrollYProgress, [0.9, 0.95], [0, 1]);
+    return (
+        <section className="h-screen flex flex-col items-center justify-center px-6 text-center">
+            <motion.div
+                style={{ opacity }}
+            >
+                <h2 className="text-5xl font-display font-bold text-white mb-8 uppercase tracking-tighter">Ready to See it in Person?</h2>
+                <button
+                    onClick={onClose}
+                    className="group relative px-12 py-5 bg-brand-600 text-white rounded-full font-black uppercase text-xs tracking-[0.2em] shadow-2xl shadow-brand-600/40 hover:scale-105 active:scale-95 transition-all overflow-hidden"
+                >
+                    <span className="relative z-10">Request a Private View</span>
+                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                </button>
+                <p className="mt-8 text-white/20 text-[10px] font-bold uppercase tracking-widest">or scroll up to relive the experience</p>
+            </motion.div>
+        </section>
+    );
+};
+
+const VirtualTourContent = ({ onClose, propertyName }) => {
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
     });
-
-    if (!isOpen) return null;
 
     return (
         <motion.div
@@ -65,98 +168,22 @@ const VirtualTour = ({ isOpen, onClose, propertyName }) => {
                 style={{ scaleX: scrollYProgress }}
             />
 
-            {/* Hero Section */}
-            <section className="h-screen relative flex items-center justify-center text-center px-6">
-                <motion.div
-                    style={{ opacity: useTransform(scrollYProgress, [0, 0.1], [1, 0]) }}
-                    className="max-w-3xl"
-                >
-                    <Sparkles className="text-brand-500 mx-auto mb-6" size={48} />
-                    <h1 className="text-6xl md:text-8xl font-display font-bold text-white mb-8 tracking-tighter leading-none">
-                        STEP INTO <br /> THE <span className="text-brand-500 italic">FUTURE</span>
-                    </h1>
-                    <p className="text-white/40 text-lg uppercase tracking-[0.2em] font-medium">Scroll to explore every detail</p>
-                    <motion.div
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="mt-12 text-white/20"
-                    >
-                        <ChevronDown size={32} />
-                    </motion.div>
-                </motion.div>
-            </section>
+            <HeroSection scrollYProgress={scrollYProgress} />
 
-            {/* Rooms Sections */}
-            {rooms.map((room, index) => {
-                const start = 0.1 + (index * 0.2);
-                const end = start + 0.2;
+            {rooms.map((room, index) => (
+                <RoomSection key={room.id} room={room} index={index} scrollYProgress={scrollYProgress} />
+            ))}
 
-                return (
-                    <section key={room.id} className="h-screen relative overflow-hidden bg-dark-800">
-                        <motion.div
-                            style={{
-                                scale: useTransform(scrollYProgress, [start, end], [1.2, 1]),
-                                opacity: useTransform(scrollYProgress, [start, start + 0.05, end - 0.05, end], [0, 1, 1, 0])
-                            }}
-                            className="absolute inset-0"
-                        >
-                            <img
-                                src={room.image}
-                                className="w-full h-full object-cover"
-                                alt={room.name}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-dark-900/50" />
-                        </motion.div>
-
-                        <div className="absolute inset-0 flex items-center justify-center p-8">
-                            <motion.div
-                                style={{
-                                    y: useTransform(scrollYProgress, [start, end], [100, -100]),
-                                    opacity: useTransform(scrollYProgress, [start + 0.02, start + 0.08, end - 0.08, end - 0.02], [0, 1, 1, 0])
-                                }}
-                                className="max-w-xl text-center"
-                            >
-                                <span className="inline-block px-4 py-1.5 bg-brand-600/20 border border-brand-500/30 rounded-full text-[10px] font-black uppercase text-brand-400 tracking-widest mb-6">
-                                    {room.name}
-                                </span>
-                                <h3 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 uppercase tracking-tighter leading-tight">
-                                    {room.desc.split(" ").slice(0, 3).join(" ")} <br />
-                                    <span className="text-white/40">{room.desc.split(" ").slice(3).join(" ")}</span>
-                                </h3>
-                            </motion.div>
-                        </div>
-
-                        {/* Visual Indicators */}
-                        <div className="absolute bottom-12 left-12 flex gap-4">
-                            <div className="w-12 h-[2px] bg-white/10 overflow-hidden">
-                                <motion.div
-                                    className="h-full bg-brand-500 origin-left"
-                                    style={{ scaleX: useTransform(scrollYProgress, [start, end], [0, 1]) }}
-                                />
-                            </div>
-                            <span className="text-[10px] font-black text-white/30 tracking-widest uppercase">Room 0{room.id}</span>
-                        </div>
-                    </section>
-                );
-            })}
-
-            {/* End Section */}
-            <section className="h-screen flex flex-col items-center justify-center px-6 text-center">
-                <motion.div
-                    style={{ opacity: useTransform(scrollYProgress, [0.9, 0.95], [0, 1]) }}
-                >
-                    <h2 className="text-5xl font-display font-bold text-white mb-8 uppercase tracking-tighter">Ready to See it in Person?</h2>
-                    <button
-                        onClick={onClose}
-                        className="group relative px-12 py-5 bg-brand-600 text-white rounded-full font-black uppercase text-xs tracking-[0.2em] shadow-2xl shadow-brand-600/40 hover:scale-105 active:scale-95 transition-all overflow-hidden"
-                    >
-                        <span className="relative z-10">Request a Private View</span>
-                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-                    </button>
-                    <p className="mt-8 text-white/20 text-[10px] font-bold uppercase tracking-widest">or scroll up to relive the experience</p>
-                </motion.div>
-            </section>
+            <EndSection scrollYProgress={scrollYProgress} onClose={onClose} />
         </motion.div>
+    );
+};
+
+const VirtualTour = ({ isOpen, onClose, propertyName }) => {
+    return (
+        <AnimatePresence>
+            {isOpen && <VirtualTourContent onClose={onClose} propertyName={propertyName} />}
+        </AnimatePresence>
     );
 };
 
