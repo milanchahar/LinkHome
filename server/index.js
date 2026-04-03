@@ -222,7 +222,7 @@ app.get("/api/listings", async (req, res) => {
     res.json(optimizedListings);
   } catch (error) {
     console.error("Error fetching listings:", error);
-    res.status(500).json({ error: "Failed to fetch listings" });
+    res.status(500).json({ error: "Failed to fetch listings", detail: error.message, code: error.code });
   }
 });
 
