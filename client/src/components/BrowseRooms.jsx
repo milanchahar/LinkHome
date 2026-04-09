@@ -14,7 +14,7 @@ const BrowseRooms = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [vegOnly, setVegOnly] = useState(false);
   const [genderFilter, setGenderFilter] = useState("Any");
-  const [maxPrice, setMaxPrice] = useState(1000000);
+  const [maxPrice, setMaxPrice] = useState(100000);
   const [viewMode, setViewMode] = useState("grid");
   const [activePropertyId, setActivePropertyId] = useState(null);
 
@@ -83,7 +83,7 @@ const BrowseRooms = () => {
         <div className="flex w-full justify-center mt-2 mb-20">
           <motion.div
             layout
-            className={`w-full max-w-6xl bg-white p-6 rounded-[2rem] mb-20 border border-black/5 flex flex-col xl:flex-row gap-6 items-center sticky top-28 z-40 backdrop-blur-md shadow-2xl shadow-black/5 ${viewMode === 'split' ? 'mr-6' : ''}`}
+            className={`w-full max-w-7xl bg-white p-6 rounded-[2rem] mb-20 border border-black/5 flex flex-col xl:flex-row gap-6 items-center sticky top-28 z-40 backdrop-blur-md shadow-2xl shadow-black/5 ${viewMode === 'split' ? 'mr-6' : ''}`}
           >
             <div className="flex-1 w-full relative group">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-black/40 group-focus-within:text-black transition-colors" size={20} />
@@ -118,7 +118,7 @@ const BrowseRooms = () => {
                 <input
                   type="range"
                   min="1000"
-                  max="1000000"
+                  max="100000"
                   step="5000"
                   className="w-full h-1.5 bg-black/10 rounded-full appearance-none cursor-pointer outline-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-black [&::-webkit-slider-thumb]:rounded-full hover:[&::-webkit-slider-thumb]:scale-125 active:[&::-webkit-slider-thumb]:scale-90 [&::-webkit-slider-thumb]:transition-transform"
                   value={maxPrice}

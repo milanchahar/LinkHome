@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ConversationSkeleton } from "../components/ConversationSkeleton";
 import { MessageSkeleton } from "../components/MessageSkeleton";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, User as UserIcon, Clock, ChevronLeft, MoreVertical, MessageSquare, Search, Phone, Video, Info } from "lucide-react";
+import { Send, User as UserIcon, Clock, ChevronLeft, MoreVertical, MessageSquare, Search, Info } from "lucide-react";
 import toast from "react-hot-toast";
 
 const MessagingHub = () => {
@@ -267,7 +267,7 @@ const MessagingHub = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    {[Phone, Video, Info].map((Icon, i) => (
+                                    {[Info].map((Icon, i) => (
                                         <button key={i} className="p-2.5 text-black hover:bg-zinc-50 transition-all rounded-full border border-black/0 hover:border-black/5 opacity-40 hover:opacity-100">
                                             <Icon size={18} />
                                         </button>
