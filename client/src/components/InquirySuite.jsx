@@ -44,7 +44,7 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
                 body: JSON.stringify({ partnerId: property.ownerId })
             });
 
-            if (convRes.status === 401) {
+            if (convRes.status === 401 || convRes.status === 403) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 toast.error("Your session has expired. Please log in again.");
@@ -54,7 +54,8 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
             }
 
             if (!convRes.ok) {
-                throw new Error("Failed to initialize conversation");
+                const errData = await convRes.json().catch(() => ({}));
+                throw new Error(errData.error || "Failed to initialize conversation");
             }
 
             const conversation = await convRes.json();
@@ -73,8 +74,18 @@ const InquirySuite = ({ isOpen, onClose, property }) => {
                 })
             });
 
+            if (msgRes.status === 401 || msgRes.status === 403) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                toast.error("Your session has expired. Please log in again.");
+                onClose();
+                navigate("/login");
+                return;
+            }
+
             if (!msgRes.ok) {
-                throw new Error("Failed to send message");
+                const errData = await msgRes.json().catch(() => ({}));
+                throw new Error(errData.error || "Failed to send message");
             }
 
             setSending(false);

@@ -47,7 +47,7 @@ const authenticateToken = (req, res, next) => {
   jwt.verify(token, secret, async (err, decoded) => {
     if (err) {
       console.error("JWT Verification Error:", err.message);
-      return res.status(403).json({ error: "Session expired or invalid token. Please log in again." });
+      return res.status(401).json({ error: "Session expired or invalid token. Please log in again." });
     }
     try {
       const user = await prisma.user.findUnique({ where: { id: decoded.userId } });

@@ -64,7 +64,7 @@ const MessagingHub = () => {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/conversations`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            if (res.status === 401) handleLogout();
+            if (res.status === 401 || res.status === 403) handleLogout();
             
             const data = await res.json();
             if (Array.isArray(data)) {
@@ -83,7 +83,7 @@ const MessagingHub = () => {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/messages/${conversationId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            if (res.status === 401) handleLogout();
+            if (res.status === 401 || res.status === 403) handleLogout();
             
             const data = await res.json();
             if (Array.isArray(data)) {
