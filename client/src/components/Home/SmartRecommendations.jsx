@@ -79,11 +79,11 @@ const SmartRecommendations = () => {
                     ))}
                 </div>
 
-                <div className="mt-32 text-center">
-                    <button className="pill-button justify-center mx-auto bg-black text-white hover:bg-zinc-800">
+                <div className="mt-32 flex flex-col items-center text-center">
+                    <Link to="/browse" className="pill-button justify-center bg-black text-white hover:bg-zinc-800">
                         Customize Your Requirements
                         <ArrowRight size={14} strokeWidth={3} />
-                    </button>
+                    </Link>
                     <p className="mt-6 text-[10px] font-black uppercase tracking-[0.2em] text-black/20 italic font-serif">A curated journey awaits</p>
                 </div>
             </div>
